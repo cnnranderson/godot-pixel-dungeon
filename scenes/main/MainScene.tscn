@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/main/Main.gd" type="Script" id=1]
+
+[node name="Main" type="Node2D"]
+pause_mode = 2
+script = ExtResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 640, 480 )
+color = Color( 0.937255, 0.937255, 0.913725, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Scene" type="Node2D" parent="."]
+
+[node name="Timers" type="CanvasLayer" parent="."]
+
+[node name="LoadTimer" type="Timer" parent="Timers"]
+one_shot = true
+
+[connection signal="timeout" from="Timers/LoadTimer" to="." method="_on_LoadTimer_timeout"]

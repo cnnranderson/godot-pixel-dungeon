@@ -1,0 +1,65 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/start/StartScene.gd" type="Script" id=1]
+[ext_resource path="res://base_theme.tres" type="Theme" id=2]
+[ext_resource path="res://assets/fonts/MiKrollFantasy.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 60
+font_data = ExtResource( 3 )
+
+[node name="StartScene" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 640, 480 )
+theme = ExtResource( 2 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 20.0
+margin_right = -20.0
+margin_bottom = -20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox" type="VBoxContainer" parent="Container"]
+margin_top = 165.0
+margin_right = 600.0
+margin_bottom = 275.0
+size_flags_horizontal = 5
+size_flags_vertical = 4
+custom_constants/separation = 12
+
+[node name="Title" type="Label" parent="Container/VBox"]
+margin_right = 600.0
+margin_bottom = 48.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.317647, 0.278431, 0.180392, 1 )
+text = "BATTLESHIP"
+align = 1
+
+[node name="PlayButton" type="Button" parent="Container/VBox"]
+margin_left = 272.0
+margin_top = 60.0
+margin_right = 327.0
+margin_bottom = 79.0
+size_flags_horizontal = 4
+text = "Play Game"
+
+[node name="QuitButton" type="Button" parent="Container/VBox"]
+margin_left = 273.0
+margin_top = 91.0
+margin_right = 327.0
+margin_bottom = 110.0
+size_flags_horizontal = 4
+text = "Quit Game"
+
+[connection signal="pressed" from="Container/VBox/PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="Container/VBox/QuitButton" to="." method="_on_QuitButton_pressed"]
