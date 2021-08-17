@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/snd_burning.mp3-34ec3e8dd79999999cddbddd3d7025da.mp3str"
+
+[deps]
+
+source_file="res://assets/pd_import/sounds/snd_burning.mp3"
+dest_files=[ "res://.import/snd_burning.mp3-34ec3e8dd79999999cddbddd3d7025da.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

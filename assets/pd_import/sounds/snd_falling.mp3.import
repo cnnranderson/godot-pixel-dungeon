@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/snd_falling.mp3-b4f4fceceb9d73a5ae3813c51ecaf90c.mp3str"
+
+[deps]
+
+source_file="res://assets/pd_import/sounds/snd_falling.mp3"
+dest_files=[ "res://.import/snd_falling.mp3-b4f4fceceb9d73a5ae3813c51ecaf90c.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

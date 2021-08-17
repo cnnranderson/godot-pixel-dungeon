@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/snd_charms.mp3-e5d13fbd2f691816e7ac2e4767023dcc.mp3str"
+
+[deps]
+
+source_file="res://assets/pd_import/sounds/snd_charms.mp3"
+dest_files=[ "res://.import/snd_charms.mp3-e5d13fbd2f691816e7ac2e4767023dcc.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

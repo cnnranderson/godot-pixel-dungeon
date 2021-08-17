@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/snd_badge.mp3-23084ab350f154b4676a3adf52d9774b.mp3str"
+
+[deps]
+
+source_file="res://assets/pd_import/sounds/snd_badge.mp3"
+dest_files=[ "res://.import/snd_badge.mp3-23084ab350f154b4676a3adf52d9774b.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

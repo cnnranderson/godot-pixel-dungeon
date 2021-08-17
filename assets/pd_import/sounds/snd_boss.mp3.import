@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/snd_boss.mp3-91368e946f9f2e4c8a133df3f7bf1236.mp3str"
+
+[deps]
+
+source_file="res://assets/pd_import/sounds/snd_boss.mp3"
+dest_files=[ "res://.import/snd_boss.mp3-91368e946f9f2e4c8a133df3f7bf1236.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

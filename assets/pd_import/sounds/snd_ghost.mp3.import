@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/snd_ghost.mp3-9d35230a9a417b2cba6c2021987f89a8.mp3str"
+
+[deps]
+
+source_file="res://assets/pd_import/sounds/snd_ghost.mp3"
+dest_files=[ "res://.import/snd_ghost.mp3-9d35230a9a417b2cba6c2021987f89a8.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

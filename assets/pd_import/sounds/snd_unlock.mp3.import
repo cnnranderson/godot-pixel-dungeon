@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/snd_unlock.mp3-16060490239cb3817d22d524a0f94858.mp3str"
+
+[deps]
+
+source_file="res://assets/pd_import/sounds/snd_unlock.mp3"
+dest_files=[ "res://.import/snd_unlock.mp3-16060490239cb3817d22d524a0f94858.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

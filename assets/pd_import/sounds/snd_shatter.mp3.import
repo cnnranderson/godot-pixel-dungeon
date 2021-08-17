@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/snd_shatter.mp3-7a8191c7880e102ae69cd446b0bb4d64.mp3str"
+
+[deps]
+
+source_file="res://assets/pd_import/sounds/snd_shatter.mp3"
+dest_files=[ "res://.import/snd_shatter.mp3-7a8191c7880e102ae69cd446b0bb4d64.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

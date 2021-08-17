@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/snd_degrade.mp3-747ed555b180db8da61f185b89c3dd8b.mp3str"
+
+[deps]
+
+source_file="res://assets/pd_import/sounds/snd_degrade.mp3"
+dest_files=[ "res://.import/snd_degrade.mp3-747ed555b180db8da61f185b89c3dd8b.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

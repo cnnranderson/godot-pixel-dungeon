@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/snd_evoke.mp3-009bb7680d4a9bf7b70604d7fab50410.mp3str"
+
+[deps]
+
+source_file="res://assets/pd_import/sounds/snd_evoke.mp3"
+dest_files=[ "res://.import/snd_evoke.mp3-009bb7680d4a9bf7b70604d7fab50410.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/snd_door_open.mp3-6aab64a8f2a9d6b4988574eab3fe1722.mp3str"
+
+[deps]
+
+source_file="res://assets/pd_import/sounds/snd_door_open.mp3"
+dest_files=[ "res://.import/snd_door_open.mp3-6aab64a8f2a9d6b4988574eab3fe1722.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

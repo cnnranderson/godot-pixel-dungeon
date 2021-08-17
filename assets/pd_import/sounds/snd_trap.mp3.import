@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/snd_trap.mp3-a66197a0a2deeb157c97b288a743263a.mp3str"
+
+[deps]
+
+source_file="res://assets/pd_import/sounds/snd_trap.mp3"
+dest_files=[ "res://.import/snd_trap.mp3-a66197a0a2deeb157c97b288a743263a.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

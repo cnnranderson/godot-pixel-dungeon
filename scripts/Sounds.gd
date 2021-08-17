@@ -30,7 +30,7 @@ func play_sound_2d(type, sound_file: String, sound_position: Vector2, pitch = 1.
 	sound.play()
 
 func _set_volume(audio, type):
-	# Match volume to settings level
+	# Match volume to settings level - fine tune using your own settings configurations.
 	match type:
 		SoundType.SFX:
 			audio.volume_db = linear2db(0.5)

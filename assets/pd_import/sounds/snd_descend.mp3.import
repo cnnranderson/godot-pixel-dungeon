@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/snd_descend.mp3-cf52f1a9f9ccadd0fadabc4ffe9ca433.mp3str"
+
+[deps]
+
+source_file="res://assets/pd_import/sounds/snd_descend.mp3"
+dest_files=[ "res://.import/snd_descend.mp3-cf52f1a9f9ccadd0fadabc4ffe9ca433.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

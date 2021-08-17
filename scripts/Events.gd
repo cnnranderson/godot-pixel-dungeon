@@ -8,4 +8,6 @@ without having to create complex hierarchies within nodes when
 connecting signal subscribers.
 """
 
+# Examples
 signal game_won
+signal game_lost

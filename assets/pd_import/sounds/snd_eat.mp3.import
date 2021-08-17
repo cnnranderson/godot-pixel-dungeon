@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/snd_eat.mp3-e6e80652a79f113e308f1071f8c440a2.mp3str"
+
+[deps]
+
+source_file="res://assets/pd_import/sounds/snd_eat.mp3"
+dest_files=[ "res://.import/snd_eat.mp3-e6e80652a79f113e308f1071f8c440a2.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
