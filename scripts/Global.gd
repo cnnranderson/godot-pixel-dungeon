@@ -3,6 +3,15 @@ extends Node
 # Give all game scenes a key mapping to easily request scenes to be loaded
 enum Scenes { START_MENU, GAME }
 
+# Constants
+const TILE_SIZE = 16
+const INPUTS = {
+	"move_right": Vector2.RIGHT,
+	"move_left": Vector2.LEFT,
+	"move_up": Vector2.UP,
+	"move_down": Vector2.DOWN
+}
+
 # Put all game scenes here
 const SceneMap = {
 	Scenes.START_MENU: "res://scenes/start/StartScene.tscn",
