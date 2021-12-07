@@ -11,5 +11,5 @@ dest_files=[ "res://.import/snd_challenge.mp3-dee5ac229c466284724d83af8e9b5752.m
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

@@ -11,5 +11,5 @@ dest_files=[ "res://.import/snd_unlock.mp3-16060490239cb3817d22d524a0f94858.mp3s
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

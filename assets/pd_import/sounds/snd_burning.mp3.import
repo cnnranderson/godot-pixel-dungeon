@@ -11,5 +11,5 @@ dest_files=[ "res://.import/snd_burning.mp3-34ec3e8dd79999999cddbddd3d7025da.mp3
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

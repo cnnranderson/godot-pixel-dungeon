@@ -5,6 +5,7 @@ enum Scenes { START_MENU, GAME }
 
 # Constants
 const TILE_SIZE = 16
+const TILE_V = Vector2.ONE * TILE_SIZE
 const INPUTS = {
 	"move_right": Vector2.RIGHT,
 	"move_left": Vector2.LEFT,

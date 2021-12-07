@@ -11,5 +11,5 @@ dest_files=[ "res://.import/snd_beacon.mp3-8f144e51ed3709867ed605bcb3e4de41.mp3s
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

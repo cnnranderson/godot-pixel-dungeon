@@ -11,5 +11,5 @@ dest_files=[ "res://.import/snd_lullaby.mp3-1d403b78c722f8351567a47502a850ee.mp3
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

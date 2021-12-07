@@ -11,5 +11,5 @@ dest_files=[ "res://.import/snd_lightning.mp3-ac50a332e539a8853901397b5aa0454e.m
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

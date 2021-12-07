@@ -11,5 +11,5 @@ dest_files=[ "res://.import/snd_badge.mp3-23084ab350f154b4676a3adf52d9774b.mp3st
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

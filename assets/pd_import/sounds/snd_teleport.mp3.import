@@ -11,5 +11,5 @@ dest_files=[ "res://.import/snd_teleport.mp3-a681bddeefe2e17f01630a83835a4bf6.mp
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

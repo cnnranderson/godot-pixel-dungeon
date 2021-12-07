@@ -11,5 +11,5 @@ dest_files=[ "res://.import/snd_tomb.mp3-6fe6b23ce55354ab4d63a99ba10aba0a.mp3str
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

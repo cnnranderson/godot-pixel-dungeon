@@ -11,5 +11,5 @@ dest_files=[ "res://.import/theme.mp3-e5a0ff4cd8c4f67e0610d30fb814f0b3.mp3str" ]
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

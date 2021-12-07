@@ -11,5 +11,5 @@ dest_files=[ "res://.import/snd_ghost.mp3-9d35230a9a417b2cba6c2021987f89a8.mp3st
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

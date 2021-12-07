@@ -641,7 +641,7 @@ animations = [ {
 "frames": [ SubResource( 151 ), SubResource( 152 ), SubResource( 153 ), SubResource( 154 ), SubResource( 155 ), SubResource( 156 ) ],
 "loop": true,
 "name": "walk",
-"speed": 16.0
+"speed": 32.0
 } ]
 
 [node name="Player" type="Area2D"]
@@ -653,6 +653,7 @@ shape = SubResource( 1 )
 [node name="AnimSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 157 )
 animation = "idle"
+frame = 1
 playing = true
 
 [node name="MoveRay" type="RayCast2D" parent="."]

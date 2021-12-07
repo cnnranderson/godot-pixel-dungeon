@@ -11,5 +11,5 @@ dest_files=[ "res://.import/snd_levelup.mp3-3985b5b92cb4f4ff3745c00f73008654.mp3
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

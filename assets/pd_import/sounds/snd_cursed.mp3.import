@@ -11,5 +11,5 @@ dest_files=[ "res://.import/snd_cursed.mp3-ed1e11295d26caa7330357b64bc32619.mp3s
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

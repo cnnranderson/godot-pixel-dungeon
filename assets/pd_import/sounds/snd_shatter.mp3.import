@@ -11,5 +11,5 @@ dest_files=[ "res://.import/snd_shatter.mp3-7a8191c7880e102ae69cd446b0bb4d64.mp3
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

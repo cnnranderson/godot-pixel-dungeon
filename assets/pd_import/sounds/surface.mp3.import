@@ -11,5 +11,5 @@ dest_files=[ "res://.import/surface.mp3-101025fe3293134f263c6b6d7c18cef6.mp3str"
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0
