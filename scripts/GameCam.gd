@@ -6,6 +6,7 @@ var trauma = 0.0  # Current shake strength.
 var trauma_power = 2  # Trauma exponent. Use [2, 3].
 var decay = 0.8  # How quickly the shaking stops [0, 1].
 var max_offset = Vector2(64, 48)  # Maximum hor/ver shake in pixels.
+var z = 1.0
 
 func _physics_process(delta):
 	position = target

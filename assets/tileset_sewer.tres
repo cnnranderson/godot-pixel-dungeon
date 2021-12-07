@@ -242,13 +242,13 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 
 [resource]
-0/name = "sewer"
+0/name = "Sewer"
 0/texture = ExtResource( 1 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 256, 64 )
 0/tile_mode = 2
-0/autotile/icon_coordinate = Vector2( 0, 0 )
+0/autotile/icon_coordinate = Vector2( 1, 0 )
 0/autotile/tile_size = Vector2( 16, 16 )
 0/autotile/spacing = 0
 0/autotile/occluder_map = [ Vector2( 0, 0 ), SubResource( 36 ), Vector2( 0, 1 ), SubResource( 37 ), Vector2( 4, 0 ), SubResource( 38 ), Vector2( 5, 0 ), SubResource( 39 ), Vector2( 9, 1 ), SubResource( 40 ), Vector2( 9, 2 ), SubResource( 41 ), Vector2( 10, 0 ), SubResource( 42 ), Vector2( 11, 0 ), SubResource( 43 ), Vector2( 12, 0 ), SubResource( 44 ), Vector2( 13, 2 ), SubResource( 45 ), Vector2( 15, 0 ), SubResource( 46 ) ]
