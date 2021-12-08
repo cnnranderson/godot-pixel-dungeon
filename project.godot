@@ -33,7 +33,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Pixel Dungeon"
-run/main_scene="res://scenes/main/MainScene.tscn"
+run/main_scene="res://scenes/game/GameScene.tscn"
 config/icon="res://icon.png"
 
 [autoload]

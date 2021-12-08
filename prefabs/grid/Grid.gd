@@ -7,6 +7,7 @@ const SOUND = {
 
 const TILE = {
 	"ground": Vector2(1, 0),
+	"wall": Vector2(2, 0),
 	"door_closed": Vector2(5, 0),
 	"door_open": Vector2(6, 0)
 }
@@ -22,7 +23,10 @@ func _ready():
 
 func _add_points():
 	for cell in used_cells:
-		astar.add_point(id(cell), cell, 1.0)
+		var cellType = get_cell(cell)
+		match cellType:
+			TILE.door_open, TILE.door_closed, TILE.ground:
+				astar.add_point(id(cell), cell, 1.0)
 		
 func _connect_points():
 	for cell in used_cells:
@@ -34,7 +38,6 @@ func _connect_points():
 
 func get_travel_path(start, end):
 	path = astar.get_point_path(id(start), id(end))
-	print(path)
 	path.remove(0)
 	return path
 

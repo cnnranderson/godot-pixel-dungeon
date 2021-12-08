@@ -20,7 +20,7 @@ func _unhandled_input(event):
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT and event.pressed:
-			$Player.travel_path = GameState.grid.get_travel_path(Helpers.world_to_tile($Player.global_position), Helpers.world_to_tile(event.global_position / 2))
+			$Player.travel_path = GameState.grid.get_travel_path(Helpers.world_to_tile($Player.global_position), Helpers.world_to_tile(get_local_mouse_position()))
 			pass
 
 func _physics_process(delta):

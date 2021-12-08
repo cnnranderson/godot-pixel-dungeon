@@ -15,7 +15,7 @@ onready var tween = $Tween
 onready var sprite = $AnimSprite
 
 export var move_speed = 4
-export var fast_travel_speed = 100
+export var fast_travel_speed = 120
 
 var travel_path: PoolVector2Array
 
@@ -29,7 +29,7 @@ func _process(delta):
 	move_along_path(fast_travel_speed * delta)
 
 func _input(event):
-	if tween.is_active():
+	if tween.is_active() or travel_path.size() > 0:
 		return
 	for dir in Global.INPUTS.keys():
 		if event.is_action_pressed(dir):
@@ -78,7 +78,7 @@ func _on_Tween_tween_all_completed():
 	sprite.animation = ANIM.idle
 	sprite.playing = true
 
-func move_along_path(dist):
+func move_along_path(speed):
 	if travel_path.size() > 0:
 		var final = Helpers.tile_to_world(travel_path[0])
 		if abs(position.x - final.x) < 1 and abs(position.y - final.y) < 1:
@@ -90,5 +90,16 @@ func move_along_path(dist):
 				sprite.animation = ANIM.walk
 				Sounds.play_sound(Sounds.SoundType.SFX, SOUND.step, clamp((randi() % 25 + 75) / 100.0, 0.75, 1.0))
 		else:
-			var direction = position.distance_to(Helpers.tile_to_world(travel_path[0]))
-			position = position.linear_interpolate(Helpers.tile_to_world(travel_path[0]), dist / direction)
+			var distance = position.distance_to(Helpers.tile_to_world(travel_path[0]))
+			var direction = position.direction_to(travel_path[0])
+			if direction == Global.INPUTS.move_right:
+				sprite.flip_h = false
+			if direction == Global.INPUTS.move_left:
+				sprite.flip_h = true
+			position = position.linear_interpolate(Helpers.tile_to_world(travel_path[0]), speed / distance)
+			auto_open_door(travel_path[0])
+
+func auto_open_door(tpos):
+	if GameState.grid.get_cell(tpos) == Grid.TILE.door_closed:
+		GameState.grid.open_door(tpos)
+	pass
