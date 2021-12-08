@@ -660,7 +660,6 @@ shape = SubResource( 1 )
 light_mask = 2
 frames = SubResource( 157 )
 animation = "idle"
-frame = 1
 playing = true
 
 [node name="MoveRay" type="RayCast2D" parent="."]
