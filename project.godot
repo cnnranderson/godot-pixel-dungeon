@@ -28,12 +28,18 @@ _global_script_classes=[ {
 "class": "MapGenerator",
 "language": "GDScript",
 "path": "res://scripts/procedural/MapGenerator.gd"
+}, {
+"base": "Reference",
+"class": "MapRoom",
+"language": "GDScript",
+"path": "res://scripts/procedural/MapRoom.gd"
 } ]
 _global_script_class_icons={
 "GameCam": "",
 "GameWorld": "",
 "Main": "",
-"MapGenerator": ""
+"MapGenerator": "",
+"MapRoom": ""
 }
 
 [application]

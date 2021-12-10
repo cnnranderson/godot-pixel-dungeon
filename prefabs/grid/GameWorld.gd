@@ -18,7 +18,7 @@ onready var astar = AStar2D.new()
 
 var path: PoolVector2Array
 var map: Array = []
-var spawn = Vector2(33, 22)
+var spawn = Vector2(5, 5)
 var map_generator = MapGenerator.new()
 
 func _ready():

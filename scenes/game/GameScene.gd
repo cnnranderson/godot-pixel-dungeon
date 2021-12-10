@@ -10,7 +10,8 @@ func _ready():
 func _unhandled_input(event):
 	if event.is_action_pressed("cancel"):
 		GameState.shake(0.3, 0.5)
-		GameState.world.reset_doors()
+		#GameState.world.reset_doors()
+		GameState.world._init_world()
 
 func _input(event):
 	if event is InputEventMouseButton:
