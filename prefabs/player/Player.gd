@@ -18,22 +18,28 @@ export var move_speed = 4
 export var fast_travel_speed = 120
 
 var travel_path: PoolVector2Array
+var interrupted_movement = false
 
 func _ready():
-	position = position.snapped(Vector2.ONE * Global.TILE_SIZE * 2)
-	position += Vector2.ONE * Global.TILE_SIZE / 2
 	sprite.animation = ANIM.idle
 	sprite.playing = true
 
+func _init_character(spawn: Vector2):
+	position = GameState.world.spawn * Global.TILE_SIZE - (Global.TILE_V / 2)
+	visible = true
+	
 func _process(delta):
 	move_along_path(fast_travel_speed * delta)
 
 func _input(event):
-	if tween.is_active() or travel_path.size() > 0:
+	if tween.is_active():
 		return
 	for dir in Global.INPUTS.keys():
 		if event.is_action_pressed(dir):
-			move(dir)
+			if travel_path.size() > 0:
+				interrupted_movement = true
+			else:
+				move(dir)
 
 func move(dir):
 	ray.cast_to = Global.INPUTS[dir] * Global.TILE_SIZE
@@ -43,8 +49,8 @@ func move(dir):
 		move_tween(dir)
 	else:
 		var collider_tpos = Helpers.world_to_tile(ray.get_collision_point() + Global.INPUTS[dir] * Global.TILE_V / 2)
-		if GameState.grid.get_cell(collider_tpos) == Grid.TILE.door_closed:
-			GameState.grid.open_door(collider_tpos)
+		if GameState.world._get_cell(collider_tpos) == GameWorld.TILE.door_closed:
+			GameState.world.open_door(collider_tpos)
 			move_tween(dir)
 		else:
 			move_tween(dir, true)
@@ -78,12 +84,17 @@ func _on_Tween_tween_all_completed():
 	sprite.animation = ANIM.idle
 	sprite.playing = true
 
+# TODO Fix all of this nonsense
 func move_along_path(speed):
 	if travel_path.size() > 0:
 		var final = Helpers.tile_to_world(travel_path[0])
 		if abs(position.x - final.x) < 1 and abs(position.y - final.y) < 1:
 			position = final
-			travel_path.remove(0)
+			if interrupted_movement:
+				travel_path = []
+				interrupted_movement = false
+			else:
+				travel_path.remove(0)
 			if travel_path.size() == 0:
 				sprite.animation = ANIM.idle
 			else:
@@ -100,6 +111,7 @@ func move_along_path(speed):
 			auto_open_door(travel_path[0])
 
 func auto_open_door(tpos):
-	if GameState.grid.get_cell(tpos) == Grid.TILE.door_closed:
-		GameState.grid.open_door(tpos)
+	if GameState.world._get_cell(tpos) == GameWorld.TILE.door_closed:
+		GameState.world.open_door(tpos)
 	pass
+

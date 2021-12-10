@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://assets/tileset_sewer.tres" type="TileSet" id=1]
-[ext_resource path="res://prefabs/grid/Grid.gd" type="Script" id=2]
+[ext_resource path="res://prefabs/grid/GameWorld.gd" type="Script" id=2]
 
-[node name="Grid" type="Node2D"]
+[node name="GameWorld" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="TileMap" type="TileMap" parent="."]

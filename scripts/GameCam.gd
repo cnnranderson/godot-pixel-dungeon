@@ -9,7 +9,6 @@ var max_offset = Vector2(64, 48)  # Maximum hor/ver shake in pixels.
 
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_accept"):
-		print(zoom.length())
 		var z = Vector2.ONE / 2 if zoom.x == 1 else Vector2.ONE
 		$Tween.interpolate_property(self, "zoom", zoom, z , 0.25, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 		$Tween.start()

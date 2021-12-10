@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scenes/game/GameScene.gd" type="Script" id=1]
 [ext_resource path="res://prefabs/player/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://prefabs/grid/Grid.tscn" type="PackedScene" id=3]
+[ext_resource path="res://prefabs/grid/GameWorld.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/GameCam.gd" type="Script" id=4]
 
 [node name="GameScene" type="Node2D"]
@@ -25,7 +25,8 @@ script = ExtResource( 4 )
 
 [node name="Tween" type="Tween" parent="Camera"]
 
-[node name="Grid" parent="." instance=ExtResource( 3 )]
+[node name="World" parent="." instance=ExtResource( 3 )]
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
+visible = false
 position = Vector2( 23, 39 )

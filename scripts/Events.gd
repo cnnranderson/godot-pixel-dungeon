@@ -8,6 +8,7 @@ without having to create complex hierarchies within nodes when
 connecting signal subscribers.
 """
 
-# Examples
+signal map_ready(spawn)
+
 signal game_won
 signal game_lost

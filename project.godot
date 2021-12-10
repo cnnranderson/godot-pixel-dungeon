@@ -15,19 +15,25 @@ _global_script_classes=[ {
 "path": "res://scripts/GameCam.gd"
 }, {
 "base": "Node2D",
-"class": "Grid",
+"class": "GameWorld",
 "language": "GDScript",
-"path": "res://prefabs/grid/Grid.gd"
+"path": "res://prefabs/grid/GameWorld.gd"
 }, {
 "base": "Node2D",
 "class": "Main",
 "language": "GDScript",
 "path": "res://scenes/main/Main.gd"
+}, {
+"base": "Reference",
+"class": "MapGenerator",
+"language": "GDScript",
+"path": "res://scripts/procedural/MapGenerator.gd"
 } ]
 _global_script_class_icons={
 "GameCam": "",
-"Grid": "",
-"Main": ""
+"GameWorld": "",
+"Main": "",
+"MapGenerator": ""
 }
 
 [application]
