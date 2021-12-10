@@ -15,7 +15,7 @@ onready var tween = $Tween
 onready var sprite = $AnimSprite
 
 export var move_speed = 4
-export var fast_travel_speed = 120
+export var fast_travel_speed = 140
 
 var travel_path: PoolVector2Array
 var interrupted_movement = false

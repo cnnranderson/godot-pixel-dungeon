@@ -25,6 +25,7 @@ func _ready():
 	map = map_generator.generate_map()
 
 func _init_world():
+	map = map_generator.generate_map()
 	for x in map.size():
 		for y in map[x].size():
 			match map[x][y]:
@@ -32,6 +33,7 @@ func _init_world():
 				2: _set_cell(Vector2(x, y), TILE.wall)
 				3: _set_cell(Vector2(x, y), TILE.door_closed)
 				4: _set_cell(Vector2(x, y), TILE.door_open)
+				_: _set_cell(Vector2(x, y), TILE.empty)
 	
 	_add_points()
 	_connect_points()
