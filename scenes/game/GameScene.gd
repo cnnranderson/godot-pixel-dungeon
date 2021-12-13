@@ -22,5 +22,4 @@ func _input(event):
 			pass
 
 func _physics_process(delta):
-	$Background.rect_position = $Camera.get_camera_screen_center() - $Background.rect_size / 2
 	$Camera.target = $Player.position

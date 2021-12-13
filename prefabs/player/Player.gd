@@ -102,16 +102,16 @@ func move_along_path(speed):
 				Sounds.play_sound(Sounds.SoundType.SFX, SOUND.step, clamp((randi() % 25 + 75) / 100.0, 0.75, 1.0))
 		else:
 			var distance = position.distance_to(Helpers.tile_to_world(travel_path[0]))
-			var direction = position.direction_to(travel_path[0])
-			if direction == Global.INPUTS.move_right:
-				sprite.flip_h = false
-			if direction == Global.INPUTS.move_left:
-				sprite.flip_h = true
+			var direction = (Helpers.world_to_tile(position) - travel_path[0]).normalized()
 			position = position.linear_interpolate(Helpers.tile_to_world(travel_path[0]), speed / distance)
+			if direction == Global.INPUTS.move_right:
+				sprite.flip_h = true
+			if direction == Global.INPUTS.move_left:
+				sprite.flip_h = false
 			auto_open_door(travel_path[0])
 
 func auto_open_door(tpos):
-	if GameState.world._get_cell(tpos) == GameWorld.TILE.door_closed:
-		GameState.world.open_door(tpos)
+	#if GameState.world._get_cell(tpos) == GameWorld.TILE.door_closed:
+		#GameState.world.open_door(tpos)
 	pass
 
