@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/light.jpeg-91c284406ee30269f76a07bee6c8fa25.stex"
+path="res://.import/sewer.png-f8a3eef96abc11e83d813ba285cd3fb8.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/light.jpeg"
-dest_files=[ "res://.import/light.jpeg-91c284406ee30269f76a07bee6c8fa25.stex" ]
+source_file="res://assets/images/sewer.png"
+dest_files=[ "res://.import/sewer.png-f8a3eef96abc11e83d813ba285cd3fb8.stex" ]
 
 [params]
 
