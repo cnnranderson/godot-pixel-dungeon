@@ -33,10 +33,10 @@ func _process(delta):
 	move_along_path(fast_travel_speed * delta)
 
 func _input(event):
-	if tween.is_active():
+	if tween.is_active() or not GameState.player_turn:
 		return
 	for dir in Global.INPUTS.keys():
-		if event.is_action_pressed(dir):
+		if event.is_action(dir):
 			move(dir)
 
 func move(dir):
