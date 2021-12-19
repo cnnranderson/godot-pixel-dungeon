@@ -1,10 +1,14 @@
 extends Node2D
 
+onready var camera = $Player/Camera
+onready var player = $Player
+onready var world = $World
+
 func _ready():
-	GameState.camera = $Camera
-	GameState.world = $World
+	GameState.camera = camera
+	GameState.world = world
 	
-	Events.connect("map_ready", $Player, "_init_character")
+	Events.connect("map_ready", player, "_init_character")
 	GameState.world._init_world()
 	
 func _unhandled_input(event):
@@ -19,10 +23,8 @@ func _unhandled_input(event):
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT and event.pressed and false:
-			$Player.travel_path = GameState.world.get_travel_path(
-				Helpers.world_to_tile($Player.global_position), 
+			player.travel_path = GameState.world.get_travel_path(
+				Helpers.world_to_tile(player.global_position), 
 				Helpers.world_to_tile(get_local_mouse_position()))
 			pass
 
-func _physics_process(delta):
-	$Camera.target = $Player.position

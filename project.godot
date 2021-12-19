@@ -100,10 +100,8 @@ Helpers="*res://scripts/Helpers.gd"
 
 [display]
 
-window/size/width=360
-window/size/height=240
-window/size/test_width=720
-window/size/test_height=480
+window/size/width=1080
+window/size/height=720
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
