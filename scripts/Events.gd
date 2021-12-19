@@ -8,6 +8,7 @@ without having to create complex hierarchies within nodes when
 connecting signal subscribers.
 """
 
+signal log_message(event)
 signal map_ready(spawn)
 
 signal game_won

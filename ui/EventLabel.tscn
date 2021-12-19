@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scripts/ui/EventLabel.gd" type="Script" id=1]
+
+[node name="EventLabel" type="Label"]
+margin_right = 500.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 500, 8 )
+text = "Welcome to the dungeon!"
+valign = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="."]

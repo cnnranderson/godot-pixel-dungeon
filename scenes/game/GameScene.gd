@@ -18,7 +18,7 @@ func _unhandled_input(event):
 	
 	if event.is_action_pressed("add_key"):
 		GameState.player.inventory.keys += 1
-		print("Key added; Keys: ", GameState.player.inventory.keys)
+		Events.emit_signal("log_message", ("Key added - You have %d keys." % GameState.player.inventory.keys))
 
 func _input(event):
 	if event is InputEventMouseButton:

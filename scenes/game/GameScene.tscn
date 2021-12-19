@@ -5,7 +5,7 @@
 [ext_resource path="res://prefabs/grid/GameWorld.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/GameCam.gd" type="Script" id=4]
 [ext_resource path="res://ui/PlayerUI.tscn" type="PackedScene" id=5]
-[ext_resource path="res://ui/ActionLog.tscn" type="PackedScene" id=6]
+[ext_resource path="res://ui/EventLog.tscn" type="PackedScene" id=6]
 
 [node name="GameScene" type="Node2D"]
 script = ExtResource( 1 )

@@ -64,7 +64,10 @@ func can_unlock(tpos: Vector2):
 	if inventory.keys > 0:
 		GameState.level.unlock_door(tpos, true)
 		inventory.keys -= 1
+		Events.emit_signal("log_message", ("Unlocked door! You have %d key(s) left." % inventory.keys))
 		return true
+	else:
+		Events.emit_signal("log_message", "The door is locked...")
 	return false
 
 func move_tween(dir, collides = false):
