@@ -28,6 +28,7 @@ __meta__ = {
 [node name="ActionLog" parent="UI" instance=ExtResource( 6 )]
 
 [node name="PlayerUI" parent="UI" instance=ExtResource( 5 )]
+visible = false
 
 [node name="World" parent="." instance=ExtResource( 3 )]
 

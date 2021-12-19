@@ -46,11 +46,13 @@ func move(dir):
 	
 	var tpos = GameState.level.world_to_map(new_pos)
 	var blocked = false
+	var interacted = false
+	
 	# Check for doors
 	if GameState.level.is_door(tpos):
 		if GameState.level.is_locked_door(tpos):
-			can_unlock(tpos)
 			blocked = true
+			interacted = can_unlock(tpos)
 		else:
 			GameState.level.open_door(tpos)
 	
@@ -58,6 +60,8 @@ func move(dir):
 	if !ray.is_colliding() and not blocked:
 		move_tween(dir)
 	else:
+		# Don't try to bump into the collision
+		if interacted: return
 		move_tween(dir, true)
 
 func can_unlock(tpos: Vector2):
@@ -68,7 +72,7 @@ func can_unlock(tpos: Vector2):
 		return true
 	else:
 		Events.emit_signal("log_message", "The door is locked...")
-	return false
+		return false
 
 func move_tween(dir, collides = false):
 	if not collides:

@@ -13,7 +13,8 @@ const TILE = {
 	"door_locked": Vector2(3, 1)
 }
 const SOUND = {
-	"door": "res://assets/pd_import/sounds/snd_door_open.mp3"
+	"door": "res://assets/pd_import/sounds/snd_door_open.mp3",
+	"unlock": "res://assets/pd_import/sounds/snd_unlock.mp3"
 }
 
 export var level_size := Vector2(45, 30)
@@ -33,6 +34,7 @@ func reset_doors():
 
 func unlock_door(tpos: Vector2, keep_closed: bool = true):
 	if is_locked_door(tpos):
+		Sounds.play_sound(Sounds.SoundType.SFX, SOUND.unlock)
 		if keep_closed:
 			set_tile(tpos, TILE_TYPE.INTERACTIVE, TILE.door_closed)
 		else:
