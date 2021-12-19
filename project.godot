@@ -66,8 +66,8 @@ Helpers="*res://scripts/Helpers.gd"
 
 window/size/width=360
 window/size/height=240
-window/size/test_width=1440
-window/size/test_height=960
+window/size/test_width=720
+window/size/test_height=480
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
@@ -133,6 +133,11 @@ cancel={
 select={
 "deadzone": 0.5,
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":4,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+add_key={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":75,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 

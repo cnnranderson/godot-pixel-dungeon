@@ -36,30 +36,44 @@ func _input(event):
 		return
 	for dir in Global.INPUTS.keys():
 		if event.is_action_pressed(dir):
-			if travel_path.size() > 0:
-				interrupted_movement = true
-			else:
-				move(dir)
+			move(dir)
 
 func move(dir):
 	ray.cast_to = Global.INPUTS[dir] * Global.TILE_SIZE
 	ray.force_raycast_update()
+	var new_pos = position + Global.INPUTS[dir] * Global.TILE_SIZE
 	
-	if !ray.is_colliding():
+	var tpos = GameState.level.world_to_map(new_pos)
+	var blocked = false
+	# Check for doors
+	if GameState.level.is_door(tpos):
+		if GameState.level.is_locked_door(tpos):
+			if not can_unlock(tpos):
+				blocked = true
+		else:
+			GameState.level.open_door(tpos)
+	
+	# Try to move
+	if !ray.is_colliding() and not blocked:
 		move_tween(dir)
 	else:
-		var collider_tpos = Helpers.world_to_tile(ray.get_collision_point() + Global.INPUTS[dir] * Global.TILE_V / 2)
-		if GameState.world._get_cell(collider_tpos) == GameWorld.TILE.door_closed:
-			GameState.world.open_door(collider_tpos)
-			move_tween(dir)
-		else:
-			move_tween(dir, true)
+		move_tween(dir, true)
+
+func can_unlock(tpos: Vector2):
+	if GameState.inventory.keys > 0:
+		GameState.level.open_door(tpos)
+		GameState.inventory.keys -= 1
+		return true
+	return false
 
 func move_tween(dir, collides = false):
 	if not collides:
 		Sounds.play_sound(Sounds.SoundType.SFX, SOUND.step, clamp((randi() % 25 + 75) / 100.0, 0.75, 1.0))
+		var new_pos = position + Global.INPUTS[dir] * Global.TILE_SIZE
+		var tile_pos = GameState.level.world_to_map(new_pos)
+		print("Moving: ", GameState.level.world_to_map(new_pos), ", Tile: ", GameState.level.get_tile(tile_pos))
 		tween.interpolate_property(self, "position",
-			position, position + Global.INPUTS[dir] * Global.TILE_SIZE,
+			position, new_pos,
 			1.0 / move_speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	else:
 		var origin_pos = position

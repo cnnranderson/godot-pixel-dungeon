@@ -170,7 +170,7 @@ polygon = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 0/z_index = 0
-1/name = "nonblocking"
+1/name = "noblock"
 1/texture = ExtResource( 1 )
 1/tex_offset = Vector2( 0, 0 )
 1/modulate = Color( 1, 1, 1, 1 )

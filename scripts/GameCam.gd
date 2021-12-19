@@ -8,7 +8,7 @@ var decay = 0.8  # How quickly the shaking stops [0, 1].
 var max_offset = Vector2(64, 48)  # Maximum hor/ver shake in pixels.
 
 func _ready():
-	zoom = Vector2.ONE * 2
+	zoom = Vector2.ONE * 1
 
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_accept"):
