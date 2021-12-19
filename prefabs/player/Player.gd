@@ -13,6 +13,7 @@ const SOUND = {
 onready var ray : RayCast2D = $MoveRay
 onready var tween = $Tween
 onready var sprite = $AnimSprite
+onready var inventory = GameState.player.inventory
 
 export var move_speed = 4
 export var fast_travel_speed = 140
@@ -48,8 +49,8 @@ func move(dir):
 	# Check for doors
 	if GameState.level.is_door(tpos):
 		if GameState.level.is_locked_door(tpos):
-			if not can_unlock(tpos):
-				blocked = true
+			can_unlock(tpos)
+			blocked = true
 		else:
 			GameState.level.open_door(tpos)
 	
@@ -60,9 +61,9 @@ func move(dir):
 		move_tween(dir, true)
 
 func can_unlock(tpos: Vector2):
-	if GameState.inventory.keys > 0:
-		GameState.level.open_door(tpos)
-		GameState.inventory.keys -= 1
+	if inventory.keys > 0:
+		GameState.level.unlock_door(tpos, true)
+		inventory.keys -= 1
 		return true
 	return false
 

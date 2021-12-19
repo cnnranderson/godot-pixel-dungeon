@@ -20,6 +20,5 @@ func is_player_turn():
 	return turn_list
 
 func shake(amount, decay):
-	if not camera:
-		return
+	if not camera: return
 	camera.add_trauma(amount, decay)

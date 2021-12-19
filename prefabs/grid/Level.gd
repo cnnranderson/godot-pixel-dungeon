@@ -31,6 +31,13 @@ func reset_doors():
 	for tile in tiles:
 		close_door(tile)
 
+func unlock_door(tpos: Vector2, keep_closed: bool = true):
+	if is_locked_door(tpos):
+		if keep_closed:
+			set_tile(tpos, TILE_TYPE.INTERACTIVE, TILE.door_closed)
+		else:
+			set_tile(tpos, TILE_TYPE.NOBLOCK, TILE.door_open)
+
 func open_door(tpos: Vector2):
 	if is_closed_door(tpos) or is_locked_door(tpos):
 		Sounds.play_sound(Sounds.SoundType.SFX, SOUND.door)

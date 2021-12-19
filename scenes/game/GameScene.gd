@@ -11,11 +11,10 @@ func _unhandled_input(event):
 	if event.is_action_pressed("cancel"):
 		GameState.shake(0.3, 0.5)
 		GameState.level.reset_doors()
-		GameState.world._init_world()
 	
 	if event.is_action_pressed("add_key"):
-		GameState.inventory.keys += 1
-		print("Key added; Keys: ", GameState.inventory.keys)
+		GameState.player.inventory.keys += 1
+		print("Key added; Keys: ", GameState.player.inventory.keys)
 
 func _input(event):
 	if event is InputEventMouseButton:
