@@ -13,3 +13,6 @@ signal map_ready(spawn)
 
 signal game_won
 signal game_lost
+
+# UI Events
+signal player_interact(item)

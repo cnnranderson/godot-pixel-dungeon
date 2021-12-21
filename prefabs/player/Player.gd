@@ -26,23 +26,23 @@ func _ready():
 	sprite.playing = true
 
 func _init_character(spawn: Vector2):
-	position = GameState.world.spawn * Global.TILE_SIZE - (Global.TILE_V / 2)
+	position = GameState.world.spawn * Constants.TILE_SIZE - (Constants.TILE_V / 2)
 	visible = true
 	
 func _process(delta):
 	move_along_path(fast_travel_speed * delta)
 
 func _input(event):
-	if tween.is_active() or not GameState.player_turn:
+	if not GameState.player_turn or $ActionCooldown.time_left > 0 or tween.is_active():
 		return
-	for dir in Global.INPUTS.keys():
+	for dir in Constants.INPUTS.keys():
 		if event.is_action(dir):
 			move(dir)
 
 func move(dir):
-	ray.cast_to = Global.INPUTS[dir] * Global.TILE_SIZE
+	ray.cast_to = Constants.INPUTS[dir] * Constants.TILE_SIZE
 	ray.force_raycast_update()
-	var new_pos = position + Global.INPUTS[dir] * Global.TILE_SIZE
+	var new_pos = position + Constants.INPUTS[dir] * Constants.TILE_SIZE
 	
 	var tpos = GameState.level.world_to_map(new_pos)
 	var blocked = false
@@ -57,27 +57,26 @@ func move(dir):
 			GameState.level.open_door(tpos)
 	
 	# Try to move
-	if !ray.is_colliding() and not blocked:
-		move_tween(dir)
-	else:
-		# Don't try to bump into the collision
-		if interacted: return
-		move_tween(dir, true)
+	if interacted:
+		$ActionCooldown.start()
+		return
+	move_tween(dir, blocked or ray.is_colliding())
 
 func can_unlock(tpos: Vector2):
 	if inventory.keys > 0:
 		GameState.level.unlock_door(tpos, true)
 		inventory.keys -= 1
-		Events.emit_signal("log_message", ("Unlocked door! You have %d key(s) left." % inventory.keys))
+		Events.emit_signal("player_interact", Constants.Item.KEY)
+		Events.emit_signal("log_message", "Door unlocked!")
 		return true
 	else:
 		Events.emit_signal("log_message", "The door is locked...")
-		return false
+	return false
 
 func move_tween(dir, collides = false):
 	if not collides:
 		Sounds.play_sound(Sounds.SoundType.SFX, SOUND.step, clamp((randi() % 25 + 75) / 100.0, 0.75, 1.0))
-		var new_pos = position + Global.INPUTS[dir] * Global.TILE_SIZE
+		var new_pos = position + Constants.INPUTS[dir] * Constants.TILE_SIZE
 		var tile_pos = GameState.level.world_to_map(new_pos)
 		print("Moving: ", GameState.level.world_to_map(new_pos), ", Tile: ", GameState.level.get_tile(tile_pos))
 		tween.interpolate_property(self, "position",
@@ -85,7 +84,7 @@ func move_tween(dir, collides = false):
 			1.0 / move_speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	else:
 		var origin_pos = position
-		var bump_pos = position + Global.INPUTS[dir] * Global.TILE_SIZE / 4
+		var bump_pos = position + Constants.INPUTS[dir] * Constants.TILE_SIZE / 4
 		GameState.shake(0.15, 0.6)
 		Sounds.play_sound(Sounds.SoundType.SFX, SOUND.bump)
 		tween.interpolate_property(self, "position",
@@ -96,9 +95,9 @@ func move_tween(dir, collides = false):
 			1.0 / move_speed / 2.0, Tween.TRANS_SINE, Tween.EASE_IN_OUT, 1.0 / move_speed / 2.0)
 		
 	sprite.animation = ANIM.walk
-	if Global.INPUTS[dir] == Global.INPUTS.move_right:
+	if Constants.INPUTS[dir] == Constants.INPUTS.move_right:
 		sprite.flip_h = false
-	if Global.INPUTS[dir] == Global.INPUTS.move_left:
+	if Constants.INPUTS[dir] == Constants.INPUTS.move_left:
 		sprite.flip_h = true
 	tween.start()
 

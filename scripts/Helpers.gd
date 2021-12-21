@@ -18,13 +18,13 @@ func chance_luck(percentage):
 	return false
 
 func tile_to_world(tile_pos: Vector2, center_offset: bool = true) -> Vector2:
-	tile_pos *= Global.TILE_SIZE
+	tile_pos *= Constants.TILE_SIZE
 	if center_offset:
-		tile_pos += (Global.TILE_V / 2)
+		tile_pos += (Constants.TILE_V / 2)
 	return tile_pos
 
 func world_to_tile(world_pos: Vector2):
-	var tile_position = world_pos / float(Global.TILE_SIZE)
+	var tile_position = world_pos / float(Constants.TILE_SIZE)
 	tile_position = tile_position.floor()
 	return tile_position
 

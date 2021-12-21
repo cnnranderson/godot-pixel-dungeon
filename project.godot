@@ -49,6 +49,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://prefabs/grid/GameWorld.gd"
 }, {
+"base": "KinematicBody2D",
+"class": "Item",
+"language": "GDScript",
+"path": "res://prefabs/items/Item.gd"
+}, {
 "base": "TileMap",
 "class": "Level",
 "language": "GDScript",
@@ -78,6 +83,7 @@ _global_script_class_icons={
 "DialogicUtil": "",
 "GameCam": "",
 "GameWorld": "",
+"Item": "",
 "Level": "",
 "Main": "",
 "MapGenerator": "",
@@ -92,6 +98,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
+Constants="*res://scripts/Constants.gd"
 Global="*res://scripts/Global.gd"
 Events="*res://scripts/Events.gd"
 Sounds="*res://scripts/Sounds.gd"
@@ -121,7 +128,7 @@ texture={
 "compress/lossy_quality": 0.7,
 "compress/mode": 0,
 "compress/normal_map": 0,
-"detect_3d": true,
+"detect_3d": false,
 "flags/anisotropic": false,
 "flags/filter": false,
 "flags/mipmaps": false,
