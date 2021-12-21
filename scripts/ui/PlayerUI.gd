@@ -1,18 +1,28 @@
 extends Control
 
-onready var lvl = $Panel/HBox/Stats/Vbox/Level/Label
-onready var hp = $Panel/HBox/Stats/Vbox/Hp/Bar
-onready var xp = $Panel/HBox/Stats/Vbox/Xp/Bar
-onready var keys = $Panel/HBox/Items/Vbox/Keys/Count
-onready var coins = $Panel/HBox/Items/Vbox/Coins/Count
-onready var depth = $Panel/HBox/Stats/Vbox/Level/Floor/Label
+# Stats
+onready var lvl = $VBox/Panel/HBox/Stats/Vbox/Level/Label
+onready var hp = $VBox/Panel/HBox/Stats/Vbox/Hp/Bar
+onready var xp = $VBox/Panel/HBox/Stats/Vbox/Xp/Bar
+onready var keys = $VBox/Panel/HBox/Items/Vbox/Keys/Count
+onready var coins = $VBox/Panel/HBox/Items/Vbox/Coins/Count
+onready var depth = $VBox/Panel/HBox/Stats/Vbox/Level/Floor/Label
+
+# Actions
+onready var backpack = $VBox/Hbox/Backpack/Button
+onready var search = $VBox/Hbox/Search/Button
+onready var wait = $VBox/Hbox/Wait/Button
 
 func _ready():
 	Events.connect("player_interact", self, "_on_player_interact")
 	Events.connect("player_levelup", self, "_on_player_levelup")
 	Events.connect("player_gain_xp", self, "_on_player_gain_xp")
-	pass
+	backpack.connect("button_down", self, "_on_backpack_pressed")
+	search.connect("button_down", self, "_on_search_pressed")
+	wait.connect("button_down", self, "_on_wait_pressed")
 
+
+### Player Events
 func _on_player_interact(item):
 	match (item):
 		Item.Type.KEY: keys.text = str(GameState.player.inventory.keys)
@@ -28,4 +38,14 @@ func _on_player_levelup():
 
 func _on_player_gain_xp(xp_amount):
 	xp.value = GameState.player.stats.xp
-	
+
+
+### Action Events
+func _on_backpack_pressed():
+	Events.emit_signal("open_inventory")
+
+func _on_search_pressed():
+	Events.emit_signal("player_search")
+
+func _on_wait_pressed():
+	Events.emit_signal("player_wait")
