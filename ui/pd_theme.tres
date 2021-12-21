@@ -5,7 +5,6 @@ antialiased = false
 font_path = "res://assets/fonts/romulus.ttf"
 
 [sub_resource type="DynamicFont" id=2]
-size = 32
 font_data = SubResource( 1 )
 
 [resource]

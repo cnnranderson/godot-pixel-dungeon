@@ -10,10 +10,13 @@ var player = {
 		"keys": 0,
 		"coins": 0
 	},
-	"exp": 0,
-	"exp_next_level": 100,
-	"level": 1,
-	"hp": 100
+	"stats": {
+		"xp": 0,
+		"xp_next": 100,
+		"level": 1,
+		"hp": 100,
+		"hp_max": 100
+	}
 }
 
 func is_player_turn():

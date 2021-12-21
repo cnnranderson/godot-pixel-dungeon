@@ -16,12 +16,10 @@ func _init_world():
 	Events.emit_signal("map_ready", spawn)
 	pass
 
-func _process(delta):
+func _input(delta):
 	var mouse_pos = get_local_mouse_position()
-
-	if level.get_cellv(level.world_to_map(mouse_pos)) != TileMap.INVALID_CELL:
+	if level.get_cellv(level.world_to_map(mouse_pos)) != TileMap.INVALID_CELL and GameState.player_turn:
 		$Cursor.visible = true
 		$Cursor.position = level.map_to_world(level.world_to_map(mouse_pos))
 	else:
 		$Cursor.visible = false
-	pass

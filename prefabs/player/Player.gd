@@ -13,6 +13,7 @@ const SOUND = {
 onready var ray : RayCast2D = $MoveRay
 onready var tween = $Tween
 onready var sprite = $AnimSprite
+onready var stats = GameState.player.stats
 onready var inventory = GameState.player.inventory
 
 export var move_speed = 4
@@ -109,6 +110,14 @@ func move_tween(dir, collides = false):
 	if Constants.INPUTS[dir] == Constants.INPUTS.move_left:
 		sprite.flip_h = true
 	tween.start()
+
+func gain_xp(amount):
+	while stats.xp < stats.xp_next and amount > 0:
+		stats.xp
+	stats.xp += amount
+	
+	Events.emit_signal("player_gain_xp", amount)
+	
 
 func _on_Tween_tween_all_completed():
 	sprite.animation = ANIM.idle
