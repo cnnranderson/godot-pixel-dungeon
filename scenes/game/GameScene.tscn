@@ -24,6 +24,7 @@ __meta__ = {
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="ActionLog" parent="UI" instance=ExtResource( 6 )]
+visible = false
 anchor_top = 1.0
 anchor_right = 0.0
 anchor_bottom = 1.0
@@ -33,6 +34,7 @@ margin_right = 380.0
 margin_bottom = -20.0
 
 [node name="PlayerUI" parent="UI" instance=ExtResource( 5 )]
+visible = false
 rect_scale = Vector2( 2, 2 )
 
 [node name="World" parent="." instance=ExtResource( 3 )]
@@ -41,6 +43,7 @@ rect_scale = Vector2( 2, 2 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 23, 39 )
+move_speed = 5
 
 [node name="Camera" type="Camera2D" parent="Player"]
 current = true

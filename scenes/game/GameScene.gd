@@ -9,6 +9,8 @@ const Key = preload("res://prefabs/items/Key.tres")
 const Coins = preload("res://prefabs/items/Coins.tres")
 
 func _ready():
+	$UI/ActionLog.visible = true
+	$UI/PlayerUI.visible = true
 	GameState.camera = camera
 	GameState.world = world
 	
