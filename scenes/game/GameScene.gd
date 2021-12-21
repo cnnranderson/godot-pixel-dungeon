@@ -4,8 +4,9 @@ onready var camera = $Player/Camera
 onready var player = $Player
 onready var world = $World
 
-var Key = preload("res://prefabs/items/Key.tscn")
-var Gold = preload("res://prefabs/items/Gold.tscn")
+const WorldItem = preload("res://prefabs/items/WorldItem.tscn")
+const Key = preload("res://prefabs/items/Key.tres")
+const Coins = preload("res://prefabs/items/Coins.tres")
 
 func _ready():
 	GameState.camera = camera
@@ -20,13 +21,15 @@ func _ready():
 		Vector2(2, 2),
 	]
 	for gold_loc in gold_places:
-		var gold = Gold.instance()
-		gold.get_child(0).count = randi() % 100 + 10
-		gold.position = GameState.level.map_to_world(gold_loc)
-		$Items.add_child(gold)
+		var coins = WorldItem.instance()
+		coins.item = Coins
+		coins.count = randi() % 100 + 10
+		coins.position = GameState.level.map_to_world(gold_loc)
+		$Items.add_child(coins)
 	
-	var key = Key.instance()
-	key.get_child(0).count = 1
+	var key = WorldItem.instance()
+	key.item = Key
+	key.count = 1
 	key.position = GameState.level.map_to_world(Vector2(3, 3))
 	$Items.add_child(key)
 	

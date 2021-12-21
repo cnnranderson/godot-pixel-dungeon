@@ -15,3 +15,7 @@ func _init_world():
 	GameState.level = level
 	Events.emit_signal("map_ready", spawn)
 	pass
+
+func _process(delta):
+	
+	pass

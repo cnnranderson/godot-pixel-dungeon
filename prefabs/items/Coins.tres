@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://assets/images/items.png" type="Texture" id=1]
+[ext_resource path="res://prefabs/items/Item.gd" type="Script" id=2]
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 96, 16, 16, 16 )
+
+[resource]
+script = ExtResource( 2 )
+texture = SubResource( 2 )
+type = 3

@@ -37,7 +37,7 @@ rect_scale = Vector2( 2, 2 )
 
 [node name="World" parent="." instance=ExtResource( 3 )]
 
-[node name="Items" type="Node" parent="."]
+[node name="Items" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 23, 39 )

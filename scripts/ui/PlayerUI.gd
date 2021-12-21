@@ -9,7 +9,6 @@ func _ready():
 	Events.connect("player_interact", self, "_on_player_interact")
 	pass
 
-
 func _on_player_interact(item):
 	match (item):
 		Constants.Item.KEY: keys.text = str(GameState.player.inventory.keys)

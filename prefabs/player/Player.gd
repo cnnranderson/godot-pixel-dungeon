@@ -62,8 +62,8 @@ func move(dir):
 	else:
 		# Pick up items
 		if ray.is_colliding():
-			if ray.get_collider() is Item:
-				var item = ray.get_collider() as Item
+			if ray.get_collider() is WorldItem:
+				var item = ray.get_collider() as WorldItem
 				item.collect()
 			else:
 				blocked = true
@@ -87,7 +87,7 @@ func move_tween(dir, collides = false):
 		Sounds.play_sound(Sounds.SoundType.SFX, SOUND.step, clamp((randi() % 25 + 75) / 100.0, 0.75, 1.0))
 		var new_pos = position + Constants.INPUTS[dir] * Constants.TILE_SIZE
 		var tile_pos = GameState.level.world_to_map(new_pos)
-		print("Moving: ", GameState.level.world_to_map(new_pos), ", Tile: ", GameState.level.get_tile(tile_pos))
+		# print("Moving: ", GameState.level.world_to_map(new_pos), ", Tile: ", GameState.level.get_tile(tile_pos))
 		tween.interpolate_property(self, "position",
 			position, new_pos,
 			1.0 / move_speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
