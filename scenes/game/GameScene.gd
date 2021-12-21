@@ -22,6 +22,9 @@ func _unhandled_input(event):
 		GameState.player.inventory.keys += 1
 		Events.emit_signal("player_interact", Item.Type.KEY)
 		Events.emit_signal("log_message", "You found a key")
+	
+	if event.is_action_pressed("inventory"):
+		Events.emit_signal("open_inventory")
 
 func _input(event):
 	if event is InputEventMouseButton:
