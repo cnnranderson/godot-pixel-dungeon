@@ -25,6 +25,7 @@ var interrupted_movement = false
 func _ready():
 	sprite.animation = ANIM.idle
 	sprite.playing = true
+	Events.connect("player_search", self, "_on_player_search")
 
 func _init_character(spawn: Vector2):
 	position = GameState.world.spawn * Constants.TILE_SIZE - (Constants.TILE_V / 2)
@@ -117,7 +118,9 @@ func gain_xp(amount):
 	stats.xp += amount
 	
 	Events.emit_signal("player_gain_xp", amount)
-	
+
+func _on_player_search():
+	pass
 
 func _on_Tween_tween_all_completed():
 	sprite.animation = ANIM.idle
