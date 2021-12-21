@@ -1,1 +1,1 @@
-extends CenterContainer
+extends Node2D

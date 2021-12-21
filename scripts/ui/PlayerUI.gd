@@ -11,6 +11,6 @@ func _ready():
 
 func _on_player_interact(item):
 	match (item):
-		Constants.Item.KEY: keys.text = str(GameState.player.inventory.keys)
-		Constants.Item.COIN: coins.text = str(GameState.player.inventory.coins)
+		Item.Type.KEY: keys.text = str(GameState.player.inventory.keys)
+		Item.Type.COINS: coins.text = str(GameState.player.inventory.coins)
 	pass

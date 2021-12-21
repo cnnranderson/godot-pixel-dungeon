@@ -23,13 +23,13 @@ func collect():
 		Item.Type.KEY:
 			GameState.player.inventory.keys += count
 			Sounds.play_sound(Sounds.SoundType.SFX, SOUND.generic)
-			Events.emit_signal("player_interact", Constants.Item.KEY)
+			Events.emit_signal("player_interact", Item.Type.KEY)
 			Events.emit_signal("log_message", "You found a key")
 		
 		Item.Type.COINS:
 			GameState.player.inventory.coins += count
 			Sounds.play_sound(Sounds.SoundType.SFX, SOUND.gold)
-			Events.emit_signal("player_interact", Constants.Item.COIN)
+			Events.emit_signal("player_interact", Item.Type.COINS)
 			Events.emit_signal("log_message", "You found some gold (%d)" % count)
 	
 	yield(get_tree().create_timer(0.2), "timeout")

@@ -3,15 +3,8 @@
 [ext_resource path="res://assets/images/cursor_corner.png" type="Texture" id=1]
 [ext_resource path="res://prefabs/grid/Cursor.gd" type="Script" id=2]
 
-[node name="Cursor" type="CenterContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = -1064.0
-margin_bottom = -704.0
+[node name="Cursor" type="Node2D"]
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TopLeft" type="Sprite" parent="."]
 texture = ExtResource( 1 )
