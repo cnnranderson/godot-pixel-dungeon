@@ -49,7 +49,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://prefabs/grid/GameWorld.gd"
 }, {
-"base": "KinematicBody2D",
+"base": "Area2D",
 "class": "Item",
 "language": "GDScript",
 "path": "res://prefabs/items/Item.gd"

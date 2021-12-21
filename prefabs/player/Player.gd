@@ -59,8 +59,17 @@ func move(dir):
 	# Try to move
 	if interacted:
 		$ActionCooldown.start()
-		return
-	move_tween(dir, blocked or ray.is_colliding())
+	else:
+		# Pick up items
+		if ray.is_colliding():
+			if ray.get_collider() is Item:
+				var item = ray.get_collider() as Item
+				item.collect()
+			else:
+				blocked = true
+		
+		# Otherwise, move
+		move_tween(dir, blocked)
 
 func can_unlock(tpos: Vector2):
 	if inventory.keys > 0:

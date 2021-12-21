@@ -653,7 +653,6 @@ shape = SubResource( 1 )
 [node name="AnimSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 157 )
 animation = "idle"
-frame = 1
 playing = true
 centered = false
 offset = Vector2( -6, -7 )
@@ -661,6 +660,7 @@ offset = Vector2( -6, -7 )
 [node name="MoveRay" type="RayCast2D" parent="."]
 enabled = true
 cast_to = Vector2( 0, 20 )
+collide_with_areas = true
 
 [node name="Tween" type="Tween" parent="."]
 
