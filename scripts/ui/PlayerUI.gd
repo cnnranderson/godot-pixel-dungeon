@@ -5,6 +5,7 @@ onready var hp = $Panel/HBox/Stats/Vbox/Hp/Bar
 onready var xp = $Panel/HBox/Stats/Vbox/Xp/Bar
 onready var keys = $Panel/HBox/Items/Vbox/Keys/Count
 onready var coins = $Panel/HBox/Items/Vbox/Coins/Count
+onready var depth = $Panel/HBox/Stats/Vbox/Level/Floor/Label
 
 func _ready():
 	Events.connect("player_interact", self, "_on_player_interact")
