@@ -5,3 +5,4 @@ func _ready():
 
 func _on_open_inventory():
 	visible = true if not visible else false
+	GameState.inventory_open = visible

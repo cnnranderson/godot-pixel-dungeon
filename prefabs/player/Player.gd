@@ -35,7 +35,10 @@ func _process(delta):
 	move_along_path(fast_travel_speed * delta)
 
 func _input(event):
-	if not GameState.player_turn or $ActionCooldown.time_left > 0 or tween.is_active():
+	if not GameState.player_turn \
+			or GameState.inventory_open \
+			or $ActionCooldown.time_left > 0 \
+			or tween.is_active():
 		return
 	for dir in Constants.INPUTS.keys():
 		if event.is_action(dir):
@@ -120,6 +123,7 @@ func gain_xp(amount):
 	Events.emit_signal("player_gain_xp", amount)
 
 func _on_player_search():
+	print("wuh")
 	pass
 
 func _on_Tween_tween_all_completed():

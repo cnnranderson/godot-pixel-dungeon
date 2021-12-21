@@ -27,11 +27,11 @@ func _unhandled_input(event):
 		Events.emit_signal("open_inventory")
 	
 	if event.is_action_pressed("search"):
-		if GameState.player_turn:
+		if GameState.player_turn and not GameState.inventory_open:
 			Events.emit_signal("player_search")
 	
 	if event.is_action_pressed("wait"):
-		if GameState.player_turn:
+		if GameState.player_turn and not GameState.inventory_open:
 			Events.emit_signal("player_wait")
 
 func _input(event):

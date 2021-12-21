@@ -22,7 +22,9 @@ func init_world():
 
 func _input(delta):
 	var mouse_pos = get_local_mouse_position()
-	if level.get_cellv(level.world_to_map(mouse_pos)) != TileMap.INVALID_CELL and GameState.player_turn:
+	if level.get_cellv(level.world_to_map(mouse_pos)) != TileMap.INVALID_CELL \
+			and GameState.player_turn \
+			and not GameState.inventory_open:
 		$Cursor.visible = true
 		$Cursor.position = level.map_to_world(level.world_to_map(mouse_pos))
 	else:

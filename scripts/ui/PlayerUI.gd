@@ -45,7 +45,9 @@ func _on_backpack_pressed():
 	Events.emit_signal("open_inventory")
 
 func _on_search_pressed():
-	Events.emit_signal("player_search")
+	if not GameState.inventory_open:
+		Events.emit_signal("player_search")
 
 func _on_wait_pressed():
-	Events.emit_signal("player_wait")
+	if not GameState.inventory_open:
+		Events.emit_signal("player_wait")

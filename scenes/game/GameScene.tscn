@@ -17,6 +17,7 @@ layer = -1
 [node name="Background" type="ColorRect" parent="Backdrop"]
 margin_right = 1080.0
 margin_bottom = 720.0
+rect_min_size = Vector2( 1080, 720 )
 color = Color( 0.156863, 0.156863, 0.156863, 1 )
 __meta__ = {
 "_edit_use_anchors_": false

@@ -5,6 +5,7 @@ var player_turn = true
 var camera: GameCam = null
 var world: GameWorld = null
 var level: Level = null
+var inventory_open = false
 var player = {
 	"inventory": {
 		"keys": 0,
