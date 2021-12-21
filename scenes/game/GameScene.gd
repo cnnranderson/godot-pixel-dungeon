@@ -35,4 +35,3 @@ func _input(event):
 				Helpers.world_to_tile(player.global_position), 
 				Helpers.world_to_tile(get_local_mouse_position()))
 			pass
-

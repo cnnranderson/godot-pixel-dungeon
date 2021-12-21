@@ -8,7 +8,9 @@ var level: Level = null
 var player = {
 	"inventory": {
 		"keys": 0,
-		"coins": 0
+		"coins": 0,
+		"max_size": 36,
+		"items": []
 	},
 	"stats": {
 		"xp": 0,
