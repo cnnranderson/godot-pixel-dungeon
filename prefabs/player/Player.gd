@@ -17,8 +17,7 @@ onready var tween = $Tween
 onready var sprite = $AnimSprite
 onready var stats = GameState.player.stats
 onready var inventory = GameState.player.inventory
-onready var equipped_weapon = GameState.player.equipped.weapon
-onready var equpped_armor = GameState.player.equipped.armor
+onready var backpack = GameState.player.backpack
 
 var travel_path: PoolVector2Array
 var interrupted_movement = false
@@ -29,6 +28,8 @@ func _ready():
 	sprite.playing = true
 	Events.connect("player_search", self, "_on_player_search")
 	Events.connect("player_equip", self, "_on_player_equip")
+	Events.connect("player_unequip_weapon", self, "_on_player_unequip_weapon")
+	Events.connect("player_unequip_armor", self, "_on_player_unequip_armor")
 
 func _init_character(spawn: Vector2):
 	position = GameState.world.spawn * Constants.TILE_SIZE - (Constants.TILE_V / 2)
@@ -123,8 +124,18 @@ func move_tween(dir, collides = false):
 func _on_player_equip(item: Item):
 	if item is Weapon:
 		Events.emit_signal("log_message", "You equipped the %s" % item.name)
-		equipped_weapon = item
-	pass
+		GameState.player.equipped.weapon = item
+		Events.emit_signal("refresh_backpack")
+
+func _on_player_unequip_weapon():
+	Events.emit_signal("log_message", "You put away the %s" % GameState.player.equipped.weapon.name)
+	GameState.player.equipped.weapon = null
+	Events.emit_signal("refresh_backpack")
+
+func _on_player_unequip_armor():
+	GameState.player.equipped.armor = null
+	Events.emit_signal("refresh_backpack")
+	Events.emit_signal("log_message", "You're naked now, ya dummy!")
 
 func gain_xp(amount):
 	while stats.xp < stats.xp_next and amount > 0:

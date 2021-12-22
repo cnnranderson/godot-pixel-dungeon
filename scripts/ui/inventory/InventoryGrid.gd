@@ -9,10 +9,11 @@ func _ready():
 		child.queue_free()
 	
 	# Setup inventory spaces
-	inventory = GameState.inventory
+	inventory = GameState.player.backpack
 	for i in inventory.items.size():
 		var slot = InventoryItem.instance()
 		add_child(slot)
+	Events.connect("refresh_backpack", self, "refresh_inventory")
 	inventory.connect("items_changed", self, "_on_items_changed")
 	refresh_inventory()
 

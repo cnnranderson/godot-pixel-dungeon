@@ -34,7 +34,7 @@ func collect():
 		
 		Item.Type.WEAPON:
 			item = item as Weapon
-			if GameState.inventory.add_item(item):
+			if GameState.player.backpack.add_item(item):
 				Events.emit_signal("log_message", "You found %s" % item.get_name())
 			else:
 				Events.emit_signal("log_message", "Your inventory is full!")

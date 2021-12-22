@@ -36,15 +36,47 @@ margin_bottom = 56.0
 rect_min_size = Vector2( 48, 48 )
 stretch_mode = 1
 
-[node name="Label" type="Label" parent="."]
-margin_left = 28.0
-margin_top = 25.0
-margin_right = 36.0
-margin_bottom = 39.0
+[node name="Extra" type="MarginContainer" parent="."]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 60.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 56, 56 )
+mouse_filter = 2
+
+[node name="Equipped" type="Label" parent="Extra"]
+margin_right = 56.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 56, 56 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_colors/font_color = Color( 0.866667, 0.701961, 0.207843, 1 )
+theme = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 0.960784, 0.392157, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/shadow_offset_y = 1
 text = "E"
+
+[node name="Stat" type="Label" parent="Extra"]
+margin_right = 56.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 56, 56 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/shadow_offset_y = 1
+text = "0"
 align = 2
+
+[node name="Upgrade" type="Label" parent="Extra"]
+margin_right = 56.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 56, 56 )
+custom_colors/font_color = Color( 0.0627451, 0.847059, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/shadow_offset_y = 1
+text = "+0"
+align = 2
+valign = 2
 
 [connection signal="gui_input" from="ItemImage" to="." method="_on_ItemImage_gui_input"]

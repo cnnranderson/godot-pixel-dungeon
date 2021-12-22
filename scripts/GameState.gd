@@ -6,13 +6,13 @@ var camera: GameCam = null
 var world: GameWorld = null
 var level: Level = null
 var inventory_open = false
-var inventory: Inventory = Inventory.new()
 var player = {
 	"inventory": {
 		"keys": 0,
 		"coins": 0,
 		"max_size": 12
 	},
+	"backpack": Inventory.new(),
 	"equipped": {
 		"weapon": null,
 		"armor": null
@@ -27,7 +27,7 @@ var player = {
 }
 
 func _ready():
-	inventory.set_backpack_size(GameState.player.inventory.max_size)
+	player.backpack.set_backpack_size(GameState.player.inventory.max_size)
 
 func is_player_turn():
 	return turn_list

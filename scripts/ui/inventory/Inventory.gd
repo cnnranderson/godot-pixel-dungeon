@@ -13,6 +13,7 @@ func add_item(item):
 	for idx in items.size() - 1:
 		if items[idx] == null:
 			set_item(idx, item)
+			emit_signal("items_changed", [idx])
 			return true
 	return false
 
