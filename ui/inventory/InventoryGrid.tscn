@@ -4,16 +4,12 @@
 [ext_resource path="res://ui/inventory/InventoryItem.tscn" type="PackedScene" id=2]
 
 [node name="InventoryGrid" type="GridContainer"]
-anchor_right = 0.237037
-anchor_bottom = 0.533333
-margin_right = -192.0
-margin_bottom = -320.0
 custom_constants/vseparation = 0
 custom_constants/hseparation = 0
 columns = 4
 script = ExtResource( 1 )
 __meta__ = {
-"_edit_use_anchors_": true
+"_edit_use_anchors_": false
 }
 
 [node name="InventoryItem" parent="." instance=ExtResource( 2 )]
@@ -49,151 +45,3 @@ anchor_bottom = 0.0
 margin_top = 64.0
 margin_right = 64.0
 margin_bottom = 128.0
-
-[node name="InventoryItem6" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 64.0
-margin_top = 64.0
-margin_right = 128.0
-margin_bottom = 128.0
-
-[node name="InventoryItem7" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 128.0
-margin_top = 64.0
-margin_right = 192.0
-margin_bottom = 128.0
-
-[node name="InventoryItem8" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 192.0
-margin_top = 64.0
-margin_right = 256.0
-margin_bottom = 128.0
-
-[node name="InventoryItem9" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 128.0
-margin_right = 64.0
-margin_bottom = 192.0
-
-[node name="InventoryItem10" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 64.0
-margin_top = 128.0
-margin_right = 128.0
-margin_bottom = 192.0
-
-[node name="InventoryItem11" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 128.0
-margin_top = 128.0
-margin_right = 192.0
-margin_bottom = 192.0
-
-[node name="InventoryItem12" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 192.0
-margin_top = 128.0
-margin_right = 256.0
-margin_bottom = 192.0
-
-[node name="InventoryItem13" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 192.0
-margin_right = 64.0
-margin_bottom = 256.0
-
-[node name="InventoryItem14" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 64.0
-margin_top = 192.0
-margin_right = 128.0
-margin_bottom = 256.0
-
-[node name="InventoryItem15" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 128.0
-margin_top = 192.0
-margin_right = 192.0
-margin_bottom = 256.0
-
-[node name="InventoryItem16" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 192.0
-margin_top = 192.0
-margin_right = 256.0
-margin_bottom = 256.0
-
-[node name="InventoryItem17" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 256.0
-margin_right = 64.0
-margin_bottom = 320.0
-
-[node name="InventoryItem18" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 64.0
-margin_top = 256.0
-margin_right = 128.0
-margin_bottom = 320.0
-
-[node name="InventoryItem19" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 128.0
-margin_top = 256.0
-margin_right = 192.0
-margin_bottom = 320.0
-
-[node name="InventoryItem20" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 192.0
-margin_top = 256.0
-margin_right = 256.0
-margin_bottom = 320.0
-
-[node name="InventoryItem21" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 320.0
-margin_right = 64.0
-margin_bottom = 384.0
-
-[node name="InventoryItem22" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 64.0
-margin_top = 320.0
-margin_right = 128.0
-margin_bottom = 384.0
-
-[node name="InventoryItem23" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 128.0
-margin_top = 320.0
-margin_right = 192.0
-margin_bottom = 384.0
-
-[node name="InventoryItem24" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 192.0
-margin_top = 320.0
-margin_right = 256.0
-margin_bottom = 384.0
