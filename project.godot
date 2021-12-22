@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Area2D",
+"class": "Actor",
+"language": "GDScript",
+"path": "res://prefabs/actors/Actor.gd"
+}, {
 "base": "Reference",
 "class": "DTS",
 "language": "GDScript",
@@ -79,6 +84,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/procedural/MapRoom.gd"
 }, {
+"base": "Resource",
+"class": "Mob",
+"language": "GDScript",
+"path": "res://prefabs/actors/Mob.gd"
+}, {
 "base": "Item",
 "class": "Weapon",
 "language": "GDScript",
@@ -90,6 +100,7 @@ _global_script_classes=[ {
 "path": "res://prefabs/items/WorldItem.gd"
 } ]
 _global_script_class_icons={
+"Actor": "",
 "DTS": "",
 "Dialogic": "",
 "DialogicBackgroundMusic": "",
@@ -104,6 +115,7 @@ _global_script_class_icons={
 "Main": "",
 "MapGenerator": "",
 "MapRoom": "",
+"Mob": "",
 "Weapon": "",
 "WorldItem": ""
 }

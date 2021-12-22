@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://prefabs/actors/Actor.gd" type="Script" id=1]
+[ext_resource path="res://prefabs/actors/bat/Bat.tres" type="Resource" id=2]
+[ext_resource path="res://assets/images/mobs/bat.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 8 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 16, 16 )
+
+[node name="Bat" type="Area2D"]
+script = ExtResource( 1 )
+mob = ExtResource( 2 )
+is_mob = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 8, 8 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = SubResource( 2 )
+centered = false

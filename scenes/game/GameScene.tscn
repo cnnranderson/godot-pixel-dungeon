@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/game/GameScene.gd" type="Script" id=1]
-[ext_resource path="res://prefabs/player/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://prefabs/actors/player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://prefabs/grid/GameWorld.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/GameCam.gd" type="Script" id=4]
 [ext_resource path="res://ui/PlayerUI.tscn" type="PackedScene" id=5]

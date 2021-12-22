@@ -1,4 +1,4 @@
-extends Area2D
+extends Actor
 
 const ANIM = {
 	"idle": "idle",
