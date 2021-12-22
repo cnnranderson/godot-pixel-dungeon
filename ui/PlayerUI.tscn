@@ -42,7 +42,6 @@ atlas = ExtResource( 7 )
 region = Rect2( 96, 16, 16, 16 )
 
 [sub_resource type="DynamicFont" id=9]
-font_data = ExtResource( 5 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 7 )
@@ -314,7 +313,6 @@ margin_top = 2.0
 margin_right = 58.0
 margin_bottom = 16.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 9 )
 text = "0"
 align = 2
 
@@ -346,7 +344,6 @@ margin_top = 2.0
 margin_right = 58.0
 margin_bottom = 16.0
 size_flags_horizontal = 3
-custom_fonts/font = SubResource( 7 )
 text = "0"
 align = 2
 
