@@ -1,12 +1,16 @@
 extends GridContainer
 
 const InventoryItem = preload("res://ui/inventory/InventoryItem.tscn")
-var inventory = preload("res://scripts/ui/inventory/Inventory.tres")
-var player_inventory = GameState.player.inventory
+var inventory: Inventory
 
 func _ready():
-	inventory.set_backpack_size(player_inventory.max_size)
-	for i in inventory.items.size() - 1:
+	# Clear out any test children
+	for child in get_children():
+		child.queue_free()
+	
+	# Setup inventory spaces
+	inventory = GameState.inventory
+	for i in inventory.items.size():
 		var slot = InventoryItem.instance()
 		add_child(slot)
 	inventory.connect("items_changed", self, "_on_items_changed")

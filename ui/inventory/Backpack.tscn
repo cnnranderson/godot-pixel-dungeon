@@ -5,19 +5,18 @@
 [ext_resource path="res://scripts/ui/inventory/Backpack.gd" type="Script" id=3]
 
 [node name="Backpack" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = -884.0
-margin_bottom = -520.0
+anchor_right = 0.244444
+anchor_bottom = 0.555556
+margin_bottom = -3.05176e-05
 rect_min_size = Vector2( 196, 200 )
 script = ExtResource( 3 )
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
 
 [node name="Backdrop" type="NinePatchRect" parent="."]
-margin_right = 196.0
-margin_bottom = 200.0
+margin_right = 264.0
+margin_bottom = 398.0
 rect_min_size = Vector2( 196, 200 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -31,9 +30,8 @@ __meta__ = {
 }
 
 [node name="InventoryGrid" parent="Backdrop" instance=ExtResource( 2 )]
-margin_left = 2.0
-margin_top = 2.0
+margin_left = 4.0
+margin_top = 6.0
 margin_right = -134.0
 margin_bottom = -306.0
-rect_scale = Vector2( 2, 2 )
 size_flags_horizontal = 2

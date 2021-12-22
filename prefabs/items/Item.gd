@@ -13,6 +13,7 @@ enum Type {
 	BOSS_KEY,
 	COINS,
 	WEAPON,
+	ARMOR,
 	WAND,
 	POTION,
 	SCROLL

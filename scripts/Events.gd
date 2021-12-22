@@ -14,8 +14,9 @@ signal map_ready(spawn)
 
 # UI Events
 signal player_interact(item)
-signal player_wait()
+signal player_equip(item)
 signal player_search()
+signal player_wait()
 signal player_gain_xp()
 signal player_levelup()
 signal open_inventory()

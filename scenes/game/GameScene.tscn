@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/game/GameScene.gd" type="Script" id=1]
 [ext_resource path="res://prefabs/player/Player.tscn" type="PackedScene" id=2]
@@ -7,6 +7,9 @@
 [ext_resource path="res://ui/PlayerUI.tscn" type="PackedScene" id=5]
 [ext_resource path="res://ui/EventLog.tscn" type="PackedScene" id=6]
 [ext_resource path="res://ui/inventory/Backpack.tscn" type="PackedScene" id=7]
+[ext_resource path="res://prefabs/items/WorldItem.tscn" type="PackedScene" id=8]
+[ext_resource path="res://prefabs/items/weapons/Axe.tres" type="Resource" id=9]
+[ext_resource path="res://prefabs/items/weapons/Broadsword.tres" type="Resource" id=10]
 
 [node name="GameScene" type="Node2D"]
 script = ExtResource( 1 )
@@ -31,11 +34,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -98.0
-margin_top = -100.0
-margin_right = 98.0
-margin_bottom = 100.0
-size_flags_horizontal = 5
+margin_left = -132.0
+margin_top = -200.0
+margin_right = 132.0
+margin_bottom = 200.0
 
 [node name="ActionLog" parent="UI" instance=ExtResource( 6 )]
 visible = false
@@ -52,6 +54,14 @@ visible = false
 rect_scale = Vector2( 2, 2 )
 
 [node name="World" parent="." instance=ExtResource( 3 )]
+
+[node name="Item" parent="." instance=ExtResource( 8 )]
+position = Vector2( 64, 16 )
+item = ExtResource( 9 )
+
+[node name="Item2" parent="." instance=ExtResource( 8 )]
+position = Vector2( 16, 80 )
+item = ExtResource( 10 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 23, 39 )

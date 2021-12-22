@@ -1,8 +1,7 @@
 extends CenterContainer
 
 onready var item_image = $ItemImage
-
-var inventory = preload("res://scripts/ui/inventory/Inventory.tres")
+onready var inventory = GameState.inventory
 
 func display_item(item):
 	if item is Item:
@@ -31,3 +30,16 @@ func drop_data(_position, data):
 	var item = inventory.items[item_index]
 	inventory.swap_items(item_index, data.item_index)
 	inventory.set_item(item_index, data.item)
+
+
+func _on_ItemImage_gui_input(event):
+	if event.is_action_released("select"):
+		var item = inventory.get_item(get_index()) as Item
+		if item is Weapon:
+			# Refresh the displayed item
+			display_item(item)
+			
+			# Inform the player of the action
+			Events.emit_signal("player_equip", item)
+			Events.emit_signal("open_inventory")
+			

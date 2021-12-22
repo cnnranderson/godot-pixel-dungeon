@@ -3,14 +3,18 @@ class_name Inventory
 
 signal items_changed(indexes)
 
-export(Array, Resource) var items = [
-	null
-]
+export(Array, Resource) var items = []
 
 func set_backpack_size(size):
-	items.clear()
 	for i in size:
 		items.append(null)
+
+func add_item(item):
+	for idx in items.size() - 1:
+		if items[idx] == null:
+			set_item(idx, item)
+			return true
+	return false
 
 func set_item(item_index, item):
 	var prev_item = items[item_index]

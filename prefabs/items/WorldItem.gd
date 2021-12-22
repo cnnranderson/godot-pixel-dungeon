@@ -10,7 +10,7 @@ const SOUND = {
 export(int) var count = 1
 
 var collected = false
-var item: Resource setget set_item
+export(Resource) var item: Resource setget set_item
 
 func set_item(new_value):
 	item = new_value as Item
@@ -31,6 +31,13 @@ func collect():
 			Sounds.play_sound(Sounds.SoundType.SFX, SOUND.gold)
 			Events.emit_signal("player_interact", Item.Type.COINS)
 			Events.emit_signal("log_message", "You found some gold (%d)" % count)
+		
+		Item.Type.WEAPON:
+			item = item as Weapon
+			if GameState.inventory.add_item(item):
+				Events.emit_signal("log_message", "You found %s" % item.get_name())
+			else:
+				Events.emit_signal("log_message", "Your inventory is full!")
 	
 	yield(get_tree().create_timer(0.2), "timeout")
 	queue_free()

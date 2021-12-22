@@ -1,5 +1,6 @@
 extends Control
 
+
 func _ready():
 	Events.connect("open_inventory", self, "_on_open_inventory")
 

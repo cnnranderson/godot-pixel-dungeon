@@ -77,7 +77,7 @@ func is_closed_door(tpos: Vector2) -> bool:
 
 
 
-### ROOM GENERATION
+### ROOM GENERATION - TODO: CLEANUP
 func new_gen():
 	clear()
 	
@@ -143,15 +143,14 @@ func _intersects(rooms: Array, room: Rect2) -> bool:
 
 
 
-
-
+### PATH FINDING - TODO: CLEANUP
 func _add_points():
 	for cell in get_used_cells():
 		var cell_type = get_cellv(cell)
 		match cell_type:
 			TILE.door_open, TILE.door_closed, TILE.ground:
 				astar.add_point(id(cell), cell, 1.0)
-		
+
 func _connect_points():
 	var used_cells = get_used_cells()
 	for cell in used_cells:

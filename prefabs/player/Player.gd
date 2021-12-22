@@ -4,33 +4,36 @@ const ANIM = {
 	"idle": "idle",
 	"walk": "walk"
 }
-
 const SOUND = {
 	"bump": "res://assets/pd_import/sounds/snd_puff.mp3",
 	"step": "res://assets/pd_import/sounds/snd_step.mp3"
 }
+
+export var move_speed = 4
+export var fast_travel_speed = 140
 
 onready var ray : RayCast2D = $MoveRay
 onready var tween = $Tween
 onready var sprite = $AnimSprite
 onready var stats = GameState.player.stats
 onready var inventory = GameState.player.inventory
-
-export var move_speed = 4
-export var fast_travel_speed = 140
+onready var equipped_weapon = GameState.player.equipped.weapon
+onready var equpped_armor = GameState.player.equipped.armor
 
 var travel_path: PoolVector2Array
 var interrupted_movement = false
+
 
 func _ready():
 	sprite.animation = ANIM.idle
 	sprite.playing = true
 	Events.connect("player_search", self, "_on_player_search")
+	Events.connect("player_equip", self, "_on_player_equip")
 
 func _init_character(spawn: Vector2):
 	position = GameState.world.spawn * Constants.TILE_SIZE - (Constants.TILE_V / 2)
 	visible = true
-	
+
 func _process(delta):
 	move_along_path(fast_travel_speed * delta)
 
@@ -40,6 +43,8 @@ func _input(event):
 			or $ActionCooldown.time_left > 0 \
 			or tween.is_active():
 		return
+	
+	# Attempt an action or movement
 	for dir in Constants.INPUTS.keys():
 		if event.is_action(dir):
 			move(dir)
@@ -78,8 +83,8 @@ func move(dir):
 
 func can_unlock(tpos: Vector2):
 	if inventory.keys > 0:
-		GameState.level.unlock_door(tpos, true)
 		inventory.keys -= 1
+		GameState.level.unlock_door(tpos, true)
 		Events.emit_signal("player_interact", Item.Type.KEY)
 		Events.emit_signal("log_message", "Door unlocked!")
 		return true
@@ -115,6 +120,12 @@ func move_tween(dir, collides = false):
 		sprite.flip_h = true
 	tween.start()
 
+func _on_player_equip(item: Item):
+	if item is Weapon:
+		Events.emit_signal("log_message", "You equipped the %s" % item.name)
+		equipped_weapon = item
+	pass
+
 func gain_xp(amount):
 	while stats.xp < stats.xp_next and amount > 0:
 		stats.xp
@@ -123,7 +134,6 @@ func gain_xp(amount):
 	Events.emit_signal("player_gain_xp", amount)
 
 func _on_player_search():
-	print("wuh")
 	pass
 
 func _on_Tween_tween_all_completed():
@@ -154,10 +164,3 @@ func move_along_path(speed):
 				sprite.flip_h = true
 			if direction == Global.INPUTS.move_left:
 				sprite.flip_h = false
-			auto_open_door(travel_path[0])
-
-func auto_open_door(tpos):
-	#if GameState.world._get_cell(tpos) == GameWorld.TILE.door_closed:
-		#GameState.world.open_door(tpos)
-	pass
-

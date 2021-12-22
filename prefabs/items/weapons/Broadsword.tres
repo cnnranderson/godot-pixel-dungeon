@@ -1,0 +1,20 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://prefabs/items/Weapon.gd" type="Script" id=1]
+[ext_resource path="res://assets/images/items.png" type="Texture" id=2]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 80, 32, 16, 16 )
+
+[resource]
+script = ExtResource( 1 )
+texture = SubResource( 1 )
+type = 4
+wtype = 1
+name = "Broadsword"
+equippable = true
+damage = 1
+upgrade = 0
+enchanted = false
+unique = false

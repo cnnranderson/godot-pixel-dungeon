@@ -6,8 +6,8 @@ const SOUND = {
 }
 
 const WorldItem = preload("res://prefabs/items/WorldItem.tscn")
-const Key = preload("res://prefabs/items/Key.tres")
-const Coins = preload("res://prefabs/items/Coins.tres")
+const Key = preload("res://prefabs/items/basic/Key.tres")
+const Coins = preload("res://prefabs/items/basic/Coins.tres")
 
 onready var level = $Level
 var spawn = Vector2(5, 5)
