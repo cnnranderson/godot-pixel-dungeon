@@ -23,5 +23,14 @@ func charge_time():
 	turn_acc += turn_speed
 	pass
 
+func take_damage(damage: int):
+	if mob:
+		mob.hp -= damage
+		if mob.hp <= 0:
+			die()
+
+func die():
+	queue_free()
+
 static func priority_sort(a: Actor, b: Actor):
 	return a.turn_acc > b.turn_acc

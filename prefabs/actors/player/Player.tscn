@@ -653,7 +653,6 @@ shape = SubResource( 1 )
 [node name="AnimSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 157 )
 animation = "idle"
-frame = 1
 playing = true
 centered = false
 offset = Vector2( -6, -7 )

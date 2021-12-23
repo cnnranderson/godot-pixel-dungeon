@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scenes/game/GameScene.gd" type="Script" id=1]
 [ext_resource path="res://prefabs/actors/player/Player.tscn" type="PackedScene" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://prefabs/items/WorldItem.tscn" type="PackedScene" id=8]
 [ext_resource path="res://prefabs/items/weapons/Axe.tres" type="Resource" id=9]
 [ext_resource path="res://prefabs/items/weapons/Broadsword.tres" type="Resource" id=10]
+[ext_resource path="res://prefabs/actors/bat/Bat.tscn" type="PackedScene" id=11]
 
 [node name="GameScene" type="Node2D"]
 script = ExtResource( 1 )
@@ -62,6 +63,9 @@ item = ExtResource( 9 )
 [node name="Item2" parent="." instance=ExtResource( 8 )]
 position = Vector2( 16, 80 )
 item = ExtResource( 10 )
+
+[node name="Bat" parent="." instance=ExtResource( 11 )]
+position = Vector2( 32, 80 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 23, 39 )

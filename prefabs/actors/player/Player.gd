@@ -6,7 +6,8 @@ const ANIM = {
 }
 const SOUND = {
 	"bump": "res://assets/pd_import/sounds/snd_puff.mp3",
-	"step": "res://assets/pd_import/sounds/snd_step.mp3"
+	"step": "res://assets/pd_import/sounds/snd_step.mp3",
+	"hit": "res://assets/pd_import/sounds/snd_hit.mp3"
 }
 
 export var move_speed = 4
@@ -73,14 +74,27 @@ func move(dir):
 	else:
 		# Pick up items
 		if ray.is_colliding():
+			# Check for Items
 			if ray.get_collider() is WorldItem:
 				var item = ray.get_collider() as WorldItem
 				item.collect()
+				
+			# Check for Enemies
+			elif ray.get_collider() is Actor:
+				var actor = ray.get_collider() as Actor
+				if actor.is_mob and actor.mob.type == Mob.Type.ENEMY:
+					actor.take_damage(calc_damage())
+					Sounds.play_sound(Sounds.SoundType.SFX, SOUND.hit, clamp((randi() % 25 + 75) / 100.0, 0.75, 1.0))
+					blocked = true
 			else:
 				blocked = true
 		
 		# Otherwise, move
 		move_tween(dir, blocked)
+
+func calc_damage() -> int:
+	var damage = 1 if not GameState.player.equipped.weapon else GameState.player.equipped.weapon.calc_damage()
+	return damage
 
 func can_unlock(tpos: Vector2):
 	if inventory.keys > 0:
