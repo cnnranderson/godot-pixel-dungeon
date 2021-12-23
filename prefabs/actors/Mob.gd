@@ -10,4 +10,4 @@ enum Type {
 export(Type) var type
 export(Resource) var movement
 export(Texture) var texture
-export(int) var hp
+export(int) var max_hp

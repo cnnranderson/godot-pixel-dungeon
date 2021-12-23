@@ -13,6 +13,11 @@ func _ready():
 	Events.connect("map_ready", player, "_init_character")
 	GameState.world.init_world()
 
+func _process(delta):
+	if not player.can_act():
+		print("Charging")
+		player.charge_time()
+
 func _unhandled_input(event):
 	if event.is_action_pressed("cancel"):
 		GameState.shake(0.3, 0.5)

@@ -11,4 +11,4 @@ region = Rect2( 0, 0, 16, 16 )
 script = ExtResource( 1 )
 type = 0
 texture = SubResource( 2 )
-hp = 5
+max_hp = 5

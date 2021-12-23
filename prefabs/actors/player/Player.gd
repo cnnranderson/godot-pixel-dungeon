@@ -1,4 +1,5 @@
 extends Actor
+class_name Player
 
 const ANIM = {
 	"idle": "idle",
@@ -27,6 +28,7 @@ var interrupted_movement = false
 func _ready():
 	sprite.animation = ANIM.idle
 	sprite.playing = true
+	is_awake = true
 	Events.connect("player_search", self, "_on_player_search")
 	Events.connect("player_equip", self, "_on_player_equip")
 	Events.connect("player_unequip_weapon", self, "_on_player_unequip_weapon")
@@ -36,11 +38,8 @@ func _init_character(spawn: Vector2):
 	position = GameState.world.spawn * Constants.TILE_SIZE - (Constants.TILE_V / 2)
 	visible = true
 
-func _process(delta):
-	move_along_path(fast_travel_speed * delta)
-
 func _input(event):
-	if not GameState.player_turn \
+	if not can_act() \
 			or GameState.inventory_open \
 			or $ActionCooldown.time_left > 0 \
 			or tween.is_active():
@@ -50,6 +49,10 @@ func _input(event):
 	for dir in Constants.INPUTS.keys():
 		if event.is_action(dir):
 			move(dir)
+			act(null)
+
+func can_act():
+	return .can_act() and GameState.player_turn
 
 func move(dir):
 	ray.cast_to = Constants.INPUTS[dir] * Constants.TILE_SIZE
@@ -95,6 +98,9 @@ func move(dir):
 func calc_damage() -> int:
 	var damage = 1 if not GameState.player.equipped.weapon else GameState.player.equipped.weapon.calc_damage()
 	return damage
+
+func die():
+	pass
 
 func can_unlock(tpos: Vector2):
 	if inventory.keys > 0:
@@ -164,28 +170,3 @@ func _on_player_search():
 func _on_Tween_tween_all_completed():
 	sprite.animation = ANIM.idle
 	sprite.playing = true
-
-# TODO Fix all of this nonsense
-func move_along_path(speed):
-	if travel_path.size() > 0:
-		var final = Helpers.tile_to_world(travel_path[0])
-		if abs(position.x - final.x) < 1 and abs(position.y - final.y) < 1:
-			position = final
-			if interrupted_movement:
-				travel_path = []
-				interrupted_movement = false
-			else:
-				travel_path.remove(0)
-			if travel_path.size() == 0:
-				sprite.animation = ANIM.idle
-			else:
-				sprite.animation = ANIM.walk
-				Sounds.play_sound(Sounds.SoundType.SFX, SOUND.step, clamp((randi() % 25 + 75) / 100.0, 0.75, 1.0))
-		else:
-			var distance = position.distance_to(Helpers.tile_to_world(travel_path[0]))
-			var direction = (Helpers.world_to_tile(position) - travel_path[0]).normalized()
-			position = position.linear_interpolate(Helpers.tile_to_world(travel_path[0]), speed / distance)
-			if direction == Global.INPUTS.move_right:
-				sprite.flip_h = true
-			if direction == Global.INPUTS.move_left:
-				sprite.flip_h = false

@@ -2,13 +2,18 @@ tool
 extends Area2D
 class_name Actor
 
+const DamagePopup = preload("res://ui/actions/DamagePopup.tscn")
+
 export(Resource) var mob = null
 export(bool) var is_mob = false
 export(int) var turn_speed = 20
+export(int) var hp = 1
 var turn_acc = 0
+var is_awake = false
 
 func _ready():
 	if is_mob:
+		hp = mob.max_hp
 		if has_node("Sprite"):
 			$Sprite.texture = mob.texture
 
@@ -24,10 +29,15 @@ func charge_time():
 	pass
 
 func take_damage(damage: int):
-	if mob:
-		mob.hp -= damage
-		if mob.hp <= 0:
-			die()
+	var damage_text = DamagePopup.instance()
+	damage_text.amount = damage
+	damage_text.is_crit = Helpers.chance_luck(70)
+	damage_text.rect_global_position = position + Vector2(8, 0)
+	get_parent().add_child(damage_text)
+	
+	hp -= damage
+	if hp <= 0:
+		die()
 
 func die():
 	queue_free()
