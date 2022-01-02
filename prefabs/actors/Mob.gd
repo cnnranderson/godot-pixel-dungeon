@@ -3,11 +3,12 @@ class_name Mob
 
 enum Type {
 	ENEMY,
-	SHOPKEEPER,
-	PLAYER
+	FRIEND,
+	NPC
 }
 
 export(Type) var type
-export(Resource) var movement
 export(Texture) var texture
-export(int) var max_hp
+export(int) var max_hp = 1
+export(int) var strength = 1
+

@@ -13,17 +13,14 @@ const SOUND = {
 
 export var move_speed = 4
 export var fast_travel_speed = 140
+export var crit_chance = 30
 
-onready var ray : RayCast2D = $MoveRay
+onready var ray: RayCast2D = $MoveRay
 onready var tween = $Tween
 onready var sprite = $AnimSprite
 onready var stats = GameState.player.stats
 onready var inventory = GameState.player.inventory
 onready var backpack = GameState.player.backpack
-
-var travel_path: PoolVector2Array
-var interrupted_movement = false
-
 
 func _ready():
 	sprite.animation = ANIM.idle
@@ -49,7 +46,6 @@ func _input(event):
 	for dir in Constants.INPUTS.keys():
 		if event.is_action(dir):
 			move(dir)
-			act(null)
 
 func can_act():
 	return .can_act() and GameState.player_turn
@@ -61,10 +57,15 @@ func move(dir):
 	
 	var tpos = GameState.level.world_to_map(new_pos)
 	var blocked = false
+	var attacking = false
 	var interacted = false
 	
+	# Check for walls/blocking tiles
+	if not blocked and GameState.level.is_blocking(tpos):
+		blocked = true
+	
 	# Check for doors
-	if GameState.level.is_door(tpos):
+	if not blocked and GameState.level.is_door(tpos):
 		if GameState.level.is_locked_door(tpos):
 			blocked = true
 			interacted = can_unlock(tpos)
@@ -74,6 +75,8 @@ func move(dir):
 	# Try to move
 	if interacted:
 		$ActionCooldown.start()
+		yield($ActionCooldown, "timeout")
+		Events.emit_signal("player_acted")
 	else:
 		# Pick up items
 		if ray.is_colliding():
@@ -85,19 +88,27 @@ func move(dir):
 			# Check for Enemies
 			elif ray.get_collider() is Actor:
 				var actor = ray.get_collider() as Actor
-				if actor.is_mob and actor.mob.type == Mob.Type.ENEMY:
-					actor.take_damage(calc_damage())
-					Sounds.play_sound(Sounds.SoundType.SFX, SOUND.hit, clamp((randi() % 25 + 75) / 100.0, 0.75, 1.0))
+				if actor.mob and actor.mob.type == Mob.Type.ENEMY:
+					attack(actor)
+					attacking = true
 					blocked = true
-			else:
-				blocked = true
 		
 		# Otherwise, move
-		move_tween(dir, blocked)
+		move_tween(dir, blocked, attacking)
+		
+		yield(tween, "tween_all_completed")
+		sprite.animation = ANIM.idle
+		Events.emit_signal("player_acted")
 
-func calc_damage() -> int:
+func attack(actor: Actor):
 	var damage = 1 if not GameState.player.equipped.weapon else GameState.player.equipped.weapon.calc_damage()
-	return damage
+	var crit = false
+	if Helpers.chance_luck(crit_chance):
+		crit = true
+		damage = ceil(damage * 1.5)
+	
+	actor.take_damage(damage, crit)
+	Sounds.play_sound(Sounds.SoundType.SFX, SOUND.hit, clamp((randi() % 25 + 75) / 100.0, 0.75, 1.0))
 
 func die():
 	pass
@@ -113,8 +124,8 @@ func can_unlock(tpos: Vector2):
 		Events.emit_signal("log_message", "You do not have any keys...")
 		return false
 
-func move_tween(dir, collides = false):
-	if not collides:
+func move_tween(dir, blocked = false, attacking = false):
+	if not blocked:
 		Sounds.play_sound(Sounds.SoundType.SFX, SOUND.step, clamp((randi() % 25 + 75) / 100.0, 0.75, 1.0))
 		var new_pos = position + Constants.INPUTS[dir] * Constants.TILE_SIZE
 		var tile_pos = GameState.level.world_to_map(new_pos)
@@ -126,7 +137,8 @@ func move_tween(dir, collides = false):
 		var origin_pos = position
 		var bump_pos = position + Constants.INPUTS[dir] * Constants.TILE_SIZE / 4
 		GameState.shake(0.15, 0.6)
-		Sounds.play_sound(Sounds.SoundType.SFX, SOUND.bump)
+		if not attacking:
+			Sounds.play_sound(Sounds.SoundType.SFX, SOUND.bump)
 		tween.interpolate_property(self, "position",
 			position, bump_pos,
 			1.0 / move_speed / 2.0, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
@@ -157,16 +169,5 @@ func _on_player_unequip_armor():
 	Events.emit_signal("refresh_backpack")
 	Events.emit_signal("log_message", "You're naked now, ya dummy!")
 
-func gain_xp(amount):
-	while stats.xp < stats.xp_next and amount > 0:
-		stats.xp
-	stats.xp += amount
-	
-	Events.emit_signal("player_gain_xp", amount)
-
 func _on_player_search():
 	pass
-
-func _on_Tween_tween_all_completed():
-	sprite.animation = ANIM.idle
-	sprite.playing = true

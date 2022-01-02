@@ -16,7 +16,6 @@ onready var wait = $VBox/Hbox/Wait/Button
 func _ready():
 	Events.connect("player_interact", self, "_on_player_interact")
 	Events.connect("player_levelup", self, "_on_player_levelup")
-	Events.connect("player_gain_xp", self, "_on_player_gain_xp")
 	backpack.connect("button_down", self, "_on_backpack_pressed")
 	search.connect("button_down", self, "_on_search_pressed")
 	wait.connect("button_down", self, "_on_wait_pressed")
@@ -35,9 +34,6 @@ func _on_player_levelup():
 	hp.max_value = GameState.player.stats.hp_max
 	xp.value = GameState.player.stats.hp
 	xp.max_value = GameState.player.stats.xp_next
-
-func _on_player_gain_xp(xp_amount):
-	xp.value = GameState.player.stats.xp
 
 
 ### Action Events

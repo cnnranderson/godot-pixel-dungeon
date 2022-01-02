@@ -10,6 +10,7 @@ const Key = preload("res://prefabs/items/basic/Key.tres")
 const Coins = preload("res://prefabs/items/basic/Coins.tres")
 
 onready var level = $Level
+var active = false
 var spawn = Vector2(5, 5)
 
 func _ready():
@@ -19,6 +20,7 @@ func init_world():
 	GameState.level = level
 	_generate_test_items()
 	Events.emit_signal("map_ready", spawn)
+	active = true
 
 func _input(delta):
 	var mouse_pos = get_local_mouse_position()

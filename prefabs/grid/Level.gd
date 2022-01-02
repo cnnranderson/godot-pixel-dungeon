@@ -56,6 +56,10 @@ func get_tile(tpos: Vector2):
 func set_tile(tpos: Vector2, set: int, tile: Vector2):
 	set_cell(tpos.x, tpos.y, set, false, false, false, tile)
 
+func is_blocking(tpos: Vector2) -> bool:
+	var type = get_cellv(tpos)
+	return type == TILE_TYPE.BLOCK
+
 func is_door(tpos: Vector2) -> bool:
 	return is_open_door(tpos) or is_closed_door(tpos) or is_locked_door(tpos)
 

@@ -12,10 +12,11 @@ func _ready():
 	
 	Events.connect("map_ready", player, "_init_character")
 	GameState.world.init_world()
+	GameState.actors.append(player)
+	GameState.actors.append($Bat)
 
 func _process(delta):
 	if not player.can_act():
-		print("Charging")
 		player.charge_time()
 
 func _unhandled_input(event):
@@ -28,16 +29,17 @@ func _unhandled_input(event):
 		Events.emit_signal("player_interact", Item.Type.KEY)
 		Events.emit_signal("log_message", "You found a key")
 	
-	if event.is_action_pressed("inventory"):
-		Events.emit_signal("open_inventory")
-	
-	if event.is_action_pressed("search"):
-		if GameState.player_turn and not GameState.inventory_open:
-			Events.emit_signal("player_search")
-	
-	if event.is_action_pressed("wait"):
-		if GameState.player_turn and not GameState.inventory_open:
-			Events.emit_signal("player_wait")
+	if GameState.player_turn:
+		if event.is_action_pressed("inventory"):
+			Events.emit_signal("open_inventory")
+		
+		if event.is_action_pressed("search"):
+			if not GameState.inventory_open:
+				Events.emit_signal("player_search")
+		
+		if event.is_action_pressed("wait"):
+			if not GameState.inventory_open:
+				Events.emit_signal("player_wait")
 
 func _input(event):
 	if event is InputEventMouseButton:

@@ -12,7 +12,11 @@ connecting signal subscribers.
 signal log_message(event)
 signal map_ready(spawn)
 
-# UI Events
+# Actor Events
+signal enemies_acted()
+signal player_acted()
+
+# Player Events
 signal player_interact(item)
 signal player_equip(item)
 signal player_unequip_weapon()
