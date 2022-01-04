@@ -9,8 +9,10 @@ func _ready():
 	$UI/PlayerUI.visible = true
 	GameState.camera = camera
 	GameState.world = world
+	GameState.player_actor = player
 	
 	Events.connect("map_ready", player, "_init_character")
+	Events.connect("map_ready", $UI/PlayerUI, "_init_stats")
 	GameState.world.init_world()
 	GameState.actors.append(player)
 	GameState.actors.append($Bat)

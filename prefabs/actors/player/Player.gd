@@ -26,6 +26,7 @@ func _ready():
 	sprite.animation = ANIM.idle
 	sprite.playing = true
 	is_awake = true
+	Events.connect("player_wait", self, "_on_player_wait")
 	Events.connect("player_search", self, "_on_player_search")
 	Events.connect("player_equip", self, "_on_player_equip")
 	Events.connect("player_unequip_weapon", self, "_on_player_unequip_weapon")
@@ -110,6 +111,10 @@ func attack(actor: Actor):
 	actor.take_damage(damage, crit)
 	Sounds.play_sound(Sounds.SoundType.SFX, SOUND.hit, clamp((randi() % 25 + 75) / 100.0, 0.75, 1.0))
 
+func take_damage(damage: int, crit = false):
+	.take_damage(damage, crit)
+	Events.emit_signal("player_hit")
+
 func die():
 	pass
 
@@ -153,6 +158,9 @@ func move_tween(dir, blocked = false, attacking = false):
 		sprite.flip_h = true
 	tween.start()
 
+func tpos():
+	return GameState.level.world_to_map(position)
+
 func _on_player_equip(item: Item):
 	if item is Weapon:
 		Events.emit_signal("log_message", "You equipped the %s" % item.name)
@@ -168,6 +176,14 @@ func _on_player_unequip_armor():
 	GameState.player.equipped.armor = null
 	Events.emit_signal("refresh_backpack")
 	Events.emit_signal("log_message", "You're naked now, ya dummy!")
+
+func _on_player_wait():
+	if can_act() \
+			and not GameState.inventory_open \
+			and $ActionCooldown.time_left <= 0 \
+			and not tween.is_active():
+		print("Wait")
+		Events.emit_signal("player_acted")
 
 func _on_player_search():
 	pass

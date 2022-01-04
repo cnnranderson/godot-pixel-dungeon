@@ -29,5 +29,5 @@ func get_name():
 	return value
 
 func calc_damage():
-	# TODO player will calc bonuses/buffs
+	# TODO player will calc bonuses/buffs?
 	return damage + upgrade

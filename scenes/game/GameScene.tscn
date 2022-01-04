@@ -66,7 +66,6 @@ item = ExtResource( 10 )
 
 [node name="Bat" parent="." instance=ExtResource( 11 )]
 position = Vector2( 32, 80 )
-hp = 10
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 23, 39 )

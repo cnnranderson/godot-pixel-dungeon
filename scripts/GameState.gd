@@ -6,6 +6,7 @@ var camera: GameCam = null
 var world: GameWorld = null
 var level: Level = null
 var inventory_open = false
+var player_actor: Actor = null
 var player = {
 	"inventory": {
 		"keys": 0,
@@ -21,8 +22,7 @@ var player = {
 		"xp": 0,
 		"xp_next": 100,
 		"level": 1,
-		"hp": 100,
-		"hp_max": 100
+		"max_hp": 20
 	}
 }
 
