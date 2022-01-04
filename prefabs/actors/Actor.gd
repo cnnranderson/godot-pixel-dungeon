@@ -12,8 +12,6 @@ export(int) var hp = max_hp
 var turn_acc = 0
 var is_awake = false
 
-signal hit
-
 func _ready():
 	if mob:
 		hp = mob.max_hp
@@ -36,7 +34,10 @@ func move(dir):
 	for dir in Constants.INPUTS.keys():
 		var new_pos = position + Constants.INPUTS[dir] * Constants.TILE_SIZE
 		var tpos = GameState.level.world_to_map(new_pos)
-		if not GameState.level.is_blocking(tpos) and GameState.player_actor.tpos() != tpos:
+		if not GameState.level.is_blocking(tpos) and \
+				GameState.player_actor.tpos() != tpos and \
+				not GameState.level.is_locked_door(tpos) and \
+				not GameState.level.is_closed_door(tpos):
 			possible_moves.append(tpos)
 		if GameState.player_actor.tpos() == tpos:
 			possible_attack = true
@@ -44,6 +45,7 @@ func move(dir):
 	# Attempt and attack if the player is near or move
 	if possible_attack:
 		print("attacked")
+		Sounds.play_enemy_hit()
 		attack(GameState.player_actor)
 	else:
 		print("moved")
@@ -60,14 +62,16 @@ func take_damage(damage: int, crit = false):
 	var damage_text = DamagePopup.instance()
 	damage_text.amount = damage
 	damage_text.is_crit = crit
-	damage_text.rect_global_position = position + Vector2(8, 0)
+	damage_text.rect_global_position = position
+	if mob:
+		damage_text.rect_global_position += Vector2(8, 0)
+	else:
+		damage_text.rect_global_position += Vector2(0, -8)
 	get_parent().add_child(damage_text)
 	
 	hp -= damage
 	if hp <= 0:
 		die()
-	else:
-		emit_signal("hit")
 
 func die():
 	queue_free()

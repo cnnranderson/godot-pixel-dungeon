@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/snd_enemy_hit.wav-e191faa326d38577a338d138a9cd43ec.sample"
+
+[deps]
+
+source_file="res://assets/pd_import/sounds/snd_enemy_hit.wav"
+dest_files=[ "res://.import/snd_enemy_hit.wav-e191faa326d38577a338d138a9cd43ec.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -22,8 +22,12 @@ func _ready():
 	wait.connect("button_down", self, "_on_wait_pressed")
 
 func _init_stats(spawn):
+	lvl.text = "Lv: %d" % GameState.player.stats.level
 	hp.max_value = GameState.player_actor.max_hp
 	hp.value = GameState.player_actor.hp
+	xp.value = GameState.player.stats.xp
+	xp.max_value = GameState.player.stats.xp_next
+	
 
 ### Player Events
 func _on_player_interact(item):

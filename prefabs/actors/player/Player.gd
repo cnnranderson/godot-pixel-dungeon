@@ -5,11 +5,6 @@ const ANIM = {
 	"idle": "idle",
 	"walk": "walk"
 }
-const SOUND = {
-	"bump": "res://assets/pd_import/sounds/snd_puff.mp3",
-	"step": "res://assets/pd_import/sounds/snd_step.mp3",
-	"hit": "res://assets/pd_import/sounds/snd_hit.mp3"
-}
 
 export var move_speed = 4
 export var fast_travel_speed = 140
@@ -74,11 +69,8 @@ func move(dir):
 			GameState.level.open_door(tpos)
 	
 	# Try to move
-	if interacted:
-		$ActionCooldown.start()
-		yield($ActionCooldown, "timeout")
-		Events.emit_signal("player_acted")
-	else:
+	$ActionCooldown.start()
+	if not interacted:
 		# Pick up items
 		if ray.is_colliding():
 			# Check for Items
@@ -97,9 +89,11 @@ func move(dir):
 		# Otherwise, move
 		move_tween(dir, blocked, attacking)
 		
-		yield(tween, "tween_all_completed")
-		sprite.animation = ANIM.idle
-		Events.emit_signal("player_acted")
+	yield(tween, "tween_all_completed")
+	sprite.animation = ANIM.idle
+	
+	yield($ActionCooldown, "timeout")
+	Events.emit_signal("player_acted")
 
 func attack(actor: Actor):
 	var damage = 1 if not GameState.player.equipped.weapon else GameState.player.equipped.weapon.calc_damage()
@@ -109,7 +103,7 @@ func attack(actor: Actor):
 		damage = ceil(damage * 1.5)
 	
 	actor.take_damage(damage, crit)
-	Sounds.play_sound(Sounds.SoundType.SFX, SOUND.hit, clamp((randi() % 25 + 75) / 100.0, 0.75, 1.0))
+	Sounds.play_hit()
 
 func take_damage(damage: int, crit = false):
 	.take_damage(damage, crit)
@@ -131,7 +125,7 @@ func can_unlock(tpos: Vector2):
 
 func move_tween(dir, blocked = false, attacking = false):
 	if not blocked:
-		Sounds.play_sound(Sounds.SoundType.SFX, SOUND.step, clamp((randi() % 25 + 75) / 100.0, 0.75, 1.0))
+		Sounds.play_step()
 		var new_pos = position + Constants.INPUTS[dir] * Constants.TILE_SIZE
 		var tile_pos = GameState.level.world_to_map(new_pos)
 		# print("Moving: ", GameState.level.world_to_map(new_pos), ", Tile: ", GameState.level.get_tile(tile_pos))
@@ -143,7 +137,7 @@ func move_tween(dir, blocked = false, attacking = false):
 		var bump_pos = position + Constants.INPUTS[dir] * Constants.TILE_SIZE / 4
 		GameState.shake(0.15, 0.6)
 		if not attacking:
-			Sounds.play_sound(Sounds.SoundType.SFX, SOUND.bump)
+			Sounds.play_collision()
 		tween.interpolate_property(self, "position",
 			position, bump_pos,
 			1.0 / move_speed / 2.0, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
