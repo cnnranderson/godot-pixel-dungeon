@@ -35,11 +35,14 @@ func use():
 			#GameState.player.actor.teleport()
 			pass
 		ScrollType.ALARM:
-			#GameState.level.alert_all()
+			#GameState.world.alert_all()
 			pass
 		ScrollType.UPGRADE_WPN:
 			pass
 		ScrollType.UPGRADE_ARM:
 			pass
-	pass
+	
+	
+	Events.emit_signal("log_message", "You used a scroll of %s" % name)
+
 

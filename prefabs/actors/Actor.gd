@@ -34,10 +34,10 @@ func move(dir):
 	for dir in Constants.INPUTS.keys():
 		var new_pos = position + Constants.INPUTS[dir] * Constants.TILE_SIZE
 		var tpos = GameState.level.world_to_map(new_pos)
-		if not GameState.level.is_blocking(tpos) and \
-				GameState.player.actor.tpos() != tpos and \
-				not GameState.level.is_locked_door(tpos) and \
-				not GameState.level.is_closed_door(tpos):
+		if not GameState.level.is_blocking(tpos) \
+				and GameState.player.actor.tpos() != tpos \
+				and not GameState.level.is_locked_door(tpos) \
+				and not GameState.level.is_closed_door(tpos):
 			possible_moves.append(tpos)
 		if GameState.player.actor.tpos() == tpos:
 			possible_attack = true

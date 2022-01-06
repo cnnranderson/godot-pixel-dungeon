@@ -1,6 +1,5 @@
 extends Node
 
-var player_turn = true
 var world: GameWorld = null
 var level: Level = null
 var inventory_open = false
@@ -28,12 +27,5 @@ var discovered_scrolls = []
 
 func _ready():
 	player.backpack.set_backpack_size(GameState.player.inventory.max_size)
-	Events.connect("player_acted", self, "_on_player_acted")
-	Events.connect("enemies_acted", self, "_on_enemies_acted")
+	# TODO: Load stats and stuff here..?
 
-func _on_player_acted():
-	player_turn = false
-	Events.emit_signal("enemies_acted")
-
-func _on_enemies_acted():
-	player_turn = true

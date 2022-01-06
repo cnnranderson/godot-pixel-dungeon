@@ -3,20 +3,35 @@ class_name GameWorld
 
 const Player = preload("res://prefabs/actors/player/Player.tscn")
 const WorldItem = preload("res://prefabs/items/WorldItem.tscn")
-const Bat = preload("res://prefabs/actors/bat/Bat.tscn")
+const Enemies = {
+	"bat": preload("res://prefabs/actors/bat/Bat.tscn")
+}
 const Items = {
 	"key": preload("res://prefabs/items/basic/Key.tres"),
-	"coins": preload("res://prefabs/items/basic/Coins.tres"),
-	"healing_scroll": preload("res://prefabs/items/scrolls/HealingScroll.tres")
+	"coins": preload("res://prefabs/items/basic/Coins.tres")
+}
+const Scrolls = {
+	"healing": preload("res://prefabs/items/scrolls/HealingScroll.tres")
 }
 
 onready var level = $Level
 
+var awake_enemies = []
 var active = false
 var spawn = Vector2(5, 5)
 
 func _ready():
-	pass
+	Events.connect("player_acted", self, "_on_player_acted")
+	Events.connect("enemies_acted", self, "_on_enemies_acted")
+
+func _input(delta):
+	var mouse_pos = get_local_mouse_position()
+	if level.get_cellv(level.world_to_map(mouse_pos)) != TileMap.INVALID_CELL \
+			and not GameState.inventory_open:
+		$Cursor.visible = true
+		$Cursor.position = level.map_to_world(level.world_to_map(mouse_pos))
+	else:
+		$Cursor.visible = false
 
 func init_world():
 	GameState.level = level
@@ -28,19 +43,18 @@ func init_world():
 func _init_player():
 	var actor = Player.instance()
 	actor.position = level.map_to_world(spawn) + Vector2(8, 8)
+	actor.turn_acc = Constants.BASE_ACTION_COST
 	GameState.player.actor = actor
 	$Actors.add_child(actor)
 
-func _input(delta):
-	var mouse_pos = get_local_mouse_position()
-	if level.get_cellv(level.world_to_map(mouse_pos)) != TileMap.INVALID_CELL \
-			and GameState.player_turn \
-			and not GameState.inventory_open:
-		$Cursor.visible = true
-		$Cursor.position = level.map_to_world(level.world_to_map(mouse_pos))
-	else:
-		$Cursor.visible = false
+func _on_player_acted():
+	for enemy in awake_enemies:
+		if is_instance_valid(enemy):
+			enemy.act()
+	Events.emit_signal("enemies_acted")
 
+func _on_enemies_acted():
+	GameState.player.actor.turn_acc = Constants.BASE_ACTION_COST
 
 ### TEST UTILITIES
 func _generate_test_entities():
@@ -57,7 +71,7 @@ func _generate_test_keys():
 		var key = WorldItem.instance()
 		key.item = Items.key
 		key.count = 1
-		key.position = GameState.level.map_to_world(pos)
+		key.position = level.map_to_world(pos)
 		$Items.add_child(key)
 
 func _generate_test_coins():
@@ -81,7 +95,7 @@ func _generate_test_scrolls():
 	
 	for pos in scroll_pos:
 		var scroll = WorldItem.instance()
-		scroll.item = Items.healing_scroll
+		scroll.item = Scrolls.healing
 		scroll.position = level.map_to_world(pos)
 		$Items.add_child(scroll)
 		pass
@@ -93,7 +107,10 @@ func _generate_test_enemies():
 		Vector2(10, 12),
 		Vector2(-5, 1),
 	]
+	
 	for pos in enemy_pos:
-		var bat = Bat.instance()
+		var bat = Enemies.bat.instance()
 		bat.position = level.map_to_world(pos)
+		bat.is_awake = true
+		awake_enemies.append(bat)
 		$Actors.add_child(bat)

@@ -28,7 +28,8 @@ func _ready():
 	Events.connect("player_unequip_armor", self, "_on_player_unequip_armor")
 
 func _input(event):
-	if GameState.inventory_open \
+	if not can_act() \
+			or GameState.inventory_open \
 			or $ActionCooldown.time_left > 0 \
 			or tween.is_active():
 		return
@@ -37,9 +38,6 @@ func _input(event):
 	for dir in Constants.INPUTS.keys():
 		if event.is_action(dir):
 			move(dir)
-
-func can_act():
-	return .can_act() and GameState.player_turn
 
 func move(dir):
 	ray.cast_to = Constants.INPUTS[dir] * Constants.TILE_SIZE
