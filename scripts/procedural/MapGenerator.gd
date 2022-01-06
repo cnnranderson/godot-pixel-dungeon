@@ -35,7 +35,6 @@ func _build_rooms():
 		var room = MapRoom.new()
 		var has_space = true
 		var test_pos = Vector2((randi() % width - 1) + 2, (randi() % height - 1) + 2)
-		print(test_pos)
 		
 		for existing_room in rooms:
 			existing_room = existing_room as MapRoom

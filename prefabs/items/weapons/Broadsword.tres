@@ -10,8 +10,8 @@ region = Rect2( 80, 32, 16, 16 )
 [resource]
 script = ExtResource( 1 )
 texture = SubResource( 1 )
-type = 4
-wtype = 1
+category = 4
+type = 1
 name = "Broadsword"
 equippable = true
 damage = 1

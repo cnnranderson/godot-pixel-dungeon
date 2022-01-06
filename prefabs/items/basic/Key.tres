@@ -11,4 +11,4 @@ region = Rect2( 16, 16, 16, 16 )
 resource_local_to_scene = true
 script = ExtResource( 1 )
 texture = SubResource( 2 )
-type = 0
+category = 0

@@ -4,20 +4,29 @@ onready var label = $Label
 onready var tween = $Tween
 var amount = 0
 var is_crit = false
+var is_heal = false
 
 func _ready():
+	if is_heal:
+		set_heal()
+	elif is_crit:
+		set_crit()
+	
 	label.text = "%d" % amount
 	
 	# Animate the hit
-	display_crit() if is_crit else display_damage()
+	display()
 
-func display_crit():
+func set_heal():
+	label.modulate = Color.green
+	amount *= -1
+
+func set_crit():
 	label.text += "!!"
 	label.modulate = Color.red
 	rect_scale = Vector2.ONE * 2
-	display_damage()
 
-func display_damage():
+func display():
 	tween.interpolate_property(self, 'rect_scale', rect_scale, Vector2(0.2, 0.2), 0.6, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	tween.interpolate_property(self, 'rect_position:x', rect_position.x, rect_position.x + randi() % 20 - 10, 0.8, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	tween.interpolate_property(self, 'rect_position:y', rect_position.y, rect_position.y - randi() % 4, 0.8, Tween.TRANS_BOUNCE, Tween.EASE_OUT)

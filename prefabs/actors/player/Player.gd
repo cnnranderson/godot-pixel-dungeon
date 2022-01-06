@@ -105,8 +105,8 @@ func attack(actor: Actor):
 	actor.take_damage(damage, crit)
 	Sounds.play_hit()
 
-func take_damage(damage: int, crit = false):
-	.take_damage(damage, crit)
+func take_damage(damage: int, crit = false, heal = false):
+	.take_damage(damage, crit, heal)
 	Events.emit_signal("player_hit")
 
 func die():
@@ -116,7 +116,7 @@ func can_unlock(tpos: Vector2):
 	if inventory.keys > 0:
 		inventory.keys -= 1
 		GameState.level.unlock_door(tpos, true)
-		Events.emit_signal("player_interact", Item.Type.KEY)
+		Events.emit_signal("player_interact", Item.Category.KEY)
 		Events.emit_signal("log_message", "Door unlocked!")
 		return true
 	else:
@@ -176,7 +176,6 @@ func _on_player_wait():
 			and not GameState.inventory_open \
 			and $ActionCooldown.time_left <= 0 \
 			and not tween.is_active():
-		print("Wait")
 		Events.emit_signal("player_acted")
 
 func _on_player_search():

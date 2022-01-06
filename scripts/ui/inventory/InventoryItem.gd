@@ -62,3 +62,8 @@ func _on_ItemImage_gui_input(event):
 			else:
 				Events.emit_signal("player_equip", item)
 				Events.emit_signal("open_inventory")
+		elif item is Scroll:
+			item.use()
+			inventory.remove_item(get_index())
+			Events.emit_signal("open_inventory")
+			Events.emit_signal("player_acted")

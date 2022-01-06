@@ -32,9 +32,8 @@ func _init_stats(spawn):
 ### Player Events
 func _on_player_interact(item):
 	match (item):
-		Item.Type.KEY: keys.text = str(GameState.player.inventory.keys)
-		Item.Type.COINS: coins.text = str(GameState.player.inventory.coins)
-	pass
+		Item.Category.KEY: keys.text = str(GameState.player.inventory.keys)
+		Item.Category.COINS: coins.text = str(GameState.player.inventory.coins)
 
 func _on_player_levelup():
 	lvl.text = "Lv: %d" % GameState.player.level
@@ -45,7 +44,6 @@ func _on_player_levelup():
 
 func _on_player_hit():
 	hp.value = GameState.player_actor.hp
-	print(hp.value)
 
 ### Action Events
 func _on_backpack_pressed():

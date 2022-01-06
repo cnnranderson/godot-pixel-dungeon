@@ -95,6 +95,11 @@ _global_script_classes=[ {
 "path": "res://prefabs/actors/player/Player.gd"
 }, {
 "base": "Item",
+"class": "Scroll",
+"language": "GDScript",
+"path": "res://prefabs/items/Scroll.gd"
+}, {
+"base": "Item",
 "class": "Weapon",
 "language": "GDScript",
 "path": "res://prefabs/items/Weapon.gd"
@@ -122,6 +127,7 @@ _global_script_class_icons={
 "MapRoom": "",
 "Mob": "",
 "Player": "",
+"Scroll": "",
 "Weapon": "",
 "WorldItem": ""
 }

@@ -44,11 +44,9 @@ func move(dir):
 	
 	# Attempt and attack if the player is near or move
 	if possible_attack:
-		print("attacked")
 		Sounds.play_enemy_hit()
 		attack(GameState.player_actor)
 	else:
-		print("moved")
 		possible_moves.shuffle()
 		position = GameState.level.map_to_world(possible_moves[0])
 
@@ -58,10 +56,11 @@ func attack(actor: Actor):
 func charge_time():
 	turn_acc += turn_speed
 
-func take_damage(damage: int, crit = false):
+func take_damage(damage: int, crit = false, heal = false):
 	var damage_text = DamagePopup.instance()
 	damage_text.amount = damage
 	damage_text.is_crit = crit
+	damage_text.is_heal = heal
 	damage_text.rect_global_position = position
 	if mob:
 		damage_text.rect_global_position += Vector2(8, 0)
@@ -70,8 +69,12 @@ func take_damage(damage: int, crit = false):
 	get_parent().add_child(damage_text)
 	
 	hp -= damage
+	hp = clamp(hp, 0, max_hp)
 	if hp <= 0:
 		die()
+
+func heal(amount: int):
+	take_damage(-amount, false, true)
 
 func die():
 	queue_free()

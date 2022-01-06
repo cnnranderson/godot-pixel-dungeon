@@ -16,6 +16,7 @@ func _ready():
 	GameState.world.init_world()
 	GameState.actors.append(player)
 	GameState.actors.append($Bat)
+	GameState.actors.append($Bat2)
 
 func _process(delta):
 	if not player.can_act():
@@ -28,7 +29,7 @@ func _unhandled_input(event):
 	
 	if event.is_action_pressed("add_key"):
 		GameState.player.inventory.keys += 1
-		Events.emit_signal("player_interact", Item.Type.KEY)
+		Events.emit_signal("player_interact", Item.Category.KEY)
 		Events.emit_signal("log_message", "You found a key")
 	
 	if GameState.player_turn:

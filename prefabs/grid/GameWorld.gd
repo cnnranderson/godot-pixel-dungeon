@@ -8,6 +8,12 @@ const SOUND = {
 const WorldItem = preload("res://prefabs/items/WorldItem.tscn")
 const Key = preload("res://prefabs/items/basic/Key.tres")
 const Coins = preload("res://prefabs/items/basic/Coins.tres")
+const HealingScroll = preload("res://prefabs/items/scrolls/HealingScroll.tres")
+
+const Items = {
+	"key": preload("res://prefabs/items/basic/Key.tres"),
+	"coins": preload("res://prefabs/items/basic/Coins.tres")
+}
 
 onready var level = $Level
 var active = false
@@ -35,10 +41,9 @@ func _input(delta):
 # TODO: Remove this once generation is done -- these are just test items
 func _generate_test_items():
 	var gold_places = [
+		Vector2(2, 2),
 		Vector2(7, 7),
 		Vector2(10, 7),
-		Vector2(22, 14),
-		Vector2(2, 2),
 	]
 	for gold_loc in gold_places:
 		var coins = WorldItem.instance()

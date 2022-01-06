@@ -10,11 +10,11 @@ region = Rect2( 48, 32, 16, 16 )
 [resource]
 script = ExtResource( 1 )
 texture = SubResource( 1 )
-type = 4
-wtype = 1
+category = 4
+type = 1
 name = "Dagger"
 equippable = true
-damage = 1
+damage = 3
 upgrade = 0
 enchanted = false
 unique = false

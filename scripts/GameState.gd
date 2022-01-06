@@ -26,6 +26,8 @@ var player = {
 	}
 }
 
+var discovered_scrolls = []
+
 func _ready():
 	player.backpack.set_backpack_size(GameState.player.inventory.max_size)
 	Events.connect("player_acted", self, "_on_player_acted")

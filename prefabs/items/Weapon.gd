@@ -8,7 +8,7 @@ enum WeaponType {
 	UNIQUE
 }
 
-export(WeaponType) var wtype = WeaponType.AXE
+export(WeaponType) var type = WeaponType.AXE
 export var name = "Axe"
 export var equippable = true
 export var damage = 1
@@ -18,7 +18,7 @@ export var unique = false
 
 func get_name():
 	var value = ""
-	match(wtype):
+	match(type):
 		WeaponType.AXE:
 			value += "an "
 		WeaponType.SWORD, WeaponType.STAFF:

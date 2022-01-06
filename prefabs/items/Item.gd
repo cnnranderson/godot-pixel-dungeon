@@ -7,7 +7,7 @@ const SOUND = {
 }
 
 # Item Constants
-enum Type {
+enum Category {
 	KEY,
 	GOLD_KEY,
 	BOSS_KEY,
@@ -20,4 +20,4 @@ enum Type {
 }
 
 export var texture: Texture
-export(Type) var type
+export(Category) var category

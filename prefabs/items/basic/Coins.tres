@@ -10,4 +10,4 @@ region = Rect2( 96, 16, 16, 16 )
 [resource]
 script = ExtResource( 1 )
 texture = SubResource( 2 )
-type = 3
+category = 3
