@@ -3,6 +3,7 @@ class_name GameWorld
 
 const Player = preload("res://prefabs/actors/player/Player.tscn")
 const WorldItem = preload("res://prefabs/items/WorldItem.tscn")
+const Bat = preload("res://prefabs/actors/bat/Bat.tscn")
 const Items = {
 	"key": preload("res://prefabs/items/basic/Key.tres"),
 	"coins": preload("res://prefabs/items/basic/Coins.tres"),
@@ -20,7 +21,7 @@ func _ready():
 func init_world():
 	GameState.level = level
 	_init_player()
-	_generate_test_items()
+	_generate_test_entities()
 	Events.emit_signal("map_ready")
 	active = true
 
@@ -40,35 +41,59 @@ func _input(delta):
 	else:
 		$Cursor.visible = false
 
-# TODO: Remove this once generation is done -- these are just test items
-func _generate_test_items():
-	var gold_places = [
+
+### TEST UTILITIES
+func _generate_test_entities():
+	_generate_test_keys()
+	_generate_test_coins()
+	_generate_test_scrolls()
+	_generate_test_enemies()
+
+func _generate_test_keys():
+	var key_pos = [
+		Vector2(3, 3)
+	]
+	for pos in key_pos:
+		var key = WorldItem.instance()
+		key.item = Items.key
+		key.count = 1
+		key.position = GameState.level.map_to_world(pos)
+		$Items.add_child(key)
+
+func _generate_test_coins():
+	var coin_pos = [
 		Vector2(2, 2),
 		Vector2(7, 7),
 		Vector2(10, 7),
 	]
 	
-	for gold_loc in gold_places:
+	for pos in coin_pos:
 		var coins = WorldItem.instance()
 		coins.item = Items.coins
 		coins.count = randi() % 100 + 10
-		coins.position = level.map_to_world(gold_loc)
+		coins.position = level.map_to_world(pos)
 		$Items.add_child(coins)
-	
-	var key = WorldItem.instance()
-	key.item = Items.key
-	key.count = 1
-	key.position = GameState.level.map_to_world(Vector2(3, 3))
-	$Items.add_child(key)
-
-func _generate_test_keys():
-	pass
-
-func _generate_test_coins():
-	pass
 
 func _generate_test_scrolls():
+	var scroll_pos = [
+		Vector2(0, 1),
+	]
+	
+	for pos in scroll_pos:
+		var scroll = WorldItem.instance()
+		scroll.item = Items.healing_scroll
+		scroll.position = level.map_to_world(pos)
+		$Items.add_child(scroll)
+		pass
 	pass
 
 func _generate_test_enemies():
-	pass
+	var enemy_pos = [
+		Vector2(-1, -1),
+		Vector2(10, 12),
+		Vector2(-5, 1),
+	]
+	for pos in enemy_pos:
+		var bat = Bat.instance()
+		bat.position = level.map_to_world(pos)
+		$Actors.add_child(bat)
