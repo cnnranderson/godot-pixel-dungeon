@@ -154,6 +154,7 @@ func _on_player_equip(item: Item):
 		Events.emit_signal("log_message", "You equipped the %s" % item.name)
 		GameState.player.equipped.weapon = item
 		Events.emit_signal("refresh_backpack")
+	# TODO: item is Armor
 
 func _on_player_unequip_weapon():
 	Events.emit_signal("log_message", "You put away the %s" % GameState.player.equipped.weapon.name)
