@@ -32,8 +32,7 @@ func _init_character(spawn: Vector2):
 	visible = true
 
 func _input(event):
-	if not can_act() \
-			or GameState.inventory_open \
+	if GameState.inventory_open \
 			or $ActionCooldown.time_left > 0 \
 			or tween.is_active():
 		return
@@ -135,7 +134,8 @@ func move_tween(dir, blocked = false, attacking = false):
 	else:
 		var origin_pos = position
 		var bump_pos = position + Constants.INPUTS[dir] * Constants.TILE_SIZE / 4
-		GameState.shake(0.15, 0.6)
+		Events.emit_signal("camera_shake", 0.15, 0.6)
+		
 		if not attacking:
 			Sounds.play_collision()
 		tween.interpolate_property(self, "position",
