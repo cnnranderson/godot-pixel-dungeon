@@ -27,10 +27,6 @@ func _ready():
 	Events.connect("player_unequip_weapon", self, "_on_player_unequip_weapon")
 	Events.connect("player_unequip_armor", self, "_on_player_unequip_armor")
 
-func _init_character(spawn: Vector2):
-	position = GameState.world.spawn * Constants.TILE_SIZE - (Constants.TILE_V / 2)
-	visible = true
-
 func _input(event):
 	if GameState.inventory_open \
 			or $ActionCooldown.time_left > 0 \

@@ -647,7 +647,8 @@ animations = [ {
 
 [node name="Player" type="Area2D"]
 script = ExtResource( 1 )
-move_speed = 5
+hp = 20
+move_speed = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -667,7 +668,7 @@ collide_with_areas = true
 [node name="Tween" type="Tween" parent="."]
 
 [node name="ActionCooldown" type="Timer" parent="."]
-wait_time = 0.25
+wait_time = 0.2
 one_shot = true
 
 [node name="Camera" type="Camera2D" parent="."]

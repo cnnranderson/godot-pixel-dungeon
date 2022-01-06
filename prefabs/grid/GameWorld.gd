@@ -47,6 +47,7 @@ func _generate_test_items():
 		Vector2(7, 7),
 		Vector2(10, 7),
 	]
+	
 	for gold_loc in gold_places:
 		var coins = WorldItem.instance()
 		coins.item = Items.coins
