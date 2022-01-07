@@ -28,7 +28,7 @@ func _ready():
 	Events.connect("player_unequip_armor", self, "_on_player_unequip_armor")
 
 func _input(event):
-	if not can_act() \
+	if not GameState.is_player_turn \
 			or GameState.inventory_open \
 			or $ActionCooldown.time_left > 0 \
 			or tween.is_active():

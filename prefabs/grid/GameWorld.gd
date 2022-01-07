@@ -3,15 +3,22 @@ class_name GameWorld
 
 const Player = preload("res://prefabs/actors/player/Player.tscn")
 const WorldItem = preload("res://prefabs/items/WorldItem.tscn")
-const Enemies = {
-	"bat": preload("res://prefabs/actors/bat/Bat.tscn")
-}
 const Items = {
 	"key": preload("res://prefabs/items/basic/Key.tres"),
 	"coins": preload("res://prefabs/items/basic/Coins.tres")
 }
 const Scrolls = {
 	"healing": preload("res://prefabs/items/scrolls/HealingScroll.tres")
+}
+const Weapons = {
+	"axe": preload("res://prefabs/items/weapons/Axe.tres"),
+	"broadsword": preload("res://prefabs/items/weapons/Broadsword.tres"),
+	"dagger": preload("res://prefabs/items/weapons/Dagger.tres"),
+	"shortsword": preload("res://prefabs/items/weapons/Shortsword.tres"),
+	"staff": preload("res://prefabs/items/weapons/Staff.tres")
+}
+const Enemies = {
+	"bat": preload("res://prefabs/actors/bat/Bat.tscn")
 }
 
 onready var level = $Level
@@ -48,9 +55,9 @@ func _init_player():
 	$Actors.add_child(actor)
 
 func _on_player_acted():
-	for enemy in awake_enemies:
-		if is_instance_valid(enemy):
-			enemy.act()
+	for actor in $Actors.get_children():
+		if actor.mob and actor.is_awake:
+			actor.act()
 	Events.emit_signal("enemies_acted")
 
 func _on_enemies_acted():
@@ -61,18 +68,16 @@ func _generate_test_entities():
 	_generate_test_keys()
 	_generate_test_coins()
 	_generate_test_scrolls()
+	_generate_test_weapons()
 	_generate_test_enemies()
 
 func _generate_test_keys():
 	var key_pos = [
 		Vector2(3, 3)
 	]
-	for pos in key_pos:
-		var key = WorldItem.instance()
-		key.item = Items.key
-		key.count = 1
-		key.position = level.map_to_world(pos)
-		$Items.add_child(key)
+	
+	for tpos in key_pos:
+		spawn_basic_item(Items.key, 1, tpos)
 
 func _generate_test_coins():
 	var coin_pos = [
@@ -81,25 +86,24 @@ func _generate_test_coins():
 		Vector2(10, 7),
 	]
 	
-	for pos in coin_pos:
-		var coins = WorldItem.instance()
-		coins.item = Items.coins
-		coins.count = randi() % 100 + 10
-		coins.position = level.map_to_world(pos)
-		$Items.add_child(coins)
+	for tpos in coin_pos:
+		spawn_basic_item(Items.coins, randi() % 100 + 10, tpos)
 
 func _generate_test_scrolls():
 	var scroll_pos = [
 		Vector2(0, 1),
 	]
 	
-	for pos in scroll_pos:
-		var scroll = WorldItem.instance()
-		scroll.item = Scrolls.healing
-		scroll.position = level.map_to_world(pos)
-		$Items.add_child(scroll)
-		pass
-	pass
+	for tpos in scroll_pos:
+		spawn_scroll(Scrolls.healing, tpos)
+
+func _generate_test_weapons():
+	var weapon_pos = [
+		Vector2(5, 8)
+	]
+	
+	for tpos in weapon_pos:
+		spawn_weapon(Weapons.values()[randi() % Weapons.size()], tpos)
 
 func _generate_test_enemies():
 	var enemy_pos = [
@@ -108,9 +112,33 @@ func _generate_test_enemies():
 		Vector2(-5, 1),
 	]
 	
-	for pos in enemy_pos:
+	for tpos in enemy_pos:
 		var bat = Enemies.bat.instance()
-		bat.position = level.map_to_world(pos)
+		bat.position = level.map_to_world(tpos)
 		bat.is_awake = true
 		awake_enemies.append(bat)
 		$Actors.add_child(bat)
+
+# TODO: For these utility functions, see if they can be combined.
+# They're only separated in case special stuff needs to happen between types.
+func spawn_basic_item(item: Resource, count: int, tpos: Vector2):
+	var world_item = WorldItem.instance()
+	world_item.item = item
+	world_item.count = count
+	world_item.position = level.map_to_world(tpos)
+	$Items.add_child(world_item)
+
+func spawn_scroll(scroll: Resource, tpos: Vector2):
+	var world_item = WorldItem.instance()
+	world_item.item = scroll
+	world_item.position = level.map_to_world(tpos)
+	$Items.add_child(world_item)
+
+func spawn_weapon(weapon: Resource, tpos: Vector2):
+	var world_item = WorldItem.instance()
+	world_item.item = weapon
+	world_item.position = level.map_to_world(tpos)
+	$Items.add_child(world_item)
+
+func spawn_armor(armor: Resource, tpos: Vector2):
+	pass

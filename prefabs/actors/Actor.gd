@@ -66,7 +66,7 @@ func take_damage(damage: int, crit = false, heal = false):
 		damage_text.rect_global_position += Vector2(8, 0)
 	else:
 		damage_text.rect_global_position += Vector2(0, -8)
-	get_parent().add_child(damage_text)
+	GameState.world.get_node("Effects").add_child(damage_text)
 	
 	hp -= damage
 	hp = clamp(hp, 0, max_hp)
