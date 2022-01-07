@@ -9,8 +9,9 @@ export(int) var turn_speed = 20
 export(int) var max_hp = 20
 export(int) var hp = max_hp
 
-var turn_acc = 0
+var act_time = 0
 var is_awake = false
+var should_wake = false
 
 func _ready():
 	if mob:
@@ -18,14 +19,10 @@ func _ready():
 		if has_node("Sprite"):
 			$Sprite.texture = mob.texture
 
-func can_act():
-	return turn_acc >= Constants.BASE_ACTION_COST
-
 func act():
-	turn_acc -= Constants.BASE_ACTION_COST
-	
 	if mob:
 		move(null)
+		act_time += 1
 	pass
 
 func move(dir):
@@ -53,9 +50,6 @@ func move(dir):
 func attack(actor: Actor):
 	actor.take_damage(mob.strength)
 
-func charge_time():
-	turn_acc += turn_speed
-
 func take_damage(damage: int, crit = false, heal = false):
 	var damage_text = DamagePopup.instance()
 	damage_text.amount = damage
@@ -78,6 +72,3 @@ func heal(amount: int):
 
 func die():
 	queue_free()
-
-static func priority_sort(a: Actor, b: Actor):
-	return a.turn_acc > b.turn_acc

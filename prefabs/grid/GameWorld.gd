@@ -40,6 +40,21 @@ func _input(delta):
 	else:
 		$Cursor.visible = false
 
+func _process(delta):
+	if not GameState.is_player_turn:
+		var chosen_actor = null
+		var active = []
+		for actor in $Actors.get_children():
+			if actor.is_awake:
+				active.append(actor)
+		active.sort_custom(self, "actor_priority")
+		
+		chosen_actor = active.front()
+		if chosen_actor.mob:
+			chosen_actor.act()
+		else:
+			GameState.is_player_turn = true
+
 func init_world():
 	GameState.level = level
 	_init_player()
@@ -50,18 +65,11 @@ func init_world():
 func _init_player():
 	var actor = Player.instance()
 	actor.position = level.map_to_world(spawn) + Vector2(8, 8)
-	actor.turn_acc = Constants.BASE_ACTION_COST
 	GameState.player.actor = actor
 	$Actors.add_child(actor)
 
 func _on_player_acted():
-	for actor in $Actors.get_children():
-		if actor.mob and actor.is_awake:
-			actor.act()
-	Events.emit_signal("enemies_acted")
-
-func _on_enemies_acted():
-	GameState.player.actor.turn_acc = Constants.BASE_ACTION_COST
+	GameState.is_player_turn = false
 
 ### TEST UTILITIES
 func _generate_test_entities():
@@ -142,3 +150,6 @@ func spawn_weapon(weapon: Resource, tpos: Vector2):
 
 func spawn_armor(armor: Resource, tpos: Vector2):
 	pass
+
+static func actor_priority(a: Actor, b: Actor) -> bool:
+	return a.act_time < b.act_time

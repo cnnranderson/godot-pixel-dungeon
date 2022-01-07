@@ -23,5 +23,3 @@ shape = SubResource( 1 )
 [node name="Sprite" type="Sprite" parent="."]
 texture = SubResource( 2 )
 centered = false
-
-[node name="Area2D" type="Area2D" parent="."]

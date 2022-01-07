@@ -86,6 +86,7 @@ func move(dir):
 	sprite.animation = ANIM.idle
 	
 	yield($ActionCooldown, "timeout")
+	act_time += 1
 	Events.emit_signal("player_acted")
 
 func attack(actor: Actor):
@@ -167,7 +168,7 @@ func _on_player_unequip_armor():
 	Events.emit_signal("log_message", "You're naked now, ya dummy!")
 
 func _on_player_wait():
-	if can_act() \
+	if GameState.is_player_turn \
 			and not GameState.inventory_open \
 			and $ActionCooldown.time_left <= 0 \
 			and not tween.is_active():

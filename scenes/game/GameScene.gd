@@ -23,7 +23,7 @@ func _unhandled_input(event):
 		Events.emit_signal("player_interact", Item.Category.KEY)
 		Events.emit_signal("log_message", "You found a key")
 	
-	if GameState.player.actor.can_act():
+	if GameState.is_player_turn:
 		if event.is_action_pressed("inventory"):
 			Events.emit_signal("open_inventory")
 		
