@@ -173,6 +173,8 @@ func _on_player_wait():
 			and not GameState.inventory_open \
 			and $ActionCooldown.time_left <= 0 \
 			and not tween.is_active():
+		act_time += 1
+		talk("...")
 		Events.emit_signal("player_acted")
 
 func _on_player_search():

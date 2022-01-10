@@ -7,30 +7,6 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 8 )
 
-[sub_resource type="AtlasTexture" id=151]
-atlas = ExtResource( 2 )
-region = Rect2( 24, 15, 12, 15 )
-
-[sub_resource type="AtlasTexture" id=152]
-atlas = ExtResource( 2 )
-region = Rect2( 36, 15, 12, 15 )
-
-[sub_resource type="AtlasTexture" id=153]
-atlas = ExtResource( 2 )
-region = Rect2( 48, 15, 12, 15 )
-
-[sub_resource type="AtlasTexture" id=154]
-atlas = ExtResource( 2 )
-region = Rect2( 60, 15, 12, 15 )
-
-[sub_resource type="AtlasTexture" id=155]
-atlas = ExtResource( 2 )
-region = Rect2( 72, 15, 12, 15 )
-
-[sub_resource type="AtlasTexture" id=156]
-atlas = ExtResource( 2 )
-region = Rect2( 84, 15, 12, 15 )
-
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 2 )
 region = Rect2( 0, 15, 12, 15 )
@@ -627,13 +603,32 @@ region = Rect2( 228, 90, 12, 15 )
 atlas = ExtResource( 2 )
 region = Rect2( 240, 90, 12, 15 )
 
+[sub_resource type="AtlasTexture" id=151]
+atlas = ExtResource( 2 )
+region = Rect2( 24, 15, 12, 15 )
+
+[sub_resource type="AtlasTexture" id=152]
+atlas = ExtResource( 2 )
+region = Rect2( 36, 15, 12, 15 )
+
+[sub_resource type="AtlasTexture" id=153]
+atlas = ExtResource( 2 )
+region = Rect2( 48, 15, 12, 15 )
+
+[sub_resource type="AtlasTexture" id=154]
+atlas = ExtResource( 2 )
+region = Rect2( 60, 15, 12, 15 )
+
+[sub_resource type="AtlasTexture" id=155]
+atlas = ExtResource( 2 )
+region = Rect2( 72, 15, 12, 15 )
+
+[sub_resource type="AtlasTexture" id=156]
+atlas = ExtResource( 2 )
+region = Rect2( 84, 15, 12, 15 )
+
 [sub_resource type="SpriteFrames" id=157]
 animations = [ {
-"frames": [ SubResource( 151 ), SubResource( 152 ), SubResource( 153 ), SubResource( 154 ), SubResource( 155 ), SubResource( 156 ) ],
-"loop": true,
-"name": "walk",
-"speed": 32.0
-}, {
 "frames": [ SubResource( 2 ), SubResource( 3 ) ],
 "loop": true,
 "name": "idle",
@@ -643,6 +638,11 @@ animations = [ {
 "loop": true,
 "name": "default",
 "speed": 5.0
+}, {
+"frames": [ SubResource( 151 ), SubResource( 152 ), SubResource( 153 ), SubResource( 154 ), SubResource( 155 ), SubResource( 156 ) ],
+"loop": true,
+"name": "walk",
+"speed": 32.0
 } ]
 
 [node name="Player" type="Area2D"]
@@ -650,13 +650,14 @@ script = ExtResource( 1 )
 hp = 20
 move_speed = 6
 
+[node name="Tween" type="Tween" parent="."]
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
 [node name="AnimSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 157 )
 animation = "idle"
-frame = 1
 playing = true
 centered = false
 offset = Vector2( -6, -7 )
@@ -665,8 +666,6 @@ offset = Vector2( -6, -7 )
 enabled = true
 cast_to = Vector2( 0, 20 )
 collide_with_areas = true
-
-[node name="Tween" type="Tween" parent="."]
 
 [node name="ActionCooldown" type="Timer" parent="."]
 wait_time = 0.2
@@ -678,3 +677,5 @@ zoom = Vector2( 0.5, 0.5 )
 script = ExtResource( 3 )
 
 [node name="Tween" type="Tween" parent="Camera"]
+
+[node name="Sprite" type="Sprite" parent="."]

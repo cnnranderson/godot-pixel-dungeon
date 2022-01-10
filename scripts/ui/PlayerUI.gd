@@ -13,7 +13,13 @@ onready var backpack = $VBox/Hbox/Backpack/Button
 onready var search = $VBox/Hbox/Search/Button
 onready var wait = $VBox/Hbox/Wait/Button
 
+# Indicators/Effects
+onready var wait_indicator = $VBox/Wait/Container/Image
+
+var waiting = false
+
 func _ready():
+	Events.connect("player_acted", self, "_on_player_acted")
 	Events.connect("player_interact", self, "_on_player_interact")
 	Events.connect("player_levelup", self, "_on_player_levelup")
 	Events.connect("player_hit", self, "_on_player_hit")
@@ -28,8 +34,20 @@ func _init_stats():
 	xp.value = GameState.player.stats.xp
 	xp.max_value = GameState.player.stats.xp_next
 
+func _process(delta):
+	if not GameState.is_player_turn:
+		wait_indicator.set_rotation(wait_indicator.get_rotation() + deg2rad(10))
 
 ### Player Events
+func _on_player_acted():
+	wait_indicator.visible = true
+	var start_rot = wait_indicator.get_rotation()
+	var final_rot = start_rot + deg2rad(180)
+	$Tween.interpolate_method(wait_indicator, "set_rotation", start_rot, final_rot, 0.1, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	$Tween.start()
+	yield($Tween, "tween_all_completed")
+	wait_indicator.visible = false
+
 func _on_player_interact(item):
 	match (item):
 		Item.Category.KEY: keys.text = str(GameState.player.inventory.keys)

@@ -3,6 +3,7 @@ extends Area2D
 class_name Actor
 
 const DamagePopup = preload("res://ui/actions/DamagePopup.tscn")
+const TextPopup = preload("res://ui/actions/TextPopup.tscn")
 
 export(Resource) var mob = null
 export(int) var turn_speed = 20
@@ -52,6 +53,16 @@ func move(dir):
 	else:
 		possible_moves.shuffle()
 		position = GameState.level.map_to_world(possible_moves[0])
+
+func talk(message: String):
+	var message_text = TextPopup.instance()
+	message_text.text = message
+	message_text.rect_global_position = position
+	if mob:
+		message_text.rect_global_position += Vector2(8, 0)
+	else:
+		message_text.rect_global_position += Vector2(0, -8)
+	GameState.world.get_node("Effects").add_child(message_text)
 
 func attack(actor: Actor):
 	Sounds.play_enemy_hit()

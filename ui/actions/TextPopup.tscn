@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ui/pd_theme.tres" type="Theme" id=1]
+[ext_resource path="res://scripts/ui/actions/TextPopup.gd" type="Script" id=2]
+
+[node name="DamagePopup" type="Control"]
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -14.0
+margin_top = -7.0
+margin_right = 14.0
+margin_bottom = 7.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/shadow_offset_y = 1
+text = "..."
+align = 1
+valign = 1
+
+[node name="Tween" type="Tween" parent="."]
