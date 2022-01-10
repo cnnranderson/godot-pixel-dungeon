@@ -12,9 +12,9 @@ func _ready():
 
 func _animate():
 	$Tween.interpolate_property(wake_sprite, "scale",
-			wake_sprite.scale, 2, 0.8, Tween.TRANS_CUBIC, Tween.EASE_IN)
+			wake_sprite.scale, wake_sprite.scale * 1.5, 0.6, Tween.TRANS_BOUNCE, Tween.EASE_OUT)
 	$Tween.interpolate_property(self, "modulate:a",
-			modulate.a, 0, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT, 1.0)
+			modulate.a, 0, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT, 0.6)
 	$Tween.start()
 	yield($Tween, "tween_all_completed")
 	queue_free()
