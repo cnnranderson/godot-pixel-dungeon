@@ -23,9 +23,8 @@ const Enemies = {
 
 onready var level = $Level
 
-var awake_enemies = []
-var active = false
-var spawn = Vector2(5, 5)
+var player: Player
+var spawn = Vector2(3, 3)
 
 func _ready():
 	Events.connect("player_acted", self, "_on_player_acted")
@@ -40,36 +39,33 @@ func _input(delta):
 	else:
 		$Cursor.visible = false
 
-func _process(delta):
-	if not GameState.is_player_turn:
-		var chosen_actor = null
-		var active = []
-		for actor in $Actors.get_children():
-			if actor.is_awake:
-				active.append(actor)
-		active.sort_custom(self, "actor_priority")
-		
-		chosen_actor = active.front()
-		if chosen_actor.mob:
-			chosen_actor.act()
-		else:
-			GameState.is_player_turn = true
-
 func init_world():
 	GameState.level = level
 	_init_player()
 	_generate_test_entities()
 	Events.emit_signal("map_ready")
-	active = true
 
 func _init_player():
 	var actor = Player.instance()
 	actor.position = level.map_to_world(spawn) + Vector2(8, 8)
+	# TODO: Figure out this weird global stuff with the player
 	GameState.player.actor = actor
+	player = actor
 	$Actors.add_child(actor)
+	GameState.is_player_turn = true
 
 func _on_player_acted():
 	GameState.is_player_turn = false
+	var chosen_actor = null
+	while chosen_actor != player:
+		for actor in $Actors.get_children():
+			if actor.is_awake or actor.should_wake:
+				if chosen_actor == null or actor.act_time <= chosen_actor.act_time:
+					chosen_actor = actor
+		
+		if chosen_actor.mob:
+			chosen_actor.act()
+	GameState.is_player_turn = true
 
 ### TEST UTILITIES
 func _generate_test_entities():
@@ -123,8 +119,6 @@ func _generate_test_enemies():
 	for tpos in enemy_pos:
 		var bat = Enemies.bat.instance()
 		bat.position = level.map_to_world(tpos)
-		bat.is_awake = true
-		awake_enemies.append(bat)
 		$Actors.add_child(bat)
 
 # TODO: For these utility functions, see if they can be combined.

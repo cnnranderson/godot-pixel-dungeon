@@ -6,7 +6,7 @@ const ANIM = {
 	"walk": "walk"
 }
 
-export var move_speed = 4
+export var move_speed = 8
 export var fast_travel_speed = 140
 export var crit_chance = 30
 
@@ -21,6 +21,7 @@ func _ready():
 	sprite.animation = ANIM.idle
 	sprite.playing = true
 	is_awake = true
+	should_wake = true
 	Events.connect("player_wait", self, "_on_player_wait")
 	Events.connect("player_search", self, "_on_player_search")
 	Events.connect("player_equip", self, "_on_player_equip")

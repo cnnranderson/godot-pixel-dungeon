@@ -20,10 +20,17 @@ func _ready():
 			$Sprite.texture = mob.texture
 
 func act():
+	# Wake-up call
+	if not is_awake and should_wake:
+		is_awake = true
+		should_wake = false
+		act_time += 1
+		return
+	
+	# Attempt to act if we're awake
 	if mob:
 		move(null)
 		act_time += 1
-	pass
 
 func move(dir):
 	var possible_moves = []
@@ -39,15 +46,15 @@ func move(dir):
 		if GameState.player.actor.tpos() == tpos:
 			possible_attack = true
 	
-	# Attempt and attack if the player is near or move
+	# Attempt an attack if the player is near or move
 	if possible_attack:
-		Sounds.play_enemy_hit()
 		attack(GameState.player.actor)
 	else:
 		possible_moves.shuffle()
 		position = GameState.level.map_to_world(possible_moves[0])
 
 func attack(actor: Actor):
+	Sounds.play_enemy_hit()
 	actor.take_damage(mob.strength)
 
 func take_damage(damage: int, crit = false, heal = false):

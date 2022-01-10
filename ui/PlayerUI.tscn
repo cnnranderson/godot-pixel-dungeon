@@ -8,7 +8,7 @@
 [ext_resource path="res://assets/pd_import/images/items.png" type="Texture" id=7]
 [ext_resource path="res://scripts/ui/PlayerUI.gd" type="Script" id=8]
 [ext_resource path="res://assets/pd_import/images/avatars.png" type="Texture" id=9]
-[ext_resource path="res://assets/pd_import/images/icons.png" type="Texture" id=10]
+[ext_resource path="res://assets/images/icons.png" type="Texture" id=10]
 [ext_resource path="res://assets/pd_import/images/locked_badge.png" type="Texture" id=11]
 [ext_resource path="res://assets/images/toolbar_icons.png" type="Texture" id=12]
 

@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://prefabs/actors/WakeObserver.gd" type="Script" id=1]
+[ext_resource path="res://assets/images/icons.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 36, 36 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 2 )
+region = Rect2( 22, 44, 8, 10 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 2 )
+region = Rect2( 13, 45, 9, 8 )
+
+[node name="WakeObserver" type="Area2D"]
+collision_layer = 2
+monitorable = false
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 8, 8 )
+shape = SubResource( 3 )
+
+[node name="Waking" type="Sprite" parent="."]
+visible = false
+texture = SubResource( 4 )
+
+[node name="Sleeping" type="Sprite" parent="."]
+texture = SubResource( 5 )
+
+[connection signal="area_entered" from="." to="." method="_on_WakeArea_area_entered"]
