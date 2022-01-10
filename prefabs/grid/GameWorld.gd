@@ -65,6 +65,7 @@ func _on_player_acted():
 		
 		if chosen_actor.mob:
 			chosen_actor.act()
+			yield(get_tree().create_timer(0.05), "timeout")
 	GameState.is_player_turn = true
 
 ### TEST UTILITIES

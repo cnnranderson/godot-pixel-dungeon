@@ -178,4 +178,10 @@ func _on_player_wait():
 		Events.emit_signal("player_acted")
 
 func _on_player_search():
-	pass
+	if GameState.is_player_turn \
+			and not GameState.inventory_open \
+			and $ActionCooldown.time_left <= 0 \
+			and not tween.is_active():
+		act_time += 2
+		talk("search")
+		Events.emit_signal("player_acted")
