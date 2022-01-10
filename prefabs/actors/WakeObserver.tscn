@@ -30,4 +30,6 @@ texture = SubResource( 4 )
 [node name="Sleeping" type="Sprite" parent="."]
 texture = SubResource( 5 )
 
+[node name="Tween" type="Tween" parent="."]
+
 [connection signal="area_entered" from="." to="." method="_on_WakeArea_area_entered"]

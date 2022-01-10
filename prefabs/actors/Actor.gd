@@ -20,7 +20,7 @@ func _ready():
 			$Sprite.texture = mob.texture
 
 func act():
-	# Wake-up call
+	# Wake-up call - consumes one act tick
 	if not is_awake and should_wake:
 		is_awake = true
 		should_wake = false
