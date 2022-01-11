@@ -40,16 +40,16 @@ func move(dir):
 		var new_pos = position + Constants.INPUTS[dir] * Constants.TILE_SIZE
 		var tpos = GameState.level.world_to_map(new_pos)
 		if not GameState.level.is_blocking(tpos) \
-				and GameState.player.actor.tpos() != tpos \
+				and GameState.hero.tpos() != tpos \
 				and not GameState.level.is_locked_door(tpos) \
 				and not GameState.level.is_closed_door(tpos):
 			possible_moves.append(tpos)
-		if GameState.player.actor.tpos() == tpos:
+		if GameState.hero.tpos() == tpos:
 			possible_attack = true
 	
 	# Attempt an attack if the player is near or move
 	if possible_attack:
-		attack(GameState.player.actor)
+		attack(GameState.hero)
 	else:
 		possible_moves.shuffle()
 		position = GameState.level.map_to_world(possible_moves[0])

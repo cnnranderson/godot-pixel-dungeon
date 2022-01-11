@@ -1,6 +1,7 @@
 extends Node
 
 var is_player_turn = false
+var hero: Actor = null
 var world: GameWorld = null
 var level: Level = null
 var inventory_open = false

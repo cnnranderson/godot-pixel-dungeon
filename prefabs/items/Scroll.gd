@@ -30,9 +30,9 @@ func use():
 	
 	match(type):
 		ScrollType.HEALING:
-			GameState.player.actor.heal(999)
+			GameState.hero.heal(999)
 		ScrollType.TELEPORT:
-			#GameState.player.actor.teleport()
+			#GameState.hero.teleport()
 			pass
 		ScrollType.ALARM:
 			#GameState.world.alert_all()

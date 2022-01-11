@@ -23,7 +23,7 @@ const Enemies = {
 
 onready var level = $Level
 
-var player: Player
+# TODO: Resolve how spawn location gets setup
 var spawn = Vector2(3, 3)
 
 func _ready():
@@ -46,12 +46,10 @@ func init_world():
 	Events.emit_signal("map_ready")
 
 func _init_player():
-	var actor = Player.instance()
-	actor.position = level.map_to_world(spawn) + Vector2(8, 8)
-	# TODO: Figure out this weird global stuff with the player
-	GameState.player.actor = actor
-	player = actor
-	$Actors.add_child(actor)
+	var player = Player.instance()
+	player.position = level.map_to_world(spawn) + Vector2(8, 8)
+	GameState.hero = player
+	$Actors.add_child(player)
 	GameState.is_player_turn = true
 
 func _on_player_acted():
@@ -78,7 +76,7 @@ func _generate_test_entities():
 
 func _generate_test_keys():
 	var key_pos = [
-		Vector2(3, 3)
+		Vector2(3, 4)
 	]
 	
 	for tpos in key_pos:

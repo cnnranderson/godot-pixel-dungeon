@@ -29,8 +29,8 @@ func _ready():
 
 func _init_stats():
 	lvl.text = "Lv: %d" % GameState.player.stats.level
-	hp.max_value = GameState.player.actor.max_hp
-	hp.value = GameState.player.actor.hp
+	hp.max_value = GameState.hero.max_hp
+	hp.value = GameState.hero.hp
 	xp.value = GameState.player.stats.xp
 	xp.max_value = GameState.player.stats.xp_next
 
@@ -61,7 +61,7 @@ func _on_player_levelup():
 	xp.max_value = GameState.player.stats.xp_next
 
 func _on_player_hit():
-	hp.value = GameState.player.actor.hp
+	hp.value = GameState.hero.hp
 
 ### Action Events
 func _on_backpack_pressed():
