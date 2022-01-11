@@ -55,7 +55,7 @@ func _init_player():
 func _on_player_acted():
 	GameState.is_player_turn = false
 	var chosen_actor = null
-	while chosen_actor != player:
+	while chosen_actor != GameState.hero:
 		for actor in $Actors.get_children():
 			if actor.is_awake or actor.should_wake:
 				if chosen_actor == null or actor.act_time <= chosen_actor.act_time:
