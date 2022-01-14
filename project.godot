@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "Action",
+"language": "GDScript",
+"path": "res://prefabs/actors/Action.gd"
+}, {
+"base": "Reference",
+"class": "ActionBuilder",
+"language": "GDScript",
+"path": "res://prefabs/actors/ActionBuilder.gd"
+}, {
 "base": "Area2D",
 "class": "Actor",
 "language": "GDScript",
@@ -80,6 +90,8 @@ _global_script_classes=[ {
 "path": "res://prefabs/items/WorldItem.gd"
 } ]
 _global_script_class_icons={
+"Action": "",
+"ActionBuilder": "",
 "Actor": "",
 "GameCam": "",
 "GameWorld": "",

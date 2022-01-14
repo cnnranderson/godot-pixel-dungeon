@@ -22,7 +22,6 @@ export var rooms_size := Vector2(4, 8)
 export var rooms_max := 15
 
 var astar = AStar2D.new()
-var path: PoolVector2Array
 var map: Array = []
 
 func _ready():
@@ -46,9 +45,13 @@ func _connect_points():
 				astar.connect_points(tile_id(cell), tile_id(next_cell), false)
 
 func get_travel_path(start, end):
-	path = astar.get_point_path(tile_id(start), tile_id(end))
-	path.remove(0)
-	return path
+	var start_id = tile_id(start)
+	var end_id = tile_id(end)
+	if astar.has_point(start_id) && astar.has_point(end_id):
+		var path = Array(astar.get_point_path(start_id, end_id))
+		path.remove(0)
+		return path
+	return []
 
 func tile_id(point):
 	var a = point.x

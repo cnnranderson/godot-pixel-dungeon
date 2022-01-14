@@ -56,22 +56,21 @@ func _init_player():
 
 func get_current() -> Actor:
 	var next_actor = null
+	var count = 0
 	for actor in $Actors.get_children():
-		if not next_actor or actor.act_time <= next_actor.act_time:
+		count += 1
+		if actor.act_time > GameState.hero.act_time:
+			actor.talk("wtf am I doing")
+		if not next_actor or actor.act_time < next_actor.act_time:
 			next_actor = actor
-	
-	if next_actor and next_actor.act_time > GameState.hero.act_time:
-		return GameState.hero
 	return next_actor
 
 func _on_turn_ended(actor: Actor):
 	GameState.is_player_turn = false
 	var next = get_current()
+	next.act()
 	if next == GameState.hero:
 		GameState.is_player_turn = true
-		
-	if next.action_queue.size() >= 0:
-		next.act()
 
 ### TEST UTILITIES
 func _generate_test_entities():

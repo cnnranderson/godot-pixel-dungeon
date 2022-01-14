@@ -35,10 +35,3 @@ func _unhandled_input(event):
 			if not GameState.inventory_open:
 				Events.emit_signal("player_wait")
 
-func _input(event):
-	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_LEFT and event.pressed and false:
-			#player.travel_path = GameState.world.get_travel_path(
-			#	Helpers.world_to_tile(player.global_position), 
-			#	Helpers.world_to_tile(get_local_mouse_position()))
-			pass

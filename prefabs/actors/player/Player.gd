@@ -38,11 +38,7 @@ func _input(event):
 	# Attempt an action or movement
 	for dir in Constants.INPUTS.keys():
 		if event.is_action(dir):
-			var action = {
-				"type": "move",
-				"target": tpos() + Constants.INPUTS[dir],
-				"cost": 1
-			}
+			var action = ActionBuilder.new().move(tpos() + Constants.INPUTS[dir]).action
 			action_queue.append(action)
 			action_timer.start()
 	
@@ -52,11 +48,7 @@ func _input(event):
 		var travel = GameState.level.get_travel_path(p_tpos, m_tpos)
 		
 		for point in travel:
-			var action = {
-				"type": "move",
-				"target": point,
-				"cost": 1
-			}
+			var action = ActionBuilder.new().move(point).action
 			action_queue.append(action)
 			action_timer.start()
 
@@ -80,6 +72,8 @@ func move(tpos):
 	# Try to move
 	if not interacted:
 		move_tween(tpos, blocked, attacking)
+	
+	action_timer.start()
 	
 	yield(tween, "tween_all_completed")
 	if action_queue.size() == 0:
@@ -163,7 +157,7 @@ func _on_player_wait():
 			and not GameState.inventory_open \
 			and action_timer.time_left <= 0 \
 			and not tween.is_active():
-		act_time += 1
+		action_queue.append(ActionBuilder.new().wait().action)
 		talk("...")
 		action_timer.start()
 
@@ -172,7 +166,7 @@ func _on_player_search():
 			and not GameState.inventory_open \
 			and action_timer.time_left <= 0 \
 			and not tween.is_active():
-		act_time += 2
+		action_queue.append(ActionBuilder.new().wait(2).action)
 		talk("search")
 		action_timer.start()
 

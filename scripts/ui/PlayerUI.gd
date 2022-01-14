@@ -36,7 +36,7 @@ func _init_stats():
 
 func _process(delta):
 	if not GameState.is_player_turn:
-		wait_indicator.set_rotation(wait_indicator.get_rotation() + deg2rad(10))
+		wait_indicator.set_rotation(wait_indicator.get_rotation() + deg2rad(10 + 360 * delta))
 
 ### Player Events
 func _on_player_acted():

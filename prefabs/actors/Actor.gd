@@ -40,29 +40,21 @@ func act():
 		action = action_queue.pop_front()
 	else:
 		if mob:
-			act_time += 1
 			var path = GameState.level.get_travel_path(tpos(), GameState.hero.tpos())
 			if path.size() > 0:
-				action = {
-					"type": "move",
-					"target": path[0],
-					"cost": 1
-				}
+				action = ActionBuilder.new().move(path[0]).action
 			else:
-				action = {
-					"type": "wait",
-					"cost": 1
-				}
+				action = ActionBuilder.new().wait().action
+				talk("waiting")
 	
 	if action:
-		match action.type:
-			"move":
-				move(action.target)
-			"wait":
-				pass
 		act_time += action.cost
-		if not mob:
-			action_timer.start(.1)
+		talk(str(act_time))
+		match action.type:
+			Action.ActionType.MOVE:
+				move(action.dest)
+			_:
+				Events.emit_signal("turn_ended", self)
 
 func _on_action_timer_timeout():
 	Events.emit_signal("turn_ended", self)
@@ -77,13 +69,11 @@ func move(tpos: Vector2):
 		attack(GameState.hero)
 		action_timer.start(.4)
 	else:
-		GameState.level.free_tile(tpos())
 		var new_pos = GameState.level.map_to_world(tpos)
 		$Tween.interpolate_property(self, "position",
 			position, new_pos,
-			0.08, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+			MOVE_TIME, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 		$Tween.start()
-		GameState.level.occupy_tile(tpos)
 		Events.emit_signal("turn_ended", self)
 
 func talk(message: String):
