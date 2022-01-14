@@ -25,6 +25,49 @@ var astar = AStar2D.new()
 var path: PoolVector2Array
 var map: Array = []
 
+func _ready():
+	astar.reserve_space(level_size.x * level_size.y)
+	_add_points()
+	_connect_points()
+
+### PATH FINDING - TODO: CLEANUP
+func _add_points():
+	var used_cells = get_used_cells_by_id(TILE_TYPE.NOBLOCK)
+	for cell in used_cells:
+		var type = get_cellv(cell)
+		astar.add_point(tile_id(cell), cell, 1.0)
+
+func _connect_points():
+	var used_cells = get_used_cells()
+	for cell in used_cells:
+		for neighbor in Constants.VALID_DIRS:
+			var next_cell = cell + neighbor
+			if used_cells.has(next_cell):
+				astar.connect_points(tile_id(cell), tile_id(next_cell), false)
+
+func get_travel_path(start, end):
+	path = astar.get_point_path(tile_id(start), tile_id(end))
+	path.remove(0)
+	return path
+
+func tile_id(point):
+	var a = point.x
+	var b = point.y
+	return (a + b) * (a + b + 1) / 2 + b
+
+func free_tile(tpos: Vector2):
+	var id = tile_id(tpos)
+	if astar.has_point(id):
+		astar.set_point_disabled(id, false)
+
+func occupy_tile(tpos: Vector2):
+	var id = tile_id(tpos)
+	if astar.has_point(id):
+		astar.set_point_disabled(id, true)
+
+func can_move_to(tpos: Vector2) -> bool:
+	var tile_id = tile_id(tpos)
+	return astar.has_point(tile_id) and not astar.is_point_disabled(tile_id)
 
 ### UTILITY FUNCTIONS
 func reset_doors():
@@ -77,8 +120,6 @@ func is_closed_door(tpos: Vector2) -> bool:
 	var tile = get_tile(tpos)
 	var type = get_cellv(tpos)
 	return tile == TILE.door_closed and type == TILE_TYPE.INTERACTIVE
-
-
 
 
 ### ROOM GENERATION - TODO: CLEANUP
@@ -147,30 +188,4 @@ func _intersects(rooms: Array, room: Rect2) -> bool:
 
 
 
-### PATH FINDING - TODO: CLEANUP
-func _add_points():
-	for cell in get_used_cells():
-		var cell_type = get_cellv(cell)
-		match cell_type:
-			TILE.door_open, TILE.door_closed, TILE.ground:
-				astar.add_point(id(cell), cell, 1.0)
-
-func _connect_points():
-	var used_cells = get_used_cells()
-	for cell in used_cells:
-		var neighbors = [Vector2(1, 0), Vector2(-1, 0), Vector2(0, 1), Vector2(0, -1)]
-		for neighbor in neighbors:
-			var next_cell = cell + neighbor
-			if used_cells.has(next_cell):
-				astar.connect_points(id(cell), id(next_cell), false)
-
-func get_travel_path(start, end):
-	path = astar.get_point_path(id(start), id(end))
-	path.remove(0)
-	return path
-
-func id(point):
-	var a = point.x
-	var b = point.y
-	return (a + b) * (a + b + 1) / 2 + b
 

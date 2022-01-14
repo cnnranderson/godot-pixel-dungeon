@@ -26,3 +26,5 @@ centered = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 8, 8 )
 shape = SubResource( 1 )
+
+[node name="Tween" type="Tween" parent="."]

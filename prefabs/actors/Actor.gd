@@ -5,6 +5,8 @@ class_name Actor
 const DamagePopup = preload("res://ui/actions/DamagePopup.tscn")
 const TextPopup = preload("res://ui/actions/TextPopup.tscn")
 
+const MOVE_TIME = 0.1
+
 export(Resource) var mob = null
 export(int) var turn_speed = 20
 export(int) var max_hp = 20
@@ -13,46 +15,76 @@ export(int) var hp = max_hp
 var act_time = 0
 var is_awake = false
 var should_wake = false
+var action_queue = []
+var action_timer = Timer.new()
 
 func _ready():
+	_setup_action_timer()
 	if mob:
 		hp = mob.max_hp
 		if has_node("Sprite"):
 			$Sprite.texture = mob.texture
 
-func act():
-	# Wake-up call - consumes one act tick
-	if not is_awake and should_wake:
-		is_awake = true
-		should_wake = false
-		act_time += 1
-		return
-	
-	# Attempt to act if we're awake
-	if mob:
-		move(null)
-		act_time += 1
+func _setup_action_timer():
+	action_timer.wait_time = MOVE_TIME
+	action_timer.one_shot = true
+	add_child(action_timer)
+	action_timer.connect("timeout", self, "_on_action_timer_timeout")
 
-func move(dir):
-	var possible_moves = []
+func tpos():
+	return GameState.level.world_to_map(position)
+
+func act():
+	var action
+	if action_queue.size() > 0:
+		action = action_queue.pop_front()
+	else:
+		if mob:
+			act_time += 1
+			var path = GameState.level.get_travel_path(tpos(), GameState.hero.tpos())
+			if path.size() > 0:
+				action = {
+					"type": "move",
+					"target": path[0],
+					"cost": 1
+				}
+			else:
+				action = {
+					"type": "wait",
+					"cost": 1
+				}
+	
+	if action:
+		match action.type:
+			"move":
+				move(action.target)
+			"wait":
+				pass
+		act_time += action.cost
+		if not mob:
+			action_timer.start(.1)
+
+func _on_action_timer_timeout():
+	Events.emit_signal("turn_ended", self)
+
+func move(tpos: Vector2):
 	var possible_attack = false
-	for dir in Constants.INPUTS.keys():
-		var new_pos = position + Constants.INPUTS[dir] * Constants.TILE_SIZE
-		var tpos = GameState.level.world_to_map(new_pos)
-		if not GameState.level.is_blocking(tpos) \
-				and GameState.hero.tpos() != tpos \
-				and not GameState.level.is_locked_door(tpos) \
-				and not GameState.level.is_closed_door(tpos):
-			possible_moves.append(tpos)
-		if GameState.hero.tpos() == tpos:
-			possible_attack = true
+	if GameState.hero.tpos() == tpos:
+		possible_attack = true
 	
 	# Attempt an attack if the player is near or move
 	if possible_attack:
 		attack(GameState.hero)
+		action_timer.start(.4)
 	else:
-		possible_moves.shuffle()
-		position = GameState.level.map_to_world(possible_moves[0])
+		GameState.level.free_tile(tpos())
+		var new_pos = GameState.level.map_to_world(tpos)
+		$Tween.interpolate_property(self, "position",
+			position, new_pos,
+			0.08, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+		$Tween.start()
+		GameState.level.occupy_tile(tpos)
+		Events.emit_signal("turn_ended", self)
 
 func talk(message: String):
 	var message_text = TextPopup.instance()

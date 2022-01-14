@@ -10,3 +10,13 @@ const INPUTS = {
 	"move_up": Vector2.UP,
 	"move_down": Vector2.DOWN
 }
+const VALID_DIRS = [
+	Vector2.RIGHT,
+	Vector2.LEFT,
+	Vector2.UP,
+	Vector2.DOWN,
+	Vector2(-1, -1),
+	Vector2(-1, 1),
+	Vector2(1, -1),
+	Vector2(1, 1),
+]

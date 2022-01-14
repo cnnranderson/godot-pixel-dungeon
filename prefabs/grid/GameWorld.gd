@@ -24,16 +24,18 @@ const Enemies = {
 onready var level = $Level
 
 # TODO: Resolve how spawn location gets setup
-var spawn = Vector2(3, 3)
+var spawn = Vector2(15, 10)
 
 func _ready():
 	Events.connect("player_acted", self, "_on_player_acted")
 	Events.connect("enemies_acted", self, "_on_enemies_acted")
+	Events.connect("turn_ended", self, "_on_turn_ended")
 
-func _input(delta):
+func _input(event):
 	var mouse_pos = get_local_mouse_position()
-	if level.get_cellv(level.world_to_map(mouse_pos)) != TileMap.INVALID_CELL \
-			and not GameState.inventory_open:
+	var m_tpos = level.world_to_map(mouse_pos)
+	var tile = level.get_cellv(m_tpos)
+	if tile != TileMap.INVALID_CELL and not GameState.inventory_open:
 		$Cursor.visible = true
 		$Cursor.position = level.map_to_world(level.world_to_map(mouse_pos))
 	else:
@@ -52,19 +54,24 @@ func _init_player():
 	$Actors.add_child(player)
 	GameState.is_player_turn = true
 
-func _on_player_acted():
+func get_current() -> Actor:
+	var next_actor = null
+	for actor in $Actors.get_children():
+		if not next_actor or actor.act_time <= next_actor.act_time:
+			next_actor = actor
+	
+	if next_actor and next_actor.act_time > GameState.hero.act_time:
+		return GameState.hero
+	return next_actor
+
+func _on_turn_ended(actor: Actor):
 	GameState.is_player_turn = false
-	var chosen_actor = null
-	while chosen_actor != GameState.hero:
-		for actor in $Actors.get_children():
-			if actor.is_awake or actor.should_wake:
-				if chosen_actor == null or actor.act_time <= chosen_actor.act_time:
-					chosen_actor = actor
+	var next = get_current()
+	if next == GameState.hero:
+		GameState.is_player_turn = true
 		
-		if chosen_actor.mob:
-			chosen_actor.act()
-			yield(get_tree().create_timer(0.05), "timeout")
-	GameState.is_player_turn = true
+	if next.action_queue.size() >= 0:
+		next.act()
 
 ### TEST UTILITIES
 func _generate_test_entities():
@@ -110,15 +117,17 @@ func _generate_test_weapons():
 
 func _generate_test_enemies():
 	var enemy_pos = [
-		Vector2(-1, -1),
+		Vector2(6, 9),
 		Vector2(10, 12),
-		Vector2(-5, 1),
+		Vector2(14, 14),
+		#Vector2(-5, 1),
 	]
 	
 	for tpos in enemy_pos:
 		var bat = Enemies.bat.instance()
 		bat.position = level.map_to_world(tpos)
 		$Actors.add_child(bat)
+		level.occupy_tile(tpos)
 
 # TODO: For these utility functions, see if they can be combined.
 # They're only separated in case special stuff needs to happen between types.

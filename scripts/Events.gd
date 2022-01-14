@@ -16,6 +16,7 @@ signal map_ready
 # Actor Events
 signal enemies_acted
 signal player_acted
+signal turn_ended
 
 # Player Events
 signal player_interact(item)
