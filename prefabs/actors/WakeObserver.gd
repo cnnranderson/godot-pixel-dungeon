@@ -27,5 +27,3 @@ func _on_WakeArea_area_entered(actor):
 		
 		if parent is Actor:
 			_animate()
-			parent.should_wake = true
-			parent.act_time = actor.act_time + 1

@@ -6,6 +6,7 @@ const DamagePopup = preload("res://ui/actions/DamagePopup.tscn")
 const TextPopup = preload("res://ui/actions/TextPopup.tscn")
 
 const MOVE_TIME = 0.1
+const ATTACK_TIME = 0.2
 
 export(Resource) var mob = null
 export(int) var turn_speed = 20
@@ -13,8 +14,6 @@ export(int) var max_hp = 20
 export(int) var hp = max_hp
 
 var act_time = 0
-var is_awake = false
-var should_wake = false
 var action_queue = []
 var action_timer = Timer.new()
 
@@ -49,7 +48,6 @@ func act():
 	
 	if action:
 		act_time += action.cost
-		talk(str(act_time))
 		match action.type:
 			Action.ActionType.MOVE:
 				move(action.dest)
@@ -67,9 +65,11 @@ func move(tpos: Vector2):
 	# Attempt an attack if the player is near or move
 	if possible_attack:
 		attack(GameState.hero)
-		action_timer.start(.4)
+		action_timer.start(ATTACK_TIME)
 	else:
 		var new_pos = GameState.level.map_to_world(tpos)
+		GameState.level.occupy_tile(new_pos)
+		GameState.level.free_tile(tpos())
 		$Tween.interpolate_property(self, "position",
 			position, new_pos,
 			MOVE_TIME, Tween.TRANS_SINE, Tween.EASE_IN_OUT)

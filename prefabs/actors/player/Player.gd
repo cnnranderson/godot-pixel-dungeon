@@ -50,7 +50,7 @@ func _input(event):
 		for point in travel:
 			var action = ActionBuilder.new().move(point).action
 			action_queue.append(action)
-			action_timer.start()
+		action_timer.start()
 
 func move(tpos):
 	var blocked = false
