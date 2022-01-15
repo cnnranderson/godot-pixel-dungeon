@@ -20,6 +20,7 @@ var last_pos: Vector2
 
 func _ready():
 	_setup_action_timer()
+	last_pos = GameState.level.world_to_map(position)
 	if mob:
 		hp = mob.max_hp
 		if has_node("Sprite"):

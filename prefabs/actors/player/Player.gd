@@ -16,7 +16,7 @@ onready var stats = GameState.player.stats
 onready var inventory = GameState.player.inventory
 onready var backpack = GameState.player.backpack
 
-var ready = false
+var interrupted_actions = []
 
 func _ready():
 	sprite.animation = ANIM.idle
@@ -48,10 +48,15 @@ func _input(event):
 		print(GameState.level.blocked)
 		var travel = GameState.level.get_travel_path(p_tpos, m_tpos)
 		
+		interrupted_actions.clear()
 		for point in travel:
 			var action = ActionBuilder.new().move(point).action
 			action_queue.append(action)
 		action_timer.start()
+
+func interrupt():
+	interrupted_actions.append_array(action_queue)
+	action_queue.clear()
 
 func move(tpos):
 	var blocked = false
@@ -92,6 +97,7 @@ func attack(actor: Actor):
 
 func take_damage(damage: int, crit = false, heal = false):
 	.take_damage(damage, crit, heal)
+	interrupt()
 	Events.emit_signal("player_hit")
 
 func die():
@@ -167,7 +173,7 @@ func _on_player_search():
 			and not GameState.inventory_open \
 			and action_timer.time_left <= 0 \
 			and not tween.is_active():
-		action_queue.append(ActionBuilder.new().wait(2).action)
+		action_queue.append(ActionBuilder.new().wait(3).action)
 		talk("search")
 		action_timer.start()
 
