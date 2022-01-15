@@ -7,6 +7,7 @@ const TextPopup = preload("res://ui/actions/TextPopup.tscn")
 
 const MOVE_TIME = 0.1
 const ATTACK_TIME = 0.2
+const PASS_TIME = 0.3
 
 export(Resource) var mob = null
 export(int) var turn_speed = 20
@@ -44,16 +45,17 @@ func act():
 		if mob:
 			var path = GameState.level.get_travel_path(tpos(), GameState.hero.tpos())
 			if path.size() > 0:
-				action = ActionBuilder.new().move(path[0]).action
+				action = ActionBuilder.new().move(path[0])
 			else:
-				action = ActionBuilder.new().wait().action
-				talk("waiting")
+				action = ActionBuilder.new().wait()
 	
 	if action:
 		act_time += action.cost
 		match action.type:
 			Action.ActionType.MOVE:
 				move(action.dest)
+			Action.ActionType.ATTACK:
+				attack(action.target)
 			_:
 				Events.emit_signal("turn_ended", self)
 
@@ -68,12 +70,12 @@ func move(tpos: Vector2):
 	# Attempt an attack if the player is near or move
 	if possible_attack:
 		attack(GameState.hero)
-		action_timer.start(ATTACK_TIME)
 	else:
 		var new_pos = GameState.level.map_to_world(tpos)
 		GameState.level.free_tile(last_pos)
 		last_pos = tpos
 		GameState.level.occupy_tile(tpos)
+		print(position, new_pos)
 		$Tween.interpolate_property(self, "position",
 			position, new_pos,
 			MOVE_TIME, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
@@ -93,6 +95,7 @@ func talk(message: String):
 func attack(actor: Actor):
 	Sounds.play_enemy_hit()
 	actor.take_damage(mob.strength)
+	action_timer.start(ATTACK_TIME)
 
 func take_damage(damage: int, crit = false, heal = false):
 	var damage_text = DamagePopup.instance()
@@ -115,4 +118,5 @@ func heal(amount: int):
 	take_damage(-amount, false, true)
 
 func die():
+	GameState.level.free_tile(tpos())
 	queue_free()

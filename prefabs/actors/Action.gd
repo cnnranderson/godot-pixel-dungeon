@@ -1,10 +1,17 @@
 class_name Action
 
 enum ActionType {
-	TEST,
 	MOVE,
 	ATTACK,
-	WAIT
+	PICKUP,
+	UNLOCK_DOOR,
+	OPEN_CHEST,
+	DESCEND,
+	ASCEND,
+	EQUIP,
+	UNEQUIP,
+	WAIT,
+	SEARCH
 }
 var type = null
 var dest: Vector2

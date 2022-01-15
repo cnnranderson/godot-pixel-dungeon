@@ -19,7 +19,7 @@ onready var wait_indicator = $VBox/Wait/Container/Image
 var waiting = false
 
 func _ready():
-	Events.connect("player_acted", self, "_on_player_acted")
+	Events.connect("turn_ended", self, "_on_turn_ended")
 	Events.connect("player_interact", self, "_on_player_interact")
 	Events.connect("player_levelup", self, "_on_player_levelup")
 	Events.connect("player_hit", self, "_on_player_hit")
@@ -39,14 +39,11 @@ func _process(delta):
 		wait_indicator.set_rotation(wait_indicator.get_rotation() + deg2rad(10 + 360 * delta))
 
 ### Player Events
-func _on_player_acted():
-	wait_indicator.visible = true
-	var start_rot = wait_indicator.get_rotation()
-	var final_rot = start_rot + deg2rad(180)
-	$Tween.interpolate_method(wait_indicator, "set_rotation", start_rot, final_rot, 0.1, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	$Tween.start()
-	yield($Tween, "tween_all_completed")
-	wait_indicator.visible = false
+func _on_turn_ended(actor):
+	if not GameState.is_player_turn:
+		wait_indicator.visible = true
+	else:
+		wait_indicator.visible = false
 
 func _on_player_interact(item):
 	match (item):

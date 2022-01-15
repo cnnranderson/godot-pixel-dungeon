@@ -38,21 +38,34 @@ func _input(event):
 	# Attempt an action or movement
 	for dir in Constants.INPUTS.keys():
 		if event.is_action(dir):
-			var action = ActionBuilder.new().move(tpos() + Constants.INPUTS[dir]).action
-			action_queue.append(action)
-			action_timer.start()
+			var target = tpos() + Constants.INPUTS[dir]
+			if target in GameState.level.blocked:
+				queue_attack(target)
+			else:
+				var action = ActionBuilder.new().move(target)
+				action_queue.append(action)
+				action_timer.start(MOVE_TIME)
 	
 	if event.is_action_pressed("select") and GameState.is_player_turn and action_queue.size() == 0:
 		var p_tpos = tpos()
 		var m_tpos = GameState.level.world_to_map(get_global_mouse_position())
-		print(GameState.level.blocked)
 		var travel = GameState.level.get_travel_path(p_tpos, m_tpos)
-		
 		interrupted_actions.clear()
-		for point in travel:
-			var action = ActionBuilder.new().move(point).action
-			action_queue.append(action)
-		action_timer.start()
+		print(travel)
+		if travel.size() == 0:
+			if m_tpos in GameState.level.blocked:
+				queue_attack(m_tpos)
+		else:
+			for point in travel:
+				var action = ActionBuilder.new().move(point)
+				action_queue.append(action)
+			action_timer.start(MOVE_TIME)
+
+func queue_attack(tpos: Vector2):
+	var actor = GameState.world.get_actor_at_tpos(tpos)
+	var attack = ActionBuilder.new().attack(tpos, actor)
+	action_queue.append(attack)
+	action_timer.start(ATTACK_TIME)
 
 func interrupt():
 	interrupted_actions.append_array(action_queue)
@@ -60,11 +73,10 @@ func interrupt():
 
 func move(tpos):
 	var blocked = false
-	var attacking = false
 	var interacted = false
 	
 	# Check for walls/blocking tiles
-	if not blocked and GameState.level.is_blocking(tpos):
+	if GameState.level.is_blocking(tpos):
 		blocked = true
 	
 	# Check for doors
@@ -75,9 +87,14 @@ func move(tpos):
 		else:
 			GameState.level.open_door(tpos)
 	
+	if not GameState.level.can_move_to(tpos):
+		var actor = GameState.world.get_actor_at_tpos(tpos)
+		if actor:
+			attack(actor)
+			return
+	
 	# Try to move
-	if not interacted:
-		move_tween(tpos, blocked, attacking)
+	move_tween(tpos, blocked)
 	
 	action_timer.start()
 	
@@ -94,6 +111,7 @@ func attack(actor: Actor):
 	
 	actor.take_damage(damage, crit)
 	Sounds.play_hit()
+	action_timer.start(ATTACK_TIME)
 
 func take_damage(damage: int, crit = false, heal = false):
 	.take_damage(damage, crit, heal)
@@ -114,7 +132,7 @@ func can_unlock(tpos: Vector2):
 		Events.emit_signal("log_message", "You do not have any keys...")
 		return false
 
-func move_tween(tpos: Vector2, blocked = false, attacking = false):
+func move_tween(tpos: Vector2, blocked = false):
 	var new_pos = GameState.level.map_to_world(tpos) + Vector2(8, 8)
 	if not blocked:
 		Sounds.play_step()
@@ -124,10 +142,7 @@ func move_tween(tpos: Vector2, blocked = false, attacking = false):
 	else:
 		var origin_pos = position
 		Events.emit_signal("camera_shake", 0.15, 0.6)
-		
-		if not attacking:
-			Sounds.play_collision()
-		
+		Sounds.play_collision()
 		tween.interpolate_property(self, "position",
 			position, new_pos,
 			action_timer.wait_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
@@ -164,18 +179,17 @@ func _on_player_wait():
 			and not GameState.inventory_open \
 			and action_timer.time_left <= 0 \
 			and not tween.is_active():
-		action_queue.append(ActionBuilder.new().wait().action)
+		action_queue.append(ActionBuilder.new().wait())
 		talk("...")
-		action_timer.start()
+		action_timer.start(PASS_TIME)
 
 func _on_player_search():
 	if GameState.is_player_turn \
 			and not GameState.inventory_open \
-			and action_timer.time_left <= 0 \
-			and not tween.is_active():
-		action_queue.append(ActionBuilder.new().wait(3).action)
+			and action_timer.time_left <= 0:
+		action_queue.append(ActionBuilder.new().search(2))
 		talk("search")
-		action_timer.start()
+		action_timer.start(PASS_TIME)
 
 func _on_Player_area_entered(area):
 	if area is WorldItem and area.has_method("collect"):

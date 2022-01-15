@@ -54,7 +54,13 @@ func _init_player():
 	$Actors.add_child(player)
 	GameState.is_player_turn = true
 
-func get_next_actor() -> Actor:
+func get_actor_at_tpos(tpos: Vector2) -> Actor:
+	for actor in $Actors.get_children():
+		if actor.tpos() == tpos:
+			return actor
+	return null
+
+func _get_next_actor() -> Actor:
 	var next_actor = null
 	for actor in $Actors.get_children():
 		if not next_actor or actor.act_time < next_actor.act_time:
@@ -62,13 +68,12 @@ func get_next_actor() -> Actor:
 	return next_actor
 
 func _on_turn_ended(actor: Actor):
-	var next = get_next_actor()
+	var next = _get_next_actor()
 	if next == GameState.hero and GameState.hero.action_queue.size() == 0:
 		GameState.is_player_turn = true
 	else:
 		GameState.is_player_turn = false
 	next.act()
-	
 
 ### TEST UTILITIES
 func _generate_test_entities():
@@ -115,9 +120,8 @@ func _generate_test_weapons():
 func _generate_test_enemies():
 	var enemy_pos = [
 		Vector2(6, 9),
-		Vector2(10, 12),
-		Vector2(14, 14),
-		#Vector2(-5, 1),
+		#Vector2(10, 12),
+		#Vector2(14, 14),
 	]
 	
 	for tpos in enemy_pos:

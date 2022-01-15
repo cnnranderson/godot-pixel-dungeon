@@ -5,6 +5,8 @@ var hero: Actor = null
 var world: GameWorld = null
 var level: Level = null
 var inventory_open = false
+var auto_pickup = true
+var free_auto_pickup = true
 var player = {
 	"actor": null,
 	"inventory": {
