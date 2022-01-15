@@ -24,6 +24,8 @@ export var rooms_max := 15
 var astar = AStar2D.new()
 var map: Array = []
 
+var blocked = []
+
 func _ready():
 	astar.reserve_space(level_size.x * level_size.y)
 	_add_points()
@@ -47,7 +49,7 @@ func _connect_points():
 func get_travel_path(start, end):
 	var start_id = tile_id(start)
 	var end_id = tile_id(end)
-	if astar.has_point(start_id) && astar.has_point(end_id):
+	if astar.has_point(start_id) and astar.has_point(end_id):
 		var path = Array(astar.get_point_path(start_id, end_id))
 		path.remove(0)
 		return path
@@ -62,11 +64,15 @@ func free_tile(tpos: Vector2):
 	var id = tile_id(tpos)
 	if astar.has_point(id):
 		astar.set_point_disabled(id, false)
+		print("Free: ",tpos)
+		blocked.remove(blocked.find(tpos))
 
 func occupy_tile(tpos: Vector2):
 	var id = tile_id(tpos)
 	if astar.has_point(id):
 		astar.set_point_disabled(id, true)
+		print("Take: ",tpos)
+		blocked.append(tpos)
 
 func can_move_to(tpos: Vector2) -> bool:
 	var tile_id = tile_id(tpos)

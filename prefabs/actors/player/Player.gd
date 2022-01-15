@@ -45,6 +45,7 @@ func _input(event):
 	if event.is_action_pressed("select") and GameState.is_player_turn and action_queue.size() == 0:
 		var p_tpos = tpos()
 		var m_tpos = GameState.level.world_to_map(get_global_mouse_position())
+		print(GameState.level.blocked)
 		var travel = GameState.level.get_travel_path(p_tpos, m_tpos)
 		
 		for point in travel:

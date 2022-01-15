@@ -62,7 +62,13 @@ func get_next_actor() -> Actor:
 	return next_actor
 
 func _on_turn_ended(actor: Actor):
-	get_next_actor().act()
+	var next = get_next_actor()
+	if next == GameState.hero and GameState.hero.action_queue.size() == 0:
+		GameState.is_player_turn = true
+	else:
+		GameState.is_player_turn = false
+	next.act()
+	
 
 ### TEST UTILITIES
 func _generate_test_entities():

@@ -16,6 +16,7 @@ export(int) var hp = max_hp
 var act_time = 0
 var action_queue = []
 var action_timer = Timer.new()
+var last_pos: Vector2
 
 func _ready():
 	_setup_action_timer()
@@ -38,6 +39,7 @@ func act():
 	if action_queue.size() > 0:
 		action = action_queue.pop_front()
 	else:
+		# Mob AI
 		if mob:
 			var path = GameState.level.get_travel_path(tpos(), GameState.hero.tpos())
 			if path.size() > 0:
@@ -68,8 +70,9 @@ func move(tpos: Vector2):
 		action_timer.start(ATTACK_TIME)
 	else:
 		var new_pos = GameState.level.map_to_world(tpos)
-		GameState.level.occupy_tile(new_pos)
-		GameState.level.free_tile(tpos())
+		GameState.level.free_tile(last_pos)
+		last_pos = tpos
+		GameState.level.occupy_tile(tpos)
 		$Tween.interpolate_property(self, "position",
 			position, new_pos,
 			MOVE_TIME, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
