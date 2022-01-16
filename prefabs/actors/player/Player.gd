@@ -51,7 +51,6 @@ func _input(event):
 		var m_tpos = GameState.level.world_to_map(get_global_mouse_position())
 		var travel = GameState.level.get_travel_path(p_tpos, m_tpos)
 		interrupted_actions.clear()
-		print(travel)
 		if travel.size() == 0:
 			if m_tpos in GameState.level.blocked:
 				queue_attack(m_tpos)
@@ -80,6 +79,7 @@ func move(tpos):
 		blocked = true
 	
 	# Check for doors
+	# TODO: Rework this into a* pathfinding
 	if not blocked and GameState.level.is_door(tpos):
 		if GameState.level.is_locked_door(tpos):
 			blocked = true
@@ -95,7 +95,6 @@ func move(tpos):
 	
 	# Try to move
 	move_tween(tpos, blocked)
-	
 	action_timer.start()
 	
 	yield(tween, "tween_all_completed")
@@ -133,22 +132,24 @@ func can_unlock(tpos: Vector2):
 		return false
 
 func move_tween(tpos: Vector2, blocked = false):
-	var new_pos = GameState.level.map_to_world(tpos) + Vector2(8, 8)
 	if not blocked:
+		var new_pos = GameState.level.map_to_world(tpos) + Vector2(8, 8)
 		Sounds.play_step()
 		tween.interpolate_property(self, "position",
 			position, new_pos,
-			action_timer.wait_time, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+			action_timer.wait_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	else:
+		act_time -= 1
 		var origin_pos = position
+		var hit_position = position + (GameState.level.map_to_world(tpos - tpos()) / 2)
 		Events.emit_signal("camera_shake", 0.15, 0.6)
 		Sounds.play_collision()
 		tween.interpolate_property(self, "position",
-			position, new_pos,
+			position, hit_position,
 			action_timer.wait_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
 		tween.interpolate_property(self, "position",
-			new_pos, origin_pos,
-			action_timer.wait_time, Tween.TRANS_SINE, Tween.EASE_IN_OUT, action_timer.wait_time)
+			hit_position, origin_pos,
+			action_timer.wait_time, Tween.TRANS_SINE, Tween.EASE_IN, action_timer.wait_time)
 		
 	sprite.animation = ANIM.walk
 	if tpos.x > tpos().x:

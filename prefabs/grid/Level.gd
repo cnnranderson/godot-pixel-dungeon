@@ -69,7 +69,7 @@ func free_tile(tpos: Vector2):
 func occupy_tile(tpos: Vector2):
 	var id = tile_id(tpos)
 	if astar.has_point(id):
-		astar.set_point_disabled(id, true)
+		astar.set_point_disabled( id)
 		blocked.append(tpos)
 
 func can_move_to(tpos: Vector2) -> bool:

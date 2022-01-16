@@ -75,10 +75,9 @@ func move(tpos: Vector2):
 		GameState.level.free_tile(last_pos)
 		last_pos = tpos
 		GameState.level.occupy_tile(tpos)
-		print(position, new_pos)
 		$Tween.interpolate_property(self, "position",
 			position, new_pos,
-			MOVE_TIME, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+			MOVE_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		$Tween.start()
 		Events.emit_signal("turn_ended", self)
 

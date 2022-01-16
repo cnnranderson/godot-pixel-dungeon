@@ -10,9 +10,6 @@ func _ready():
 	GameState.world = world
 	GameState.world.init_world()
 
-func _start_game():
-	pass
-
 func _unhandled_input(event):
 	if event.is_action_pressed("cancel"):
 		Events.emit_signal("camera_shake", 0.3, 0.5)
