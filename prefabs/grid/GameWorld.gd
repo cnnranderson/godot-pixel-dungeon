@@ -74,53 +74,35 @@ func _on_turn_ended(actor: Actor):
 
 ### TEST UTILITIES
 func _generate_test_entities():
-	#_generate_test_keys()
-	#_generate_test_coins()
-	#_generate_test_scrolls()
-	#_generate_test_weapons()
-	#_generate_test_enemies()
+	_generate_test_keys()
+	_generate_test_coins()
+	_generate_test_scrolls()
+	_generate_test_weapons()
+	_generate_test_enemies()
 	pass
 
 func _generate_test_keys():
-	var key_pos = [
-		Vector2(14, 8)
-	]
-	
+	var key_pos = level.items.key_spawns
 	for tpos in key_pos:
 		spawn_basic_item(Items.key, 1, tpos)
 
 func _generate_test_coins():
-	var coin_pos = [
-		Vector2(7, 7),
-		Vector2(10, 7),
-	]
-	
+	var coin_pos = level.items.coin_spawns
 	for tpos in coin_pos:
 		spawn_basic_item(Items.coins, randi() % 100 + 10, tpos)
 
 func _generate_test_scrolls():
-	var scroll_pos = [
-		Vector2(10, 4),
-	]
-	
+	var scroll_pos = level.items.scroll_spawns
 	for tpos in scroll_pos:
 		spawn_scroll(Scrolls.healing, tpos)
 
 func _generate_test_weapons():
-	var weapon_pos = [
-		Vector2(5, 8)
-	]
-	
+	var weapon_pos = level.items.weapon_spawns
 	for tpos in weapon_pos:
 		spawn_weapon(Weapons.values()[randi() % Weapons.size()], tpos)
 
 func _generate_test_enemies():
-	var enemy_pos = [
-		Vector2(6, 9),
-		#Vector2(10, 12),
-		#Vector2(14, 14),
-	]
-	
+	var enemy_pos = level.enemies
 	for tpos in enemy_pos:
 		var bat = Enemies.bat.instance()
 		bat.position = level.map_to_world(tpos)
