@@ -7,8 +7,8 @@ onready var trim_hallway = $Control/Container/Trim
 onready var level = $Level
 
 var map: Array = []
-var width = 45
-var height = 31
+var width = 19
+var height = 19
 var room_count = 20
 var rooms = []
 var regions = []
@@ -18,25 +18,17 @@ var room_gen = false
 var hallway_gen = false
 var connected_gen = false
 var slack_gen = false
-
-var room_types = [
-	Vector2(3, 3),
-	Vector2(5, 3),
-	Vector2(3, 5),
-	Vector2(5, 5),
-	Vector2(3, 7),
-	Vector2(7, 3),
-	Vector2(7, 7)
-]
+var show_gen = true
 
 func _ready():
 	_init_map()
 
 func _init_map():
 	map = new_map()
-	refresh_map()
+	clean_map()
 
 func new_map():
+	region = 0
 	rooms.clear()
 	map.clear()
 	var matrix = []
@@ -46,13 +38,10 @@ func new_map():
 			matrix[x].append(-1)
 	return matrix
 
-func refresh_map():
+func clean_map():
 	for x in range(width):
 		for y in range(height):
-			if map[x][y] != -1:
-				level.set_tile(Vector2(x, y), Level.TILE_TYPE.NOBLOCK, Level.TILE.ground)
-			else:
-				level.set_tile(Vector2(x, y), Level.TILE_TYPE.BLOCK, Level.TILE.ground)
+			level.set_tile(Vector2(x, y), Level.TILE_TYPE.BLOCK, Level.TILE.ground)
 	pass
 
 func _add_rooms():
@@ -82,12 +71,12 @@ func _add_rooms():
 		
 		# Safe to add the room; carve out the space
 		print("adding room")
-		rooms.append(room)
 		region += 1
+		rooms.append(room)
 		for j in range(x, x + rwidth):
 			for k in range(y, y + rheight):
-				_carve(Vector2(j, k), 0)
-		yield(get_tree().create_timer(0.05), "timeout")
+				_carve(Vector2(j, k))
+		if show_gen: yield(get_tree().create_timer(0.01), "timeout")
 		
 		if rooms.size() > room_count:
 			break
@@ -123,22 +112,73 @@ func _grow_hallway(start: Vector2):
 				unmade_cells.append(dir)
 		if not unmade_cells.empty():
 			var dir
-			if unmade_cells.has(last_dir) and Helpers.chance_luck(100):
+			if unmade_cells.has(last_dir) and Helpers.chance_luck(50):
 				dir = last_dir
 			else:
 				unmade_cells.shuffle()
 				dir = unmade_cells.front()
 			
-			_carve(cell + dir, 1)
-			_carve(cell + dir * 2, 1)
+			_carve(cell + dir)
+			_carve(cell + dir * 2)
 			cells.append(cell + dir * 2)
 			last_dir = dir
-			yield(get_tree().create_timer(0.001), "timeout")
+			if show_gen: yield(get_tree().create_timer(0.001), "timeout")
 		else:
 			cells.pop_back()
 			last_dir = null
-			yield(get_tree().create_timer(0.001), "timeout")
+			if show_gen: yield(get_tree().create_timer(0.001), "timeout")
 	_add_hallways()
+
+func _connect_regions():
+	print("connecting regions")
+	var connecting_regions = {}
+	for x in range(1, width - 1):
+		for y in range(1, height - 1):
+			if map[x][y] != -1: continue
+			
+			var regions = []
+			for dir in Constants.CARDINAL:
+				var tile = map[x + dir.x][y + dir.y]
+				if tile != -1  and tile != -2 and not regions.has(tile):
+					regions.append(tile)
+			
+			if regions.size() < 2: continue
+			connecting_regions[Vector2(x, y)] = regions
+	
+	var connectors = connecting_regions.keys()
+	var merged = {}
+	var open_regions = []
+	for i in range(1, region + 1):
+		merged[i] = i
+		open_regions.append(i)
+	
+	var iter = 1
+	while open_regions.size() > 1:
+		var connector = connectors[randi() % connectors.size()]
+		
+		# Carve a junction
+		_carve(connector, true)
+		if show_gen: yield(get_tree().create_timer(0.1), "timeout")
+		
+		# Merge connected regions
+		var r = connecting_regions[connector]
+		var source = merged[r.back()]
+		var dest = merged[r.front()]
+		
+		for i in range(1, region + 1):
+			if source == merged[i]:
+				merged[i] = dest
+		
+		open_regions.erase(source)
+		# print(iter, " -- MERGING: ", source, " (was ", r.back(), ") into ", dest, " (was ", r.front(), ") REMAINING: ", open_regions)
+		iter += 1
+		var cleanup = []
+		for item in connectors:
+			var old_r = connecting_regions[item]
+			if merged[old_r.front()] == merged[old_r.back()]:
+				cleanup.append(item)
+		for item in cleanup:
+			connectors.erase(item)
 
 func can_tile(tpos: Vector2, dir: Vector2):
 	for i in range(2, 4):
@@ -156,47 +196,37 @@ func can_tile(tpos: Vector2, dir: Vector2):
 	var bound = tpos + dir * 2
 	return map[bound.x][bound.y] == -1
 
-func can_tile_close(tpos: Vector2, dir: Vector2):
-	var bound = tpos + dir
-	return map[bound.x][bound.y] == -1
-
-func _connect_region():
-	print("connecting regions")
+func _remove_deadends():
+	print("removing deadends")
 	pass
 
-func _slack_hallway():
-	print("slacking hallway")
-	pass
-
-func _carve(tpos: Vector2, region: int = region):
-	map[tpos.x][tpos.y] = region
+func _carve(tpos: Vector2, connector: bool = false):
+	if connector:
+		map[tpos.x][tpos.y] = -2
+	else:
+		map[tpos.x][tpos.y] = region
 	
 	match map[tpos.x][tpos.y]:
 		-1:
 			level.set_tile(tpos, Level.TILE_TYPE.BLOCK, Level.TILE.ground)
-		0:
-			level.set_tile(tpos, Level.TILE_TYPE.NOBLOCK, Level.TILE.ground)
-		1:
-			level.set_tile(tpos, Level.TILE_TYPE.INTERACTIVE, Level.TILE.door_closed)
-		_:
+		-2:
 			level.set_tile(tpos, Level.TILE_TYPE.INTERACTIVE, Level.TILE.door_open)
+		_:
+			level.set_tile(tpos, Level.TILE_TYPE.NOBLOCK, Level.TILE.ground)
 
 # Generator/Trigger buttons
 func _on_GenRoom_pressed():
-	if rooms.size() < room_count and not room_gen:
-		_add_rooms()
-	elif rooms.size() >= room_count:
-		_init_map()
-		_add_rooms()
+	_init_map()
+	_add_rooms()
 
 func _on_GenHallway_pressed():
 	if room_gen and not hallway_gen:
 		_add_hallways()
+	print(region)
 
 func _on_Connect_pressed():
-	refresh_map()
-	if room_gen and hallway_gen and not connected_gen:
-		pass
+	if not connected_gen:
+		_connect_regions()
 
 func _on_Trim_pressed():
 	if room_gen and hallway_gen and connected_gen and not slack_gen:
