@@ -19,13 +19,15 @@ const SOUND = {
 
 const MapGen = preload("res://scripts/procgen/MapGenerator.gd")
 
-export var level_size := Vector2(45, 31)
+export var level_size := Vector2(21, 15)
 export var rooms_max := 100
 
 var map: Array = []
 var astar = AStar2D.new()
 var spawn: Vector2
 var blocked = []
+var items = {}
+var enemies = []
 
 func _ready():
 	_generate_map()
@@ -35,6 +37,8 @@ func _generate_map():
 	var map_gen = MapGen.new()
 	map = map_gen.generate_map(rooms_max, level_size.x, level_size.y)
 	spawn = map_gen.spawn_point
+	items = map_gen.items
+	enemies = map_gen.enemies
 	print("Map Generation complete")
 	refresh_map()
 
@@ -44,8 +48,6 @@ func _generate_astar_path():
 	_connect_points()
 
 func refresh_map():
-	print(map.size())
-	print(map[0].size())
 	for x in level_size.x:
 		for y in level_size.y:
 			var tpos = Vector2(x, y)
