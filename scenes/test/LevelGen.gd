@@ -145,6 +145,7 @@ func _connect_regions():
 			if regions.size() < 2: continue
 			connecting_regions[Vector2(x, y)] = regions
 	
+	# Begin setup for connecting regions
 	var connectors = connecting_regions.keys()
 	var merged = {}
 	var open_regions = []
@@ -152,7 +153,7 @@ func _connect_regions():
 		merged[i] = i
 		open_regions.append(i)
 	
-	var iter = 1
+	# Loop until everything has been unified
 	while open_regions.size() > 1:
 		var connector = connectors[randi() % connectors.size()]
 		
@@ -165,13 +166,13 @@ func _connect_regions():
 		var source = merged[r.back()]
 		var dest = merged[r.front()]
 		
+		# Mark merged regions
 		for i in range(1, region + 1):
 			if source == merged[i]:
 				merged[i] = dest
 		
+		# Cleanup
 		open_regions.erase(source)
-		# print(iter, " -- MERGING: ", source, " (was ", r.back(), ") into ", dest, " (was ", r.front(), ") REMAINING: ", open_regions)
-		iter += 1
 		var cleanup = []
 		for item in connectors:
 			var old_r = connecting_regions[item]
