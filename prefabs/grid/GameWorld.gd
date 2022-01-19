@@ -23,9 +23,6 @@ const Enemies = {
 
 onready var level = $Level
 
-# TODO: Resolve how spawn location gets setup
-var spawn = Vector2(15, 10)
-
 func _ready():
 	Events.connect("player_acted", self, "_on_player_acted")
 	Events.connect("enemies_acted", self, "_on_enemies_acted")
@@ -49,7 +46,7 @@ func init_world():
 
 func _init_player():
 	var player = Player.instance()
-	player.position = level.map_to_world(spawn) + Vector2(8, 8)
+	player.position = level.map_to_world(level.spawn) + Vector2(8, 8)
 	GameState.hero = player
 	$Actors.add_child(player)
 	GameState.is_player_turn = true
@@ -77,11 +74,12 @@ func _on_turn_ended(actor: Actor):
 
 ### TEST UTILITIES
 func _generate_test_entities():
-	_generate_test_keys()
-	_generate_test_coins()
-	_generate_test_scrolls()
-	_generate_test_weapons()
-	_generate_test_enemies()
+	#_generate_test_keys()
+	#_generate_test_coins()
+	#_generate_test_scrolls()
+	#_generate_test_weapons()
+	#_generate_test_enemies()
+	pass
 
 func _generate_test_keys():
 	var key_pos = [

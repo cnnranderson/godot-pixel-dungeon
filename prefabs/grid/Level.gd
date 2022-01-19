@@ -17,33 +17,79 @@ const SOUND = {
 	"unlock": "res://assets/pd_import/sounds/snd_unlock.mp3"
 }
 
-export var level_size := Vector2(45, 30)
-export var rooms_size := Vector2(4, 8)
-export var rooms_max := 15
+const MapGen = preload("res://scripts/procgen/MapGenerator.gd")
 
+export var level_size := Vector2(45, 31)
+export var rooms_max := 100
+
+var map: Array = []
 var astar = AStar2D.new()
-
+var spawn: Vector2
 var blocked = []
 
 func _ready():
 	_generate_map()
-	#astar.reserve_space(level_size.x * level_size.y)
-	#_add_points()
-	#_connect_points()
+	_generate_astar_path()
 
-func _process(delta):
-	pass
-
-var map: Array = []
 func _generate_map():
-	pass
+	var map_gen = MapGen.new()
+	map = map_gen.generate_map(rooms_max, level_size.x, level_size.y)
+	spawn = map_gen.spawn_point
+	print("Map Generation complete")
+	refresh_map()
 
-### PATH FINDING - TODO: CLEANUP
+func _generate_astar_path():
+	astar.reserve_space(level_size.x * level_size.y)
+	_add_points()
+	_connect_points()
+
+func refresh_map():
+	print(map.size())
+	print(map[0].size())
+	for x in level_size.x:
+		for y in level_size.y:
+			var tpos = Vector2(x, y)
+			match map[x][y]:
+				-1:
+					set_tile(tpos, TILE_TYPE.BLOCK, TILE.ground)
+				-2:
+					set_tile(tpos, TILE_TYPE.INTERACTIVE, TILE.door_open)
+				_:
+					set_tile(tpos, TILE_TYPE.NOBLOCK, TILE.ground)
+
+
+### A-STAR PATHFINDING UTILITY
+func get_travel_path(start, end):
+	var start_id = _tile_id(start)
+	var end_id = _tile_id(end)
+	if astar.has_point(start_id) and astar.has_point(end_id):
+		var path = Array(astar.get_point_path(start_id, end_id))
+		path.remove(0)
+		return path
+	return []
+
+func free_tile(tpos: Vector2):
+	var id = _tile_id(tpos)
+	if astar.has_point(id):
+		astar.set_point_disabled(id, false)
+		blocked.remove(blocked.find(tpos))
+
+func occupy_tile(tpos: Vector2):
+	var id = _tile_id(tpos)
+	if astar.has_point(id):
+		astar.set_point_disabled( id)
+		blocked.append(tpos)
+
+func can_move_to(tpos: Vector2) -> bool:
+	var tile_id = _tile_id(tpos)
+	return astar.has_point(tile_id) and not astar.is_point_disabled(tile_id)
+
 func _add_points():
 	var used_cells = get_used_cells_by_id(TILE_TYPE.NOBLOCK)
+	used_cells.append_array(get_used_cells_by_id(TILE_TYPE.INTERACTIVE))
 	for cell in used_cells:
 		var type = get_cellv(cell)
-		astar.add_point(tile_id(cell), cell, 1.0)
+		astar.add_point(_tile_id(cell), cell, 1.0)
 
 func _connect_points():
 	var used_cells = get_used_cells()
@@ -51,37 +97,13 @@ func _connect_points():
 		for neighbor in Constants.VALID_DIRS:
 			var next_cell = cell + neighbor
 			if used_cells.has(next_cell):
-				astar.connect_points(tile_id(cell), tile_id(next_cell), false)
+				astar.connect_points(_tile_id(cell), _tile_id(next_cell), false)
 
-func get_travel_path(start, end):
-	var start_id = tile_id(start)
-	var end_id = tile_id(end)
-	if astar.has_point(start_id) and astar.has_point(end_id):
-		var path = Array(astar.get_point_path(start_id, end_id))
-		path.remove(0)
-		return path
-	return []
-
-func tile_id(point):
+func _tile_id(point):
 	var a = point.x
 	var b = point.y
 	return (a + b) * (a + b + 1) / 2 + b
 
-func free_tile(tpos: Vector2):
-	var id = tile_id(tpos)
-	if astar.has_point(id):
-		astar.set_point_disabled(id, false)
-		blocked.remove(blocked.find(tpos))
-
-func occupy_tile(tpos: Vector2):
-	var id = tile_id(tpos)
-	if astar.has_point(id):
-		astar.set_point_disabled( id)
-		blocked.append(tpos)
-
-func can_move_to(tpos: Vector2) -> bool:
-	var tile_id = tile_id(tpos)
-	return astar.has_point(tile_id) and not astar.is_point_disabled(tile_id)
 
 ### UTILITY FUNCTIONS
 func reset_doors():
@@ -134,72 +156,4 @@ func is_closed_door(tpos: Vector2) -> bool:
 	var tile = get_tile(tpos)
 	var type = get_cellv(tpos)
 	return tile == TILE.door_closed and type == TILE_TYPE.INTERACTIVE
-
-
-### ROOM GENERATION - TODO: CLEANUP
-func new_gen():
-	clear()
-	
-	for vector in _generate_data():
-		pass
-	pass
-
-func _generate_data() -> Array:
-	var rng := RandomNumberGenerator.new()
-	rng.randomize()
-
-	var data := {}
-	var rooms := []
-	for r in range(6):
-		var room := _get_random_room(rng)
-		if _intersects(rooms, room):
-			continue
-		
-		_add_room(data, rooms, room)
-		if rooms.size() > 1:
-			var room_previous: Rect2 = rooms[-2]
-			_add_connection(rng, data, room_previous, room)
-	return data.keys()
-
-func _get_random_room(rng: RandomNumberGenerator) -> Rect2:
-	var width := rng.randi_range(rooms_size.x, rooms_size.y)
-	var height := rng.randi_range(rooms_size.x, rooms_size.y)
-	var x := rng.randi_range(0, level_size.x - width - 1)
-	var y := rng.randi_range(0, level_size.y - height - 1)
-	return Rect2(x, y, width, height)
-
-func _add_room(data: Dictionary, rooms: Array, room: Rect2) -> void:
-	rooms.push_back(room)
-	for x in range(room.position.x, room.end.x):
-		for y in range(room.position.y, room.end.y):
-			data[Vector2(x, y)] = null
-
-func _add_corridor(data: Dictionary, start: int, end: int, constant: int, axis: int) -> void:
-	for t in range(min(start, end), max(start, end) + 1):
-		var point := Vector2.ZERO
-		match axis:
-			Vector2.AXIS_X: point = Vector2(t, constant)
-			Vector2.AXIS_Y: point = Vector2(constant, t)
-		data[point] = null
-
-func _add_connection(rng: RandomNumberGenerator, data: Dictionary, room1: Rect2, room2: Rect2) -> void:
-	var room_center1 := (room1.position + room1.end) / 2
-	var room_center2 := (room2.position + room2.end) / 2
-	if rng.randi_range(0, 1) == 0:
-		_add_corridor(data, room_center1.x, room_center2.x, room_center1.y, Vector2.AXIS_X)
-		_add_corridor(data, room_center1.y, room_center2.y, room_center2.x, Vector2.AXIS_Y)
-	else:
-		_add_corridor(data, room_center1.y, room_center2.y, room_center1.x, Vector2.AXIS_Y)
-		_add_corridor(data, room_center1.x, room_center2.x, room_center2.y, Vector2.AXIS_X)
-
-func _intersects(rooms: Array, room: Rect2) -> bool:
-	var out := false
-	for room_other in rooms:
-		if room.intersects(room_other):
-			out = true
-			break
-	return out
-
-
-
 

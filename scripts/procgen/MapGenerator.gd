@@ -1,48 +1,51 @@
-extends Node2D
-
-onready var gen_room = $Control/Container/GenRoom
-onready var gen_hallway = $Control/Container/GenHallway
-onready var connect_hallway = $Control/Container/Connect
-onready var trim_hallway = $Control/Container/Trim
-onready var level = $Level
+extends Node
+class_name MapGenerator
 
 var map: Array = []
-var width = 45
+var width = 31
 var height = 31
 var room_count = 200
 var rooms = []
 var regions = []
 var region = 0
-
-var room_gen = false
-var hallway_gen = false
-var connected_gen = false
-var slack_gen = false
-var show_gen = true
+var spawn_point = Vector2(15, 15)
+var debug = false
 
 func _ready():
-	_init_map()
+	pass
 
-func _init_map():
-	map = new_map()
-	clean_map()
+func generate_map(room_attempts: int = 200, width: int = 31, height: int = 31):
+	self.width = width
+	self.height = height
+	
+	# Width and Height must be odd to alleviate issues with generation
+	if width % 2 == 0: width += 1
+	if height % 2 == 0: height += 1
+	
+	# Generate the map
+	map = _clear_map()
+	
+	# Generate rooms/hallways
+	_add_rooms()
+	_add_hallways()
+	
+	# Connect rooms/hallways and trim deadends
+	_connect_regions()
+	_remove_deadends()
+	
+	# TODO: Decorate map later
+	return map
 
-func new_map():
+func _clear_map():
 	region = 0
 	rooms.clear()
 	map.clear()
-	var matrix = []
+	var grid = []
 	for x in range(width):
-		matrix.append([])
+		grid.append([])
 		for y in range(height):
-			matrix[x].append(-1)
-	return matrix
-
-func clean_map():
-	for x in range(width):
-		for y in range(height):
-			level.set_tile(Vector2(x, y), Level.TILE_TYPE.BLOCK, Level.TILE.ground)
-	pass
+			grid[x].append(-1)
+	return grid
 
 func _add_rooms():
 	for i in range(200):
@@ -70,20 +73,22 @@ func _add_rooms():
 		if overlaps: continue
 		
 		# Safe to add the room; carve out the space
-		print("adding room")
+		if debug: print("adding room")
 		region += 1
 		rooms.append(room)
 		for j in range(x, x + rwidth):
 			for k in range(y, y + rheight):
 				_carve(Vector2(j, k))
-		if show_gen: yield(get_tree().create_timer(0.05), "timeout")
 		
 		if rooms.size() > room_count:
 			break
+		
+		# Set the spawn point
+		if rooms.size() == 1:
+			spawn_point = Vector2(x + floor(rwidth / 2), y + floor(rheight / 2))
 	
 	# Done with creating all rooms
-	room_gen = true
-	print("done")
+	if debug: print("done")
 
 func _add_hallways():
 	var hallway = false
@@ -91,7 +96,7 @@ func _add_hallways():
 		for x in range(1, width, 2):
 			var tpos = Vector2(x, y)
 			if map[tpos.x][tpos.y] != -1: continue
-			print("adding hallway")
+			if debug: print("adding hallway")
 			_grow_hallway(tpos)
 			hallway = true
 			break
@@ -122,15 +127,13 @@ func _grow_hallway(start: Vector2):
 			_carve(cell + dir * 2)
 			cells.append(cell + dir * 2)
 			last_dir = dir
-			if show_gen: yield(get_tree().create_timer(0.01), "timeout")
 		else:
 			cells.pop_back()
 			last_dir = null
-			if show_gen: yield(get_tree().create_timer(0.01), "timeout")
 	_add_hallways()
 
 func _connect_regions():
-	print("connecting regions")
+	if debug: print("connecting regions")
 	var connecting_regions = {}
 	for x in range(1, width - 1):
 		for y in range(1, height - 1):
@@ -159,7 +162,6 @@ func _connect_regions():
 		
 		# Carve a junction
 		_carve(connector, true)
-		if show_gen: yield(get_tree().create_timer(0.05), "timeout")
 		
 		# Merge connected regions
 		var r = connecting_regions[connector]
@@ -199,7 +201,7 @@ func can_tile(tpos: Vector2, dir: Vector2):
 
 func _remove_deadends():
 	region = -1
-	print("removing deadends")
+	if debug: print("removing deadends")
 	var done = false
 	while not done:
 		done = true
@@ -215,36 +217,10 @@ func _remove_deadends():
 				
 				done = false
 				_carve(Vector2(x, y))
-				if show_gen: yield(get_tree().create_timer(0.01), "timeout")
-	print("done")
+	if debug: print("done")
 
 func _carve(tpos: Vector2, connector: bool = false):
 	if connector:
 		map[tpos.x][tpos.y] = -2
 	else:
 		map[tpos.x][tpos.y] = region
-	
-	match map[tpos.x][tpos.y]:
-		-1:
-			level.set_tile(tpos, Level.TILE_TYPE.BLOCK, Level.TILE.ground)
-		-2:
-			level.set_tile(tpos, Level.TILE_TYPE.INTERACTIVE, Level.TILE.door_open)
-		_:
-			level.set_tile(tpos, Level.TILE_TYPE.NOBLOCK, Level.TILE.ground)
-
-# Generator/Trigger buttons
-func _on_GenRoom_pressed():
-	_init_map()
-	_add_rooms()
-
-func _on_GenHallway_pressed():
-	if room_gen and not hallway_gen:
-		_add_hallways()
-	print(region)
-
-func _on_Connect_pressed():
-	if not connected_gen:
-		_connect_regions()
-
-func _on_Trim_pressed():
-	_remove_deadends()

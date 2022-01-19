@@ -54,15 +54,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/main/Main.gd"
 }, {
-"base": "Reference",
+"base": "Node",
 "class": "MapGenerator",
 "language": "GDScript",
-"path": "res://scripts/procedural/MapGenerator.gd"
-}, {
-"base": "Reference",
-"class": "MapRoom",
-"language": "GDScript",
-"path": "res://scripts/procedural/MapRoom.gd"
+"path": "res://scripts/procgen/MapGenerator.gd"
 }, {
 "base": "Resource",
 "class": "Mob",
@@ -100,7 +95,6 @@ _global_script_class_icons={
 "Level": "",
 "Main": "",
 "MapGenerator": "",
-"MapRoom": "",
 "Mob": "",
 "Player": "",
 "Scroll": "",
@@ -111,7 +105,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Pixel Dungeon"
-run/main_scene="res://scenes/test/LevelGen.tscn"
+run/main_scene="res://scenes/game/GameScene.tscn"
 config/icon="res://icon.png"
 
 [autoload]
