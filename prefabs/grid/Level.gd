@@ -22,14 +22,21 @@ export var rooms_size := Vector2(4, 8)
 export var rooms_max := 15
 
 var astar = AStar2D.new()
-var map: Array = []
 
 var blocked = []
 
 func _ready():
-	astar.reserve_space(level_size.x * level_size.y)
-	_add_points()
-	_connect_points()
+	_generate_map()
+	#astar.reserve_space(level_size.x * level_size.y)
+	#_add_points()
+	#_connect_points()
+
+func _process(delta):
+	pass
+
+var map: Array = []
+func _generate_map():
+	pass
 
 ### PATH FINDING - TODO: CLEANUP
 func _add_points():
@@ -134,7 +141,7 @@ func new_gen():
 	clear()
 	
 	for vector in _generate_data():
-		set_tile(vector, 1, TILE.ground)
+		pass
 	pass
 
 func _generate_data() -> Array:

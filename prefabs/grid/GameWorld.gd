@@ -85,7 +85,7 @@ func _generate_test_entities():
 
 func _generate_test_keys():
 	var key_pos = [
-		Vector2(3, 4)
+		Vector2(14, 8)
 	]
 	
 	for tpos in key_pos:
@@ -93,7 +93,6 @@ func _generate_test_keys():
 
 func _generate_test_coins():
 	var coin_pos = [
-		Vector2(2, 2),
 		Vector2(7, 7),
 		Vector2(10, 7),
 	]
@@ -103,7 +102,7 @@ func _generate_test_coins():
 
 func _generate_test_scrolls():
 	var scroll_pos = [
-		Vector2(0, 1),
+		Vector2(10, 4),
 	]
 	
 	for tpos in scroll_pos:
@@ -154,5 +153,3 @@ func spawn_weapon(weapon: Resource, tpos: Vector2):
 func spawn_armor(armor: Resource, tpos: Vector2):
 	pass
 
-static func actor_priority(a: Actor, b: Actor) -> bool:
-	return a.act_time < b.act_time

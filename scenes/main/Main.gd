@@ -5,7 +5,7 @@ const DEFAULT_SCENE_DELAY = 0.05
 const DEFAULT_TRANSITION_DELAY = 1
 
 # Set this to something else if you wish to enter a different scene on start
-var curr_scene = Global.Scenes.GAME
+var curr_scene = Global.Scenes.MAP_GEN
 var scene_state = 0
 var skip_transition = [false, false]
 
