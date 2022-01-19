@@ -7,9 +7,9 @@ onready var trim_hallway = $Control/Container/Trim
 onready var level = $Level
 
 var map: Array = []
-var width = 19
-var height = 19
-var room_count = 20
+var width = 45
+var height = 31
+var room_count = 8
 var rooms = []
 var regions = []
 var region = 0
@@ -76,7 +76,7 @@ func _add_rooms():
 		for j in range(x, x + rwidth):
 			for k in range(y, y + rheight):
 				_carve(Vector2(j, k))
-		if show_gen: yield(get_tree().create_timer(0.01), "timeout")
+		if show_gen: yield(get_tree().create_timer(0.05), "timeout")
 		
 		if rooms.size() > room_count:
 			break
@@ -103,8 +103,8 @@ func _grow_hallway(start: Vector2):
 	
 	_carve(start)
 	cells.append(start)
+	var last_dir
 	while not cells.empty():
-		var last_dir
 		var cell = cells.back()
 		var unmade_cells = []
 		for dir in Constants.CARDINAL:
@@ -122,11 +122,11 @@ func _grow_hallway(start: Vector2):
 			_carve(cell + dir * 2)
 			cells.append(cell + dir * 2)
 			last_dir = dir
-			if show_gen: yield(get_tree().create_timer(0.001), "timeout")
+			if show_gen: yield(get_tree().create_timer(0.01), "timeout")
 		else:
 			cells.pop_back()
 			last_dir = null
-			if show_gen: yield(get_tree().create_timer(0.001), "timeout")
+			if show_gen: yield(get_tree().create_timer(0.01), "timeout")
 	_add_hallways()
 
 func _connect_regions():
@@ -159,7 +159,7 @@ func _connect_regions():
 		
 		# Carve a junction
 		_carve(connector, true)
-		if show_gen: yield(get_tree().create_timer(0.1), "timeout")
+		if show_gen: yield(get_tree().create_timer(0.05), "timeout")
 		
 		# Merge connected regions
 		var r = connecting_regions[connector]
@@ -198,8 +198,25 @@ func can_tile(tpos: Vector2, dir: Vector2):
 	return map[bound.x][bound.y] == -1
 
 func _remove_deadends():
+	region = -1
 	print("removing deadends")
-	pass
+	var done = false
+	while not done:
+		done = true
+		for x in range(1, width):
+			for y in range(1, height):
+				if map[x][y] == -1: continue
+				
+				var exits = 0
+				for dir in Constants.CARDINAL:
+					if map[x + dir.x][y + dir.y] != -1: exits += 1
+				
+				if exits != 1: continue
+				
+				done = false
+				_carve(Vector2(x, y))
+				if show_gen: yield(get_tree().create_timer(0.01), "timeout")
+	print("done")
 
 func _carve(tpos: Vector2, connector: bool = false):
 	if connector:
@@ -230,5 +247,4 @@ func _on_Connect_pressed():
 		_connect_regions()
 
 func _on_Trim_pressed():
-	if room_gen and hallway_gen and connected_gen and not slack_gen:
-		pass
+	_remove_deadends()
