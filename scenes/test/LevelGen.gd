@@ -8,8 +8,8 @@ onready var level = $Level
 
 var map: Array = []
 var width = 45
-var height = 29
-var room_count = 14
+var height = 31
+var room_count = 20
 var rooms = []
 var regions = []
 var region = 0
@@ -55,11 +55,11 @@ func refresh_map():
 				level.set_tile(Vector2(x, y), Level.TILE_TYPE.BLOCK, Level.TILE.ground)
 	pass
 
-func _add_room():
-	print("adding prop room")
+func _add_rooms():
 	for i in range(200):
-		var size = floor(rand_range(1, 3) * 2 + 1)
-		var stretch = floor(rand_range(0, 1 + floor(size / 2)) * 2)
+		# Create a room of certain size
+		var size = floor(rand_range(1, 3)) * 2 + 1
+		var stretch = floor(rand_range(0, 1 + floor(size / 2))) * 2
 		var rwidth = size
 		var rheight = size
 		if Helpers.chance_luck(50):
@@ -67,37 +67,47 @@ func _add_room():
 		else:
 			rheight += stretch
 		
-		var x = floor(rand_range(0, (width - 1 - rwidth) / 2)) * 2 + 1
-		var y = floor(rand_range(0, (height - 1 - rheight) / 2)) * 2 + 1
-		
+		# Blueprint a room to be made
+		var x = floor(rand_range(0, floor((width - rwidth) / 2))) * 2 + 1
+		var y = floor(rand_range(0, floor((height - rheight) / 2))) * 2 + 1
 		var room = Rect2(x, y, rwidth, rheight)
+		
+		# Check if any rooms overlap
 		var overlaps = false
 		for other in rooms:
 			if room.intersects(other, true):
 				overlaps = true
 				break
-		
 		if overlaps: continue
 		
+		# Safe to add the room; carve out the space
+		print("adding room")
 		rooms.append(room)
 		region += 1
 		for j in range(x, x + rwidth):
 			for k in range(y, y + rheight):
-				_carve(Vector2(j, k))
+				_carve(Vector2(j, k), 0)
+		yield(get_tree().create_timer(0.05), "timeout")
+		
+		if rooms.size() > room_count:
+			break
+	
+	# Done with creating all rooms
 	room_gen = true
 	print("done")
 
 func _add_hallways():
-	for x in range(1, width, 2):
-		for y in range(1, height, 2):
+	var hallway = false
+	for y in range(1, height, 2):
+		for x in range(1, width, 2):
 			var tpos = Vector2(x, y)
-			if map[x][y] != -1:
-				continue
+			if map[tpos.x][tpos.y] != -1: continue
 			print("adding hallway")
 			_grow_hallway(tpos)
+			hallway = true
 			break
-		break
-	
+		if hallway: break
+
 func _grow_hallway(start: Vector2):
 	region += 1
 	var cells = []
@@ -119,17 +129,16 @@ func _grow_hallway(start: Vector2):
 				unmade_cells.shuffle()
 				dir = unmade_cells.front()
 			
-			_carve(cell + dir)
-			_carve(cell + dir * 2)
+			_carve(cell + dir, 1)
+			_carve(cell + dir * 2, 1)
 			cells.append(cell + dir * 2)
 			last_dir = dir
-			yield(get_tree().create_timer(0.01), "timeout")
+			yield(get_tree().create_timer(0.001), "timeout")
 		else:
 			cells.pop_back()
 			last_dir = null
-			yield(get_tree().create_timer(0.01), "timeout")
+			yield(get_tree().create_timer(0.001), "timeout")
 	_add_hallways()
-	print("done")
 
 func can_tile(tpos: Vector2, dir: Vector2):
 	for i in range(2, 4):
@@ -145,6 +154,10 @@ func can_tile(tpos: Vector2, dir: Vector2):
 			return false
 	
 	var bound = tpos + dir * 2
+	return map[bound.x][bound.y] == -1
+
+func can_tile_close(tpos: Vector2, dir: Vector2):
+	var bound = tpos + dir
 	return map[bound.x][bound.y] == -1
 
 func _connect_region():
@@ -163,16 +176,18 @@ func _carve(tpos: Vector2, region: int = region):
 			level.set_tile(tpos, Level.TILE_TYPE.BLOCK, Level.TILE.ground)
 		0:
 			level.set_tile(tpos, Level.TILE_TYPE.NOBLOCK, Level.TILE.ground)
-		_:
+		1:
 			level.set_tile(tpos, Level.TILE_TYPE.INTERACTIVE, Level.TILE.door_closed)
+		_:
+			level.set_tile(tpos, Level.TILE_TYPE.INTERACTIVE, Level.TILE.door_open)
 
 # Generator/Trigger buttons
 func _on_GenRoom_pressed():
 	if rooms.size() < room_count and not room_gen:
-		_add_room()
+		_add_rooms()
 	elif rooms.size() >= room_count:
 		_init_map()
-		_add_room()
+		_add_rooms()
 
 func _on_GenHallway_pressed():
 	if room_gen and not hallway_gen:
