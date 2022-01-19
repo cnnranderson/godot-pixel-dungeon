@@ -9,6 +9,15 @@ var rooms = []
 var regions = []
 var region = 0
 var spawn_point = Vector2(15, 15)
+
+var items = {
+	"key_spawns": [],
+	"coin_spawns": [],
+	"weapon_spawns": [],
+	"scroll_spawns": []
+}
+var enemies = []
+
 var debug = false
 
 func _ready():
@@ -86,6 +95,17 @@ func _add_rooms():
 		# Set the spawn point
 		if rooms.size() == 1:
 			spawn_point = Vector2(x + floor(rwidth / 2), y + floor(rheight / 2))
+		else:
+			if Helpers.chance_luck(25):
+				items.key_spawns.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
+			elif Helpers.chance_luck(25):
+				items.coin_spawns.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
+			elif Helpers.chance_luck(15):
+				items.weapon_spawns.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
+			elif Helpers.chance_luck(15):
+				items.scroll_spawns.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
+			elif Helpers.chance_luck(25):
+				enemies.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
 	
 	# Done with creating all rooms
 	if debug: print("done")
