@@ -22,8 +22,13 @@ const Enemies = {
 }
 
 onready var level = $Level
+onready var items = $Items
+onready var actors = $Actors
+onready var effects = $Effects
+onready var objects = $Objects
 
 func _ready():
+	GameState.level = level
 	Events.connect("player_acted", self, "_on_player_acted")
 	Events.connect("enemies_acted", self, "_on_enemies_acted")
 	Events.connect("turn_ended", self, "_on_turn_ended")
@@ -39,10 +44,19 @@ func _input(event):
 		$Cursor.visible = false
 
 func init_world():
-	GameState.level = level
+	_clear_world()
+	level.init_level()
 	_init_player()
 	_generate_test_entities()
+	
+	yield(get_tree().create_timer(0.1), "timeout")
 	Events.emit_signal("map_ready")
+
+func _clear_world():
+	Helpers.delete_children(items)
+	Helpers.delete_children(actors)
+	Helpers.delete_children(effects)
+	Helpers.delete_children(objects)
 
 func _init_player():
 	var player = Player.instance()

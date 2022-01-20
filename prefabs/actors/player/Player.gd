@@ -26,6 +26,7 @@ func _ready():
 	Events.connect("player_equip", self, "_on_player_equip")
 	Events.connect("player_unequip_weapon", self, "_on_player_unequip_weapon")
 	Events.connect("player_unequip_armor", self, "_on_player_unequip_armor")
+	Events.connect("next_stage", self, "_on_next_stage")
 
 func _input(event):
 	if not GameState.is_player_turn \
@@ -86,6 +87,9 @@ func move(tpos):
 			interacted = can_unlock(tpos)
 		else:
 			GameState.level.open_door(tpos)
+	
+	if GameState.level.is_stair_down(tpos):
+		Events.emit_signal("next_stage")
 	
 	if not GameState.level.can_move_to(tpos):
 		var actor = GameState.world.get_actor_at_tpos(tpos)

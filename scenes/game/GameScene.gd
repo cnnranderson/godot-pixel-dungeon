@@ -1,14 +1,17 @@
 extends Node2D
 
 onready var world = $World
+onready var tween = $Tween
+onready var load_splash = $UI/LoadSplash
 
 func _ready():
 	Events.connect("map_ready", $UI/PlayerUI, "_init_stats")
 	Events.connect("map_ready", self, "_start_game")
+	Events.connect("next_stage", self, "_reload_map")
 	$UI/ActionLog.visible = true
 	$UI/PlayerUI.visible = true
 	GameState.world = world
-	GameState.world.init_world()
+	_reload_map()
 
 func _unhandled_input(event):
 	if event.is_action_pressed("cancel"):
@@ -32,3 +35,15 @@ func _unhandled_input(event):
 			if not GameState.inventory_open:
 				Events.emit_signal("player_wait")
 
+func _reload_map():
+	load_splash.visible = true
+	load_splash.modulate.a = 0
+	tween.interpolate_property(load_splash, "modulate:a", 0, 1.0, 0.5, Tween.TRANS_CUBIC, Tween.EASE_IN)
+	tween.start()
+	yield(tween, "tween_all_completed")
+	yield(get_tree().create_timer(2.5), "timeout")
+	GameState.world.init_world()
+	yield(Events, "map_ready")
+	print("wuh")
+	tween.interpolate_property(load_splash, "modulate:a", 1.0, 0, 1.0, Tween.TRANS_EXPO, Tween.EASE_OUT)
+	tween.start()

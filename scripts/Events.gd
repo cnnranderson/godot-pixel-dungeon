@@ -12,6 +12,7 @@ connecting signal subscribers.
 signal log_message(event)
 signal camera_shake(amount, decay)
 signal map_ready
+signal next_stage
 
 # Actor Events
 signal enemies_acted

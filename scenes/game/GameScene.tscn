@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/game/GameScene.gd" type="Script" id=1]
+[ext_resource path="res://ui/LoadSplash.tscn" type="PackedScene" id=2]
 [ext_resource path="res://prefabs/grid/GameWorld.tscn" type="PackedScene" id=3]
 [ext_resource path="res://ui/PlayerUI.tscn" type="PackedScene" id=5]
 [ext_resource path="res://ui/EventLog.tscn" type="PackedScene" id=6]
@@ -48,4 +49,9 @@ margin_bottom = -20.0
 visible = false
 rect_scale = Vector2( 2, 2 )
 
+[node name="LoadSplash" parent="UI" instance=ExtResource( 2 )]
+visible = false
+
 [node name="World" parent="." instance=ExtResource( 3 )]
+
+[node name="Tween" type="Tween" parent="."]

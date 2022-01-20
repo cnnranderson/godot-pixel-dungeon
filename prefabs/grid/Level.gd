@@ -33,7 +33,7 @@ var blocked = []
 var items = {}
 var enemies = []
 
-func _ready():
+func init_level():
 	_generate_map()
 	_generate_astar_path()
 
@@ -47,6 +47,7 @@ func _generate_map():
 	refresh_map()
 
 func _generate_astar_path():
+	astar.clear()
 	astar.reserve_space(level_size.x * level_size.y)
 	_add_points()
 	_connect_points()
@@ -57,7 +58,7 @@ func refresh_map():
 			var tpos = Vector2(x, y)
 			match map[x][y]:
 				-1:
-					set_tile(tpos, TILE_TYPE.BLOCK, TILE.ground)
+					set_tile(tpos, TILE_TYPE.BLOCK, TILE.wall)
 				-2:
 					set_tile(tpos, TILE_TYPE.INTERACTIVE, TILE.door_open)
 				-3:
@@ -165,7 +166,7 @@ func is_closed_door(tpos: Vector2) -> bool:
 	var type = get_cellv(tpos)
 	return tile == TILE.door_closed and type == TILE_TYPE.INTERACTIVE
 
-func is_down_stair(tpos: Vector2) -> bool:
+func is_stair_down(tpos: Vector2) -> bool:
 	var tile = get_tile(tpos)
 	var type = get_cellv(tpos)
 	return tile == TILE.stair_down and type == TILE_TYPE.INTERACTIVE
