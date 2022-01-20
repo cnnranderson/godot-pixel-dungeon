@@ -26,4 +26,5 @@ func _on_WakeArea_area_entered(actor):
 		wake_sprite.visible = true
 		
 		if parent is Actor:
+			parent.should_wake = true
 			_animate()

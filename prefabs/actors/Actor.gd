@@ -20,11 +20,14 @@ var action_timer = Timer.new()
 var last_pos: Vector2
 var unstable_teleport = 0
 var should_teleport = false
+var should_wake = false
+var asleep = false
 
 func _ready():
 	_setup_action_timer()
 	last_pos = GameState.level.world_to_map(position)
 	if mob:
+		asleep = true
 		hp = mob.max_hp
 		if has_node("Sprite"):
 			$Sprite.texture = mob.texture
@@ -47,6 +50,14 @@ func act():
 			action_queue.clear()
 			var t_location = GameState.level.get_random_empty_tile()
 			action_queue.append(ActionBuilder.new().teleport(t_location))
+	
+	# Sleeping mechanic
+	if asleep:
+		if should_wake:
+			asleep = false
+			should_wake = false
+		else:
+			action_queue.append(ActionBuilder.new().wait())
 	
 	var action
 	if action_queue.size() > 0:

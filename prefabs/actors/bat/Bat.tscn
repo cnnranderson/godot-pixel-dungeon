@@ -22,7 +22,6 @@ texture = SubResource( 2 )
 centered = false
 
 [node name="WakeObserver" parent="." instance=ExtResource( 4 )]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 8, 8 )
