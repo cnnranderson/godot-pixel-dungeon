@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/pd_import/images/arcs1.png" type="Texture" id=1]
 [ext_resource path="res://assets/pd_import/images/arcs2.png" type="Texture" id=3]
 [ext_resource path="res://ui/log_theme.tres" type="Theme" id=4]
-[ext_resource path="res://ui/LoadSplash.gd" type="Script" id=5]
 
 [sub_resource type="Shader" id=4]
 code = "shader_type canvas_item;
@@ -49,7 +48,6 @@ margin_bottom = 720.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 4 )
-script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -29,7 +29,6 @@ func _ready():
 	Events.connect("next_stage", self, "_on_next_stage")
 
 func _unhandled_input(event):
-	print(event)
 	if not GameState.is_player_turn \
 			or GameState.inventory_open \
 			or action_timer.time_left > 0 \
