@@ -7,7 +7,10 @@ enum TILE_TYPE {
 	INTERACTIVE
 }
 const TILE = {
+	"wall": Vector2(0, 0),
 	"ground": Vector2(0, 0),
+	"stair_down": Vector2(0, 1),
+	"stair_up": Vector2(0, 0),
 	"door_closed": Vector2(3, 0),
 	"door_open": Vector2(3, 0),
 	"door_locked": Vector2(3, 1)
@@ -25,6 +28,7 @@ export var rooms_max := 100
 var map: Array = []
 var astar = AStar2D.new()
 var spawn: Vector2
+var stair_spawn: Vector2
 var blocked = []
 var items = {}
 var enemies = []
@@ -56,6 +60,8 @@ func refresh_map():
 					set_tile(tpos, TILE_TYPE.BLOCK, TILE.ground)
 				-2:
 					set_tile(tpos, TILE_TYPE.INTERACTIVE, TILE.door_open)
+				-3:
+					set_tile(tpos, TILE_TYPE.INTERACTIVE, TILE.stair_down)
 				_:
 					set_tile(tpos, TILE_TYPE.NOBLOCK, TILE.ground)
 
@@ -158,4 +164,9 @@ func is_closed_door(tpos: Vector2) -> bool:
 	var tile = get_tile(tpos)
 	var type = get_cellv(tpos)
 	return tile == TILE.door_closed and type == TILE_TYPE.INTERACTIVE
+
+func is_down_stair(tpos: Vector2) -> bool:
+	var tile = get_tile(tpos)
+	var type = get_cellv(tpos)
+	return tile == TILE.stair_down and type == TILE_TYPE.INTERACTIVE
 

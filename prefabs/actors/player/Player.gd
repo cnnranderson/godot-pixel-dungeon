@@ -79,7 +79,7 @@ func move(tpos):
 		blocked = true
 	
 	# Check for doors
-	# TODO: Rework this into a* pathfinding
+	# TODO: Rework this into a* pathfinding?
 	if not blocked and GameState.level.is_door(tpos):
 		if GameState.level.is_locked_door(tpos):
 			blocked = true

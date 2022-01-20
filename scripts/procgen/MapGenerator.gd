@@ -4,7 +4,7 @@ class_name MapGenerator
 var map: Array = []
 var width = 31
 var height = 31
-var room_count = 200
+var max_rooms = 80
 var rooms = []
 var regions = []
 var region = 0
@@ -17,15 +17,17 @@ var items = {
 	"scroll_spawns": []
 }
 var enemies = []
+var stair_spawn: Vector2
 
 var debug = false
 
 func _ready():
 	pass
 
-func generate_map(room_attempts: int = 200, width: int = 31, height: int = 31):
+func generate_map(max_rooms: int = 200, width: int = 31, height: int = 31):
 	self.width = width
 	self.height = height
+	self.max_rooms = 80 if max_rooms > 80 else max_rooms
 	
 	# Width and Height must be odd to alleviate issues with generation
 	if width % 2 == 0: width += 1
@@ -89,14 +91,14 @@ func _add_rooms():
 			for k in range(y, y + rheight):
 				_carve(Vector2(j, k))
 		
-		if rooms.size() > room_count:
-			break
-		
 		# Set the spawn point
 		if rooms.size() == 1:
 			spawn_point = Vector2(x + floor(rwidth / 2), y + floor(rheight / 2))
 		else:
-			if Helpers.chance_luck(25):
+			# Spawn Stairs or maybe an item
+			if not stair_spawn and Helpers.chance_luck(10 + (i / max_rooms) * 10):
+				stair_spawn = Vector2(x + floor(rwidth / 2), y + floor(rheight / 2))
+			elif Helpers.chance_luck(25):
 				items.key_spawns.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
 			elif Helpers.chance_luck(25):
 				items.coin_spawns.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
@@ -106,7 +108,14 @@ func _add_rooms():
 				items.scroll_spawns.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
 			elif Helpers.chance_luck(25):
 				enemies.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
+				
+		# Stop if we have reached the room limit
+		if rooms.size() >= max_rooms:
+			if not stair_spawn:
+				stair_spawn = Vector2(x + floor(rwidth / 2), y + floor(rheight / 2))
+			break
 	
+	map[stair_spawn.x][stair_spawn.y] = -3
 	# Done with creating all rooms
 	if debug: print("done")
 
