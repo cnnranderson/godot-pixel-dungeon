@@ -40,10 +40,10 @@ func _reload_map():
 	load_splash.modulate.a = 0
 	tween.interpolate_property(load_splash, "modulate:a", 0, 1.0, 0.5, Tween.TRANS_CUBIC, Tween.EASE_IN)
 	tween.start()
-	yield(tween, "tween_all_completed")
 	yield(get_tree().create_timer(2.5), "timeout")
 	GameState.world.init_world()
 	yield(Events, "map_ready")
-	print("wuh")
 	tween.interpolate_property(load_splash, "modulate:a", 1.0, 0, 1.0, Tween.TRANS_EXPO, Tween.EASE_OUT)
 	tween.start()
+	yield(tween, "tween_all_completed")
+	load_splash.visible = false

@@ -113,6 +113,7 @@ func attack(actor: Actor):
 		damage = ceil(damage * 1.5)
 	
 	actor.take_damage(damage, crit)
+	Events.emit_signal("camera_shake", 0.2, 0.6)
 	Sounds.play_hit()
 	action_timer.start(ATTACK_TIME)
 
