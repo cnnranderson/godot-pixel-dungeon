@@ -15,13 +15,13 @@ export(Resource) var item: Resource setget set_item
 func set_item(new_value):
 	item = new_value as Item
 	
-	match item.category:
-		Item.Category.SCROLL:
-			item.texture.region.position.x = 16 * (randi() % 8)
-			$TextureRect.texture = item.texture
-		_:
-			$TextureRect.texture = item.texture
-	
+	if item:
+		match item.category:
+			Item.Category.SCROLL:
+				item.texture.region.position.x = 16 * (randi() % 8)
+				$TextureRect.texture = item.texture
+			_:
+				$TextureRect.texture = item.texture
 
 func collect():
 	if collected: return

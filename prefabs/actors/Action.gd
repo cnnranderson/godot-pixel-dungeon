@@ -10,6 +10,7 @@ enum ActionType {
 	ASCEND,
 	EQUIP,
 	UNEQUIP,
+	USE_ITEM,
 	WAIT,
 	SEARCH,
 	TELEPORT

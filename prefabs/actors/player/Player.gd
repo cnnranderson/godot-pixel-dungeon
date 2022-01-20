@@ -24,6 +24,7 @@ func _ready():
 	Events.connect("player_wait", self, "_on_player_wait")
 	Events.connect("player_search", self, "_on_player_search")
 	Events.connect("player_equip", self, "_on_player_equip")
+	Events.connect("player_use_item", self, "_on_player_use_item")
 	Events.connect("player_unequip_weapon", self, "_on_player_unequip_weapon")
 	Events.connect("player_unequip_armor", self, "_on_player_unequip_armor")
 	Events.connect("next_stage", self, "_on_next_stage")
@@ -169,25 +170,30 @@ func move_tween(tpos: Vector2, blocked = false):
 
 func _on_player_equip(item: Item):
 	if item is Weapon:
-		Events.emit_signal("log_message", "You equipped the %s" % item.name)
 		GameState.player.equipped.weapon = item
+		action_queue.append(ActionBuilder.new().equip())
+		Events.emit_signal("log_message", "You equipped the %s" % item.name)
 		Events.emit_signal("refresh_backpack")
 	# TODO: item is Armor
 	
 	action_timer.start(PASS_TIME)
 
 func _on_player_unequip_weapon():
+	action_queue.append(ActionBuilder.new().unequip())
 	Events.emit_signal("log_message", "You put away the %s" % GameState.player.equipped.weapon.name)
 	GameState.player.equipped.weapon = null
 	Events.emit_signal("refresh_backpack")
-	
 	action_timer.start(PASS_TIME)
 
 func _on_player_unequip_armor():
+	action_queue.append(ActionBuilder.new().unequip())
+	Events.emit_signal("log_message", "You're naked now, ya dummy!")
 	GameState.player.equipped.armor = null
 	Events.emit_signal("refresh_backpack")
-	Events.emit_signal("log_message", "You're naked now, ya dummy!")
-	
+	action_timer.start(PASS_TIME)
+
+func _on_player_use_item():
+	action_queue.append(ActionBuilder.new().use_item())
 	action_timer.start(PASS_TIME)
 
 func _on_player_wait():

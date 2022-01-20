@@ -30,3 +30,18 @@ func teleport(dest: Vector2 = Vector2(0, 0), cost: int = 1):
 	action.dest = dest
 	action.cost = cost
 	return action
+
+func use_item(cost: int = 1):
+	action.type = Action.ActionType.USE_ITEM
+	action.cost = cost
+	return action
+
+func equip(cost: int = 2):
+	action.type = Action.ActionType.EQUIP
+	action.cost = cost
+	return action
+
+func unequip(cost: int = 2):
+	action.type = Action.ActionType.UNEQUIP
+	action.cost = cost
+	return action

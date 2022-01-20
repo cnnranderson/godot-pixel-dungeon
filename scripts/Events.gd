@@ -22,6 +22,7 @@ signal turn_ended
 # Player Events
 signal player_interact(item)
 signal player_equip(item)
+signal player_use_item
 signal player_unequip_weapon
 signal player_unequip_armor
 signal player_search
