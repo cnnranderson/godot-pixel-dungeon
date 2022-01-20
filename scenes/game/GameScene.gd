@@ -40,7 +40,7 @@ func _reload_map():
 	load_splash.modulate.a = 0
 	tween.interpolate_property(load_splash, "modulate:a", 0, 1.0, 0.5, Tween.TRANS_CUBIC, Tween.EASE_IN)
 	tween.start()
-	yield(get_tree().create_timer(2.5), "timeout")
+	yield(get_tree().create_timer(1.0), "timeout")
 	GameState.world.init_world()
 	yield(Events, "map_ready")
 	tween.interpolate_property(load_splash, "modulate:a", 1.0, 0, 1.0, Tween.TRANS_EXPO, Tween.EASE_OUT)
