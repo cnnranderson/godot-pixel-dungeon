@@ -11,7 +11,8 @@ enum ActionType {
 	EQUIP,
 	UNEQUIP,
 	WAIT,
-	SEARCH
+	SEARCH,
+	TELEPORT
 }
 var type = null
 var dest: Vector2

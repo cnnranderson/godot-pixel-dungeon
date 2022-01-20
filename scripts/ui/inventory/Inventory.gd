@@ -10,7 +10,7 @@ func set_backpack_size(size):
 		items.append(null)
 
 func add_item(item):
-	for idx in items.size() - 1:
+	for idx in items.size():
 		if items[idx] == null:
 			set_item(idx, item)
 			emit_signal("items_changed", [idx])

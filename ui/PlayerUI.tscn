@@ -66,6 +66,7 @@ anchor_bottom = 1.0
 margin_right = -816.0
 margin_bottom = -639.0
 rect_min_size = Vector2( 264, 72 )
+mouse_filter = 2
 theme = ExtResource( 4 )
 script = ExtResource( 8 )
 __meta__ = {
@@ -77,6 +78,7 @@ __meta__ = {
 [node name="VBox" type="VBoxContainer" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
+mouse_filter = 2
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -351,6 +353,7 @@ margin_right = 250.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 250, 32 )
 rect_clip_content = true
+mouse_filter = 2
 custom_constants/separation = 2
 __meta__ = {
 "_edit_use_anchors_": false

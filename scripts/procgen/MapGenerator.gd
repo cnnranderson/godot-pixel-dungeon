@@ -99,13 +99,13 @@ func _add_rooms():
 			if not stair_spawn and Helpers.chance_luck(10 + (i / max_rooms) * 10):
 				stair_spawn = Vector2(x + floor(rwidth / 2), y + floor(rheight / 2))
 			elif Helpers.chance_luck(25):
+				items.scroll_spawns.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
+			elif Helpers.chance_luck(25):
 				items.key_spawns.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
 			elif Helpers.chance_luck(25):
 				items.coin_spawns.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
 			elif Helpers.chance_luck(15):
 				items.weapon_spawns.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
-			elif Helpers.chance_luck(15):
-				items.scroll_spawns.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
 			elif Helpers.chance_luck(25):
 				enemies.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
 				

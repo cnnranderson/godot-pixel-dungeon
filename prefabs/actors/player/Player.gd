@@ -122,6 +122,10 @@ func take_damage(damage: int, crit = false, heal = false):
 	interrupt()
 	Events.emit_signal("player_hit")
 
+func teleport(tpos: Vector2):
+	.teleport(tpos)
+	Events.emit_signal("log_message", "You've been teleported!")
+
 func die():
 	pass
 
@@ -169,16 +173,22 @@ func _on_player_equip(item: Item):
 		GameState.player.equipped.weapon = item
 		Events.emit_signal("refresh_backpack")
 	# TODO: item is Armor
+	
+	action_timer.start(PASS_TIME)
 
 func _on_player_unequip_weapon():
 	Events.emit_signal("log_message", "You put away the %s" % GameState.player.equipped.weapon.name)
 	GameState.player.equipped.weapon = null
 	Events.emit_signal("refresh_backpack")
+	
+	action_timer.start(PASS_TIME)
 
 func _on_player_unequip_armor():
 	GameState.player.equipped.armor = null
 	Events.emit_signal("refresh_backpack")
 	Events.emit_signal("log_message", "You're naked now, ya dummy!")
+	
+	action_timer.start(PASS_TIME)
 
 func _on_player_wait():
 	if GameState.is_player_turn \

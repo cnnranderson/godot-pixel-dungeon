@@ -8,7 +8,8 @@ const Items = {
 	"coins": preload("res://prefabs/items/basic/Coins.tres")
 }
 const Scrolls = {
-	"healing": preload("res://prefabs/items/scrolls/HealingScroll.tres")
+	"healing": preload("res://prefabs/items/scrolls/HealingScroll.tres"),
+	"teleport": preload("res://prefabs/items/scrolls/TeleportScroll.tres")
 }
 const Weapons = {
 	"axe": preload("res://prefabs/items/weapons/Axe.tres"),
@@ -108,7 +109,7 @@ func _generate_test_coins():
 func _generate_test_scrolls():
 	var scroll_pos = level.items.scroll_spawns
 	for tpos in scroll_pos:
-		spawn_scroll(Scrolls.healing, tpos)
+		spawn_scroll(Scrolls.values()[randi() % Scrolls.size()], tpos)
 
 func _generate_test_weapons():
 	var weapon_pos = level.items.weapon_spawns

@@ -115,6 +115,16 @@ func _tile_id(point):
 
 
 ### UTILITY FUNCTIONS
+func get_random_empty_tile() -> Vector2:
+	var attempts = level_size.x * level_size.y
+	while attempts > 0:
+		attempts -= 1
+		var x = randi() % map.size()
+		var y = randi() % map[0].size()
+		if can_move_to(Vector2(x, y)):
+			return Vector2(x, y)
+	return Vector2.ZERO
+
 func reset_doors():
 	var tiles = get_used_cells()
 	for tile in tiles:

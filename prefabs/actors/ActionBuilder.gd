@@ -24,3 +24,9 @@ func search(cost: int = 1):
 	action.type = Action.ActionType.SEARCH
 	action.cost = cost
 	return action
+
+func teleport(dest: Vector2 = Vector2(0, 0), cost: int = 1):
+	action.type = Action.ActionType.TELEPORT
+	action.dest = dest
+	action.cost = cost
+	return action

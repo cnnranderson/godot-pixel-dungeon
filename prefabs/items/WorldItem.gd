@@ -14,12 +14,19 @@ export(Resource) var item: Resource setget set_item
 
 func set_item(new_value):
 	item = new_value as Item
-	$TextureRect.texture = item.texture
+	
+	match item.category:
+		Item.Category.SCROLL:
+			item.texture.region.position.x = 16 * (randi() % 8)
+			$TextureRect.texture = item.texture
+		_:
+			$TextureRect.texture = item.texture
+	
 
 func collect():
 	if collected: return
 	collected = true
-	match (item.category):
+	match item.category:
 		Item.Category.KEY:
 			GameState.player.inventory.keys += count
 			Sounds.play_sound(Sounds.SoundType.SFX, SOUND.generic)
@@ -48,7 +55,3 @@ func collect():
 	
 	yield(get_tree().create_timer(0.2), "timeout")
 	queue_free()
-
-static func generate_scroll():
-	
-	pass

@@ -18,6 +18,8 @@ var act_time = 0
 var action_queue = []
 var action_timer = Timer.new()
 var last_pos: Vector2
+var unstable_teleport = 0
+var should_teleport = false
 
 func _ready():
 	_setup_action_timer()
@@ -37,6 +39,15 @@ func tpos():
 	return GameState.level.world_to_map(position)
 
 func act():
+	# Teleportation rules
+	if should_teleport:
+		unstable_teleport -= 1
+		if unstable_teleport <= 0:
+			should_teleport = false
+			action_queue.clear()
+			var t_location = GameState.level.get_random_empty_tile()
+			action_queue.append(ActionBuilder.new().teleport(t_location))
+	
 	var action
 	if action_queue.size() > 0:
 		action = action_queue.pop_front()
@@ -56,6 +67,8 @@ func act():
 				move(action.dest)
 			Action.ActionType.ATTACK:
 				attack(action.target)
+			Action.ActionType.TELEPORT:
+				teleport(action.dest)
 			_:
 				Events.emit_signal("turn_ended", self)
 
@@ -115,6 +128,16 @@ func take_damage(damage: int, crit = false, heal = false):
 
 func heal(amount: int):
 	take_damage(-amount, false, true)
+
+func teleport(tpos: Vector2):
+	var new_pos = GameState.level.map_to_world(tpos)
+	if not mob:
+		new_pos += Vector2(8, 8)
+	$Tween.interpolate_property(self, "position",
+		position, new_pos,
+		MOVE_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	$Tween.start()
+	action_timer.start(PASS_TIME)
 
 func die():
 	GameState.level.free_tile(tpos())

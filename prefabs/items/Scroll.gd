@@ -28,11 +28,14 @@ func use():
 	if not is_discovered():
 		GameState.discovered_scrolls.append(type)
 	
+	Events.emit_signal("log_message", "You used a scroll of %s" % name)
 	match(type):
 		ScrollType.HEALING:
 			GameState.hero.heal(999)
 		ScrollType.TELEPORT:
-			#GameState.hero.teleport()
+			Events.emit_signal("log_message", "You feel unstable...")
+			GameState.hero.unstable_teleport = randi() % 4 + 1
+			GameState.hero.should_teleport = true
 			pass
 		ScrollType.ALARM:
 			#GameState.world.alert_all()
@@ -41,8 +44,4 @@ func use():
 			pass
 		ScrollType.UPGRADE_ARM:
 			pass
-	
-	
-	Events.emit_signal("log_message", "You used a scroll of %s" % name)
-
 
