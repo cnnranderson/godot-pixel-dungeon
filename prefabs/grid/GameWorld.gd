@@ -33,7 +33,7 @@ func _ready():
 	Events.connect("enemies_acted", self, "_on_enemies_acted")
 	Events.connect("turn_ended", self, "_on_turn_ended")
 
-func _input(event):
+func _process(delta):
 	var mouse_pos = get_local_mouse_position()
 	var m_tpos = level.world_to_map(mouse_pos)
 	var tile = level.get_cellv(m_tpos)

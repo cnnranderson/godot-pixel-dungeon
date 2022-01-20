@@ -44,6 +44,7 @@ margin_left = 20.0
 margin_top = -200.0
 margin_right = 380.0
 margin_bottom = -20.0
+mouse_filter = 1
 
 [node name="PlayerUI" parent="UI" instance=ExtResource( 5 )]
 visible = false
@@ -51,6 +52,7 @@ rect_scale = Vector2( 2, 2 )
 
 [node name="LoadSplash" parent="UI" instance=ExtResource( 2 )]
 visible = false
+mouse_filter = 1
 
 [node name="World" parent="." instance=ExtResource( 3 )]
 

@@ -28,7 +28,8 @@ func _ready():
 	Events.connect("player_unequip_armor", self, "_on_player_unequip_armor")
 	Events.connect("next_stage", self, "_on_next_stage")
 
-func _input(event):
+func _unhandled_input(event):
+	print(event)
 	if not GameState.is_player_turn \
 			or GameState.inventory_open \
 			or action_timer.time_left > 0 \
