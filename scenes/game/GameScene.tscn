@@ -17,7 +17,7 @@ layer = -1
 margin_right = 1080.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 1080, 720 )
-mouse_filter = 1
+mouse_filter = 2
 color = Color( 0.156863, 0.156863, 0.156863, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -35,7 +35,6 @@ margin_left = -132.0
 margin_top = -85.0
 margin_right = 132.0
 margin_bottom = 85.0
-mouse_filter = 2
 
 [node name="ActionLog" parent="UI" instance=ExtResource( 6 )]
 visible = false
@@ -51,11 +50,9 @@ mouse_filter = 2
 [node name="PlayerUI" parent="UI" instance=ExtResource( 5 )]
 visible = false
 rect_scale = Vector2( 2, 2 )
-mouse_filter = 2
 
 [node name="LoadSplash" parent="UI" instance=ExtResource( 2 )]
 visible = false
-mouse_filter = 2
 
 [node name="World" parent="." instance=ExtResource( 3 )]
 
