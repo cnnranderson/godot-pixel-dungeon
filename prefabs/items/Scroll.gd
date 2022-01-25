@@ -34,7 +34,8 @@ func use():
 			GameState.hero.heal(999)
 		ScrollType.TELEPORT:
 			Events.emit_signal("log_message", "You feel unstable...")
-			GameState.hero.unstable_teleport = randi() % 4 + 1
+			GameState.hero.unstable_teleport = randi() % 4 + 2
+			print(GameState.hero.unstable_teleport)
 			GameState.hero.should_teleport = true
 			pass
 		ScrollType.ALARM:

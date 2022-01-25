@@ -82,6 +82,8 @@ func _process_actions():
 		print("player acting")
 		GameState.is_player_turn = true
 		if GameState.hero.action_queue.size() > 0:
+			if actors.size() == 1: # TODO Fix this by normalizing when wait times are scheduled
+				yield(get_tree().create_timer(Actor.MOVE_TIME), "timeout")
 			GameState.hero.act()
 	else:
 		# Enemies take turns
@@ -89,6 +91,8 @@ func _process_actions():
 		for actor in actors:
 			if actor.act_time == lowest_time:
 				var action = actor.act()
+				
+				# If an actor attacks, it should let the animation finish before actors move
 				if action and action.type == Action.ActionType.ATTACK:
 					attacked = true
 					break

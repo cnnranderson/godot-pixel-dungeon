@@ -1,6 +1,6 @@
 extends Control
 
-var EventLabel = preload("res://ui/EventLabel.tscn")
+var EventLabel = preload("res://ui/log/EventLabel.tscn")
 
 onready var feed = $Feed
 

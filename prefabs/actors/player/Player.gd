@@ -190,31 +190,36 @@ func _on_player_unequip_weapon():
 	Events.emit_signal("log_message", "You put away the %s" % GameState.player.equipped.weapon.name)
 	GameState.player.equipped.weapon = null
 	Events.emit_signal("refresh_backpack")
+	yield(get_tree().create_timer(MOVE_TIME), "timeout")
+	act()
 
 func _on_player_unequip_armor():
 	action_queue.append(ActionBuilder.new().unequip(3))
 	Events.emit_signal("log_message", "You're naked now, ya dummy!")
 	GameState.player.equipped.armor = null
 	Events.emit_signal("refresh_backpack")
+	yield(get_tree().create_timer(MOVE_TIME), "timeout")
+	act()
 
 func _on_player_use_item():
 	action_queue.append(ActionBuilder.new().use_item())
+	yield(get_tree().create_timer(MOVE_TIME), "timeout")
+	act()
 
 func _on_player_wait():
 	if _can_act():
 		action_queue.append(ActionBuilder.new().wait())
 		talk("...")
+		yield(get_tree().create_timer(MOVE_TIME), "timeout")
 		act()
 
 func _on_player_search():
 	if _can_act():
 		action_queue.append(ActionBuilder.new().search(2))
 		talk("search")
+		yield(get_tree().create_timer(MOVE_TIME), "timeout")
 		act()
 
 func _on_Player_area_entered(area):
 	if area is WorldItem and area.has_method("collect"):
 		area.collect()
-
-func _on_ActionCooldown_timeout():
-	Events.emit_signal("player_acted")
