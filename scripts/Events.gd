@@ -24,6 +24,7 @@ signal player_equip(item)
 signal player_use_item
 signal player_unequip_weapon
 signal player_unequip_armor
+signal player_continue
 signal player_search
 signal player_wait
 signal player_hit

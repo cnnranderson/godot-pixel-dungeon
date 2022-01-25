@@ -22,6 +22,7 @@ func _ready():
 	sprite.playing = true
 	Events.connect("player_wait", self, "_on_player_wait")
 	Events.connect("player_search", self, "_on_player_search")
+	Events.connect("player_continue", self, "_on_player_continue")
 	Events.connect("player_equip", self, "_on_player_equip")
 	Events.connect("player_use_item", self, "_on_player_use_item")
 	Events.connect("player_unequip_weapon", self, "_on_player_unequip_weapon")
@@ -156,13 +157,13 @@ func attack(actor: Actor):
 	Events.emit_signal("camera_shake", 0.2, 0.6)
 	var origin_pos = position
 	var attack_pos = actor.position + Vector2(8, 8)
-	tween.interpolate_property(self, "position",
-		position, attack_pos,
-		MOVE_TIME, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
-	tween.interpolate_property(self, "position",
-		attack_pos, origin_pos,
-		MOVE_TIME * 2, Tween.TRANS_SINE, Tween.EASE_IN, MOVE_TIME)
-	tween.start()
+	#tween.interpolate_property(self, "position",
+	#	position, attack_pos,
+	#	MOVE_TIME, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+	#tween.interpolate_property(self, "position",
+	#	attack_pos, origin_pos,
+	#	MOVE_TIME * 2, Tween.TRANS_SINE, Tween.EASE_IN, MOVE_TIME)
+	#tween.start()
 	Sounds.play_hit()
 
 func take_damage(damage: int, crit = false, heal = false):
@@ -232,6 +233,12 @@ func _on_player_search():
 		action_queue.append(ActionBuilder.new().search(2))
 		talk("search")
 		yield(get_tree().create_timer(MOVE_TIME), "timeout")
+		act()
+
+func _on_player_continue():
+	if _can_act() and not interrupted_actions.empty():
+		action_queue.append_array(interrupted_actions)
+		interrupted_actions.clear()
 		act()
 
 func _on_Player_area_entered(area):

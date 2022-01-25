@@ -12,6 +12,7 @@ onready var depth = $VBox/Panel/HBox/Stats/Vbox/Level/Floor/Label
 onready var backpack = $VBox/Hbox/Backpack/Button
 onready var search = $VBox/Hbox/Search/Button
 onready var wait = $VBox/Hbox/Wait/Button
+onready var continue_queue = $VBox/Hbox/Continue/Button
 
 # Indicators/Effects
 onready var wait_indicator = $VBox/Wait/Container/Image
@@ -22,9 +23,10 @@ func _ready():
 	Events.connect("player_interact", self, "_on_player_interact")
 	Events.connect("player_levelup", self, "_on_player_levelup")
 	Events.connect("player_hit", self, "_on_player_hit")
-	backpack.connect("button_down", self, "_on_backpack_pressed")
-	search.connect("button_down", self, "_on_search_pressed")
-	wait.connect("button_down", self, "_on_wait_pressed")
+	backpack.connect("pressed", self, "_on_backpack_pressed")
+	search.connect("pressed", self, "_on_search_pressed")
+	wait.connect("pressed", self, "_on_wait_pressed")
+	continue_queue.connect("pressed", self, "_on_continue_pressed")
 
 func _init_stats():
 	lvl.text = "Lv: %d" % GameState.player.stats.level
@@ -64,3 +66,7 @@ func _on_search_pressed():
 func _on_wait_pressed():
 	if not GameState.inventory_open:
 		Events.emit_signal("player_wait")
+
+func _on_continue_pressed():
+	if not GameState.inventory_open:
+		Events.emit_signal("player_continue")
