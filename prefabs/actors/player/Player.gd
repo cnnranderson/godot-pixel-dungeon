@@ -80,6 +80,7 @@ func queue_attack(tpos: Vector2):
 	action_queue.append(attack)
 
 func interrupt():
+	sprite.animation = ANIM.idle
 	interrupted_actions.append_array(action_queue)
 	action_queue.clear()
 
@@ -116,41 +117,12 @@ func move(tpos):
 	if action_queue.size() == 0:
 		sprite.animation = ANIM.idle
 
-func attack(actor: Actor):
-	var damage = 1 if not GameState.player.equipped.weapon else GameState.player.equipped.weapon.calc_damage()
-	var crit = false
-	if Helpers.chance_luck(crit_chance):
-		crit = true
-		damage = ceil(damage * 1.5)
-	
-	actor.take_damage(damage, crit)
-	Events.emit_signal("camera_shake", 0.2, 0.6)
-	Sounds.play_hit()
-
-func take_damage(damage: int, crit = false, heal = false):
-	.take_damage(damage, crit, heal)
-	interrupt()
-	Events.emit_signal("player_hit")
-
-func teleport(tpos: Vector2):
-	.teleport(tpos)
-	Events.emit_signal("log_message", "You've been teleported!")
-
-func die():
-	pass
-
-func can_unlock(tpos: Vector2):
-	if inventory.keys > 0:
-		inventory.keys -= 1
-		GameState.level.unlock_door(tpos, true)
-		Events.emit_signal("player_interact", Item.Category.KEY)
-		Events.emit_signal("log_message", "Door unlocked!")
-		return true
-	else:
-		Events.emit_signal("log_message", "You do not have any keys...")
-		return false
-
 func move_tween(tpos: Vector2, blocked = false):
+	if tpos.x > curr_tpos.x:
+		sprite.flip_h = false
+	if tpos.x < curr_tpos.x:
+		sprite.flip_h = true
+	
 	if not blocked:
 		var new_pos = GameState.level.map_to_world(tpos) + Vector2(8, 8)
 		curr_tpos = tpos
@@ -171,11 +143,41 @@ func move_tween(tpos: Vector2, blocked = false):
 			MOVE_TIME / 2, Tween.TRANS_SINE, Tween.EASE_IN, MOVE_TIME / 2)
 		
 	sprite.animation = ANIM.walk
-	if tpos.x > tpos().x:
-		sprite.flip_h = false
-	if tpos.x < tpos().x:
-		sprite.flip_h = true
 	tween.start()
+
+func attack(actor: Actor):
+	var damage = 1 if not GameState.player.equipped.weapon else GameState.player.equipped.weapon.calc_damage()
+	var crit = false
+	if Helpers.chance_luck(crit_chance):
+		crit = true
+		damage = ceil(damage * 1.5)
+	
+	actor.take_damage(damage, crit)
+	Events.emit_signal("camera_shake", 0.2, 0.6)
+	Sounds.play_hit()
+
+func take_damage(damage: int, crit = false, heal = false):
+	.take_damage(damage, crit, heal)
+	interrupt()
+	Events.emit_signal("player_hit")
+
+func teleport(tpos: Vector2):
+	.teleport(tpos)
+	Events.emit_signal("log_message", "You've been teleported!")
+
+func can_unlock(tpos: Vector2):
+	if inventory.keys > 0:
+		inventory.keys -= 1
+		GameState.level.unlock_door(tpos, true)
+		Events.emit_signal("player_interact", Item.Category.KEY)
+		Events.emit_signal("log_message", "Door unlocked!")
+		return true
+	else:
+		Events.emit_signal("log_message", "You do not have any keys...")
+		return false
+
+func die():
+	pass
 
 func _on_player_equip(item: Item):
 	if item is Weapon:

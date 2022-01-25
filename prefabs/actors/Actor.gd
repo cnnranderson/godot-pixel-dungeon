@@ -36,24 +36,6 @@ func tpos():
 	return curr_tpos
 
 func act():
-	# Teleportation rules
-	if should_teleport:
-		unstable_teleport -= 1
-		print(unstable_teleport)
-		if unstable_teleport <= 0:
-			should_teleport = false
-			action_queue.clear()
-			var t_location = GameState.level.get_random_empty_tile()
-			action_queue.append(ActionBuilder.new().teleport(t_location))
-	
-	# Sleeping mechanic
-	if false and asleep:
-		if should_wake:
-			asleep = false
-			should_wake = false
-		else:
-			action_queue.append(ActionBuilder.new().wait())
-	
 	# Mob AI
 	if mob and action_queue.empty():
 		var path = GameState.level.get_travel_path(tpos(), GameState.hero.tpos())
@@ -63,7 +45,25 @@ func act():
 			action_queue.append(ActionBuilder.new().attack(GameState.hero.tpos(), GameState.hero))
 		else:
 			action_queue.append(ActionBuilder.new().wait())
-			
+	
+	# Sleeping mechanic
+	if asleep:
+		if should_wake:
+			asleep = false
+			should_wake = false
+		else:
+			action_queue.clear()
+			action_queue.append(ActionBuilder.new().wait())
+	
+	# Teleportation rules - can override sleep
+	if should_teleport:
+		unstable_teleport -= 1
+		if unstable_teleport <= 0:
+			should_teleport = false
+			action_queue.clear()
+			var t_location = GameState.level.get_random_empty_tile()
+			action_queue.append(ActionBuilder.new().teleport(t_location))
+	
 	var action
 	if action_queue.size() > 0:
 		action = action_queue.pop_front()

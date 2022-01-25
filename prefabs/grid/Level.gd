@@ -65,6 +65,8 @@ func refresh_map():
 					set_tile(tpos, TILE_TYPE.INTERACTIVE, TILE.stair_down)
 				_:
 					set_tile(tpos, TILE_TYPE.NOBLOCK, TILE.ground)
+	
+	set_tile(spawn, TILE_TYPE.INTERACTIVE, TILE.stair_up)
 
 
 ### A-STAR PATHFINDING UTILITY
