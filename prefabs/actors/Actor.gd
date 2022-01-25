@@ -27,7 +27,7 @@ var asleep = false
 func _ready():
 	curr_tpos = GameState.level.world_to_map(position)
 	if mob:
-		asleep = true
+		# asleep = true
 		hp = mob.max_hp
 		if has_node("Sprite"):
 			$Sprite.texture = mob.texture

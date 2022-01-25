@@ -6,6 +6,8 @@ font_path = "res://assets/fonts/romulus.ttf"
 
 [sub_resource type="DynamicFont" id=2]
 size = 32
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 1 )
 
 [resource]
