@@ -30,9 +30,7 @@ onready var objects = $Objects
 
 func _ready():
 	GameState.level = level
-	Events.connect("player_acted", self, "_on_player_acted")
-	Events.connect("enemies_acted", self, "_on_enemies_acted")
-	Events.connect("turn_ended", self, "_on_turn_ended")
+	Events.connect("player_acted", self, "_process_actions")
 
 func _process(delta):
 	var mouse_pos = get_local_mouse_position()
@@ -52,6 +50,7 @@ func init_world():
 	
 	yield(get_tree().create_timer(0.1), "timeout")
 	Events.emit_signal("map_ready")
+	_process_actions()
 
 func _clear_world():
 	Helpers.delete_children(items)
@@ -72,20 +71,41 @@ func get_actor_at_tpos(tpos: Vector2) -> Actor:
 			return actor
 	return null
 
-func _get_next_actor() -> Actor:
-	var next_actor = null
-	for actor in $Actors.get_children():
-		if not next_actor or actor.act_time < next_actor.act_time:
-			next_actor = actor
-	return next_actor
-
-func _on_turn_ended(actor: Actor):
-	var next = _get_next_actor()
-	if next == GameState.hero and GameState.hero.action_queue.size() == 0:
+func _process_actions():
+	var actors = $Actors.get_children()
+	actors.sort_custom(self, "actor_priority_sort")
+	var lowest_time = actors[0].act_time
+	
+	var attacked = false
+	if lowest_time == GameState.hero.act_time:
+		# Player can now take a turn
+		print("player acting")
 		GameState.is_player_turn = true
+		if GameState.hero.action_queue.size() > 0:
+			GameState.hero.act()
 	else:
-		GameState.is_player_turn = false
-	next.act()
+		# Enemies take turns
+		print("enemies acting")
+		for actor in actors:
+			if actor.act_time == lowest_time:
+				var action = actor.act()
+				if action and action.type == Action.ActionType.ATTACK:
+					attacked = true
+					break
+		
+		if attacked:
+			yield(get_tree().create_timer(Actor.ATTACK_TIME), "timeout")
+			_process_actions()
+		else:
+			yield(get_tree().create_timer(Actor.MOVE_TIME), "timeout")
+			_process_actions()
+
+"""
+Sorts actors by their act time. Actors who have the lowest act time
+should move first, and continue doing so until they catch up to other actors.
+"""
+static func actor_priority_sort(a: Actor, b: Actor):
+	return a.act_time < b.act_time
 
 ### TEST UTILITIES
 func _generate_test_entities():

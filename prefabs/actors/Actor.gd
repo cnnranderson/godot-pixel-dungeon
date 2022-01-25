@@ -14,32 +14,26 @@ export(int) var turn_speed = 20
 export(int) var max_hp = 20
 export(int) var hp = max_hp
 
+onready var tween = $Tween
+
 var act_time = 0
 var action_queue = []
-var action_timer = Timer.new()
-var last_pos: Vector2
+var curr_tpos: Vector2
 var unstable_teleport = 0
 var should_teleport = false
 var should_wake = false
 var asleep = false
 
 func _ready():
-	_setup_action_timer()
-	last_pos = GameState.level.world_to_map(position)
+	curr_tpos = GameState.level.world_to_map(position)
 	if mob:
 		asleep = true
 		hp = mob.max_hp
 		if has_node("Sprite"):
 			$Sprite.texture = mob.texture
 
-func _setup_action_timer():
-	action_timer.wait_time = MOVE_TIME
-	action_timer.one_shot = true
-	add_child(action_timer)
-	action_timer.connect("timeout", self, "_on_action_timer_timeout")
-
 func tpos():
-	return GameState.level.world_to_map(position)
+	return curr_tpos
 
 func act():
 	# Teleportation rules
@@ -52,24 +46,26 @@ func act():
 			action_queue.append(ActionBuilder.new().teleport(t_location))
 	
 	# Sleeping mechanic
-	if asleep:
+	if false and asleep:
 		if should_wake:
 			asleep = false
 			should_wake = false
 		else:
 			action_queue.append(ActionBuilder.new().wait())
 	
+	# Mob AI
+	if mob and action_queue.empty():
+		var path = GameState.level.get_travel_path(tpos(), GameState.hero.tpos())
+		if path.size() > 1:
+			action_queue.append(ActionBuilder.new().move(path[0]))
+		elif path.size() == 1:
+			action_queue.append(ActionBuilder.new().attack(GameState.hero.tpos(), GameState.hero))
+		else:
+			action_queue.append(ActionBuilder.new().wait())
+			
 	var action
 	if action_queue.size() > 0:
 		action = action_queue.pop_front()
-	else:
-		# Mob AI
-		if mob:
-			var path = GameState.level.get_travel_path(tpos(), GameState.hero.tpos())
-			if path.size() > 0:
-				action = ActionBuilder.new().move(path[0])
-			else:
-				action = ActionBuilder.new().wait()
 	
 	if action:
 		act_time += action.cost
@@ -80,30 +76,17 @@ func act():
 				attack(action.target)
 			Action.ActionType.TELEPORT:
 				teleport(action.dest)
-			_:
-				Events.emit_signal("turn_ended", self)
-
-func _on_action_timer_timeout():
-	Events.emit_signal("turn_ended", self)
+	return action
 
 func move(tpos: Vector2):
-	var possible_attack = false
-	if GameState.hero.tpos() == tpos:
-		possible_attack = true
-	
-	# Attempt an attack if the player is near or move
-	if possible_attack:
-		attack(GameState.hero)
-	else:
-		var new_pos = GameState.level.map_to_world(tpos)
-		GameState.level.free_tile(last_pos)
-		last_pos = tpos
-		GameState.level.occupy_tile(tpos)
-		$Tween.interpolate_property(self, "position",
-			position, new_pos,
-			MOVE_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		$Tween.start()
-		Events.emit_signal("turn_ended", self)
+	var new_pos = GameState.level.map_to_world(tpos)
+	GameState.level.free_tile(curr_tpos)
+	curr_tpos = tpos
+	GameState.level.occupy_tile(tpos)
+	tween.interpolate_property(self, "position",
+		position, new_pos,
+		MOVE_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	tween.start()
 
 func talk(message: String):
 	var message_text = TextPopup.instance()
@@ -116,9 +99,9 @@ func talk(message: String):
 	GameState.world.get_node("Effects").add_child(message_text)
 
 func attack(actor: Actor):
+	yield(get_tree().create_timer(0.1), "timeout")
 	Sounds.play_enemy_hit()
 	actor.take_damage(mob.strength)
-	action_timer.start(ATTACK_TIME)
 
 func take_damage(damage: int, crit = false, heal = false):
 	var damage_text = DamagePopup.instance()
@@ -148,7 +131,6 @@ func teleport(tpos: Vector2):
 		position, new_pos,
 		MOVE_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	$Tween.start()
-	action_timer.start(PASS_TIME)
 
 func die():
 	GameState.level.free_tile(tpos())

@@ -10,7 +10,6 @@ export var move_speed = 8
 export var fast_travel_speed = 140
 export var crit_chance = 30
 
-onready var tween = $Tween
 onready var sprite = $AnimSprite
 onready var stats = GameState.player.stats
 onready var inventory = GameState.player.inventory
@@ -28,27 +27,14 @@ func _ready():
 	Events.connect("player_unequip_weapon", self, "_on_player_unequip_weapon")
 	Events.connect("player_unequip_armor", self, "_on_player_unequip_armor")
 	Events.connect("next_stage", self, "_on_next_stage")
+	act_time = 0
 
 func _unhandled_input(event):
-	if not GameState.is_player_turn \
-			or GameState.inventory_open \
-			or action_timer.time_left > 0 \
-			or tween.is_active() \
-			or action_queue.size() > 0:
-		return
+	if not _can_act(): return
 	
 	# Attempt an action or movement
-	for dir in Constants.INPUTS.keys():
-		if event.is_action(dir):
-			var target = tpos() + Constants.INPUTS[dir]
-			if target in GameState.level.blocked:
-				queue_attack(target)
-			else:
-				var action = ActionBuilder.new().move(target)
-				action_queue.append(action)
-				action_timer.start(MOVE_TIME)
-	
-	if event.is_action_pressed("select") and GameState.is_player_turn and action_queue.size() == 0:
+	if event.is_action_pressed("select"):
+		# Handle mouse input
 		var p_tpos = tpos()
 		var m_tpos = GameState.level.world_to_map(get_global_mouse_position())
 		var travel = GameState.level.get_travel_path(p_tpos, m_tpos)
@@ -60,13 +46,38 @@ func _unhandled_input(event):
 			for point in travel:
 				var action = ActionBuilder.new().move(point)
 				action_queue.append(action)
-			action_timer.start(MOVE_TIME)
+	else:
+		# Handle controller inputs
+		for dir in Constants.INPUTS.keys():
+			if event.is_action(dir):
+				var target = tpos() + Constants.INPUTS[dir]
+				if target in GameState.level.blocked:
+					queue_attack(target)
+				else:
+					var action = ActionBuilder.new().move(target)
+					action_queue.append(action)
+	
+	if not action_queue.empty():
+		yield(get_tree().create_timer(Actor.MOVE_TIME), "timeout")
+		Events.emit_signal("player_acted")
+
+func _can_act() -> bool:
+	return GameState.is_player_turn \
+			and not GameState.inventory_open \
+			and not tween.is_active() \
+			and action_queue.empty()
+
+func act():
+	var action = .act()
+	if action and action.type == Action.ActionType.ATTACK:
+		yield(get_tree().create_timer(Actor.ATTACK_TIME), "timeout")
+	GameState.is_player_turn = false
+	Events.emit_signal("player_acted")
 
 func queue_attack(tpos: Vector2):
 	var actor = GameState.world.get_actor_at_tpos(tpos)
 	var attack = ActionBuilder.new().attack(tpos, actor)
 	action_queue.append(attack)
-	action_timer.start(ATTACK_TIME)
 
 func interrupt():
 	interrupted_actions.append_array(action_queue)
@@ -100,7 +111,6 @@ func move(tpos):
 	
 	# Try to move
 	move_tween(tpos, blocked)
-	action_timer.start()
 	
 	yield(tween, "tween_all_completed")
 	if action_queue.size() == 0:
@@ -116,7 +126,6 @@ func attack(actor: Actor):
 	actor.take_damage(damage, crit)
 	Events.emit_signal("camera_shake", 0.2, 0.6)
 	Sounds.play_hit()
-	action_timer.start(ATTACK_TIME)
 
 func take_damage(damage: int, crit = false, heal = false):
 	.take_damage(damage, crit, heal)
@@ -144,22 +153,22 @@ func can_unlock(tpos: Vector2):
 func move_tween(tpos: Vector2, blocked = false):
 	if not blocked:
 		var new_pos = GameState.level.map_to_world(tpos) + Vector2(8, 8)
+		curr_tpos = tpos
 		Sounds.play_step()
 		tween.interpolate_property(self, "position",
 			position, new_pos,
-			action_timer.wait_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			MOVE_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	else:
-		act_time -= 1
 		var origin_pos = position
 		var hit_position = position + (GameState.level.map_to_world(tpos - tpos()) / 2)
 		Events.emit_signal("camera_shake", 0.15, 0.6)
 		Sounds.play_collision()
 		tween.interpolate_property(self, "position",
 			position, hit_position,
-			action_timer.wait_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+			MOVE_TIME / 2, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
 		tween.interpolate_property(self, "position",
 			hit_position, origin_pos,
-			action_timer.wait_time, Tween.TRANS_SINE, Tween.EASE_IN, action_timer.wait_time)
+			MOVE_TIME / 2, Tween.TRANS_SINE, Tween.EASE_IN, MOVE_TIME / 2)
 		
 	sprite.animation = ANIM.walk
 	if tpos.x > tpos().x:
@@ -171,47 +180,37 @@ func move_tween(tpos: Vector2, blocked = false):
 func _on_player_equip(item: Item):
 	if item is Weapon:
 		GameState.player.equipped.weapon = item
-		action_queue.append(ActionBuilder.new().equip())
+		action_queue.append(ActionBuilder.new().equip(3))
 		Events.emit_signal("log_message", "You equipped the %s" % item.name)
 		Events.emit_signal("refresh_backpack")
 	# TODO: item is Armor
-	
-	action_timer.start(PASS_TIME)
 
 func _on_player_unequip_weapon():
-	action_queue.append(ActionBuilder.new().unequip())
+	action_queue.append(ActionBuilder.new().unequip(3))
 	Events.emit_signal("log_message", "You put away the %s" % GameState.player.equipped.weapon.name)
 	GameState.player.equipped.weapon = null
 	Events.emit_signal("refresh_backpack")
-	action_timer.start(PASS_TIME)
 
 func _on_player_unequip_armor():
-	action_queue.append(ActionBuilder.new().unequip())
+	action_queue.append(ActionBuilder.new().unequip(3))
 	Events.emit_signal("log_message", "You're naked now, ya dummy!")
 	GameState.player.equipped.armor = null
 	Events.emit_signal("refresh_backpack")
-	action_timer.start(PASS_TIME)
 
 func _on_player_use_item():
 	action_queue.append(ActionBuilder.new().use_item())
-	action_timer.start(PASS_TIME)
 
 func _on_player_wait():
-	if GameState.is_player_turn \
-			and not GameState.inventory_open \
-			and action_timer.time_left <= 0 \
-			and not tween.is_active():
+	if _can_act():
 		action_queue.append(ActionBuilder.new().wait())
 		talk("...")
-		action_timer.start(PASS_TIME)
+		act()
 
 func _on_player_search():
-	if GameState.is_player_turn \
-			and not GameState.inventory_open \
-			and action_timer.time_left <= 0:
+	if _can_act():
 		action_queue.append(ActionBuilder.new().search(2))
 		talk("search")
-		action_timer.start(PASS_TIME)
+		act()
 
 func _on_Player_area_entered(area):
 	if area is WorldItem and area.has_method("collect"):
