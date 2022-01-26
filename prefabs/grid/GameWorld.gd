@@ -23,6 +23,7 @@ const Enemies = {
 }
 
 onready var level = $Level
+onready var visibility_map = $Visibility
 onready var items = $Items
 onready var actors = $Actors
 onready var effects = $Effects
