@@ -53,5 +53,5 @@ func collect():
 			else:
 				Events.emit_signal("log_message", "Your inventory is full!")
 	
-	yield(get_tree().create_timer(0.2), "timeout")
+	yield(get_tree().create_timer(0.1), "timeout")
 	queue_free()

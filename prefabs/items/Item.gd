@@ -21,3 +21,6 @@ enum Category {
 
 export var texture: Texture
 export(Category) var category
+
+func get_name():
+	return category

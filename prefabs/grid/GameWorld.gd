@@ -24,10 +24,13 @@ const Enemies = {
 
 onready var level = $Level
 onready var visibility_map = $Visibility
+onready var fog_map = $Fog
 onready var items = $Items
 onready var actors = $Actors
 onready var effects = $Effects
 onready var objects = $Objects
+
+var debug = false
 
 func _ready():
 	GameState.level = level
@@ -46,12 +49,50 @@ func _process(delta):
 func init_world():
 	_clear_world()
 	level.init_level()
+	for x in level.level_size.x:
+		for y in level.level_size.y:
+			visibility_map.set_cell(x, y, 0)
+			fog_map.set_cell(x, y, 0)
+	
 	_init_player()
 	_generate_test_entities()
 	
 	yield(get_tree().create_timer(0.1), "timeout")
 	Events.emit_signal("map_ready")
 	_process_actions()
+
+func _update_visuals():
+	var space_state = get_world_2d().direct_space_state
+	for x in range(level.level_size.x):
+		for y in range(level.level_size.y):
+			var x_dir = 1 if x < GameState.hero.tpos().x else -1
+			var y_dir = 1 if y < GameState.hero.tpos().y else -1
+			var test_point = Helpers.tile_to_world(Vector2(x, y)) + Vector2(x_dir, y_dir) * Constants.TILE_V / 2
+			
+			var occlusion = space_state.intersect_ray(GameState.hero.position, test_point)
+			if not occlusion or (occlusion.position - test_point).length() < 1:
+				if (GameState.hero.position - test_point).length() / Constants.TILE_SIZE < GameState.player.fov:
+					# Reveal if it's within FoV
+					visibility_map.set_cell(x, y, -1)
+					
+					# Also punch a hole in overall fog map
+					fog_map.set_cell(x, y, -1)
+					reveal_item(x, y)
+				else:
+					# Hide again if not within FoV
+					visibility_map.set_cell(x, y, 0)
+					reveal_item(x, y, false)
+			else:
+				# Hide if no collision in general
+				visibility_map.set_cell(x, y, 0)
+				reveal_item(x, y, false)
+
+func reveal_item(x, y, reveal: bool = true):
+	for item in items.get_children():
+		if Helpers.world_to_tile(item.position) == Vector2(x, y):
+			item.visible = reveal
+			break
+	pass
 
 func _clear_world():
 	Helpers.delete_children(items)
@@ -80,15 +121,16 @@ func _process_actions():
 	var attacked = false
 	if lowest_time == GameState.hero.act_time:
 		# Player can now take a turn
-		print("player acting")
+		if debug: print("player acting")
 		GameState.is_player_turn = true
 		if GameState.hero.action_queue.size() > 0:
 			if actors.size() == 1: # TODO Fix this by normalizing when wait times are scheduled
 				yield(get_tree().create_timer(Actor.MOVE_TIME), "timeout")
 			GameState.hero.act()
+		_update_visuals()
 	else:
 		# Enemies take turns
-		print("enemies acting")
+		if debug: print("enemies acting")
 		for actor in actors:
 			if actor.act_time == lowest_time:
 				var action = actor.act()

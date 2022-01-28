@@ -8,7 +8,7 @@ var inventory_open = false
 var auto_pickup = true
 var free_auto_pickup = true
 var player = {
-	"actor": null,
+	"fov": 3,
 	"inventory": {
 		"keys": 0,
 		"coins": 0,

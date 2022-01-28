@@ -27,7 +27,7 @@ func dice_roll(count: int = 1, sides: int = 6):
 func tile_to_world(tpos: Vector2, center_offset: bool = true) -> Vector2:
 	tpos *= Constants.TILE_SIZE
 	if center_offset:
-		tpos += (Constants.TILE_V / 2)
+		tpos += Constants.TILE_V * 0.5
 	return tpos
 
 func world_to_tile(world_pos: Vector2):
