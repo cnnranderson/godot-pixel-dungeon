@@ -59,12 +59,17 @@ func init_world():
 	
 	yield(get_tree().create_timer(0.1), "timeout")
 	Events.emit_signal("map_ready")
+	_update_visuals()
 	_process_actions()
+	
 
 func _update_visuals():
+	if debug: print("Updating FoV")
 	var space_state = get_world_2d().direct_space_state
-	for x in range(level.level_size.x):
-		for y in range(level.level_size.y):
+	var min_bound = GameState.hero.tpos() - Vector2.ONE * (GameState.player.fov + 2)
+	var max_bound = GameState.hero.tpos() + Vector2.ONE * (GameState.player.fov + 2)
+	for x in range(max(min_bound.x, 0), min(max_bound.x, level.level_size.x)):
+		for y in range(max(min_bound.y, 0), min(max_bound.y, level.level_size.y)):
 			var x_dir = 1 if x < GameState.hero.tpos().x else -1
 			var y_dir = 1 if y < GameState.hero.tpos().y else -1
 			var test_point = Helpers.tile_to_world(Vector2(x, y)) + Vector2(x_dir, y_dir) * Constants.TILE_V / 2
@@ -77,15 +82,15 @@ func _update_visuals():
 					
 					# Also punch a hole in overall fog map
 					fog_map.set_cell(x, y, -1)
-					reveal_item(x, y)
+					#reveal_item(x, y)
 				else:
 					# Hide again if not within FoV
 					visibility_map.set_cell(x, y, 0)
-					reveal_item(x, y, false)
+					#reveal_item(x, y, false)
 			else:
 				# Hide if no collision in general
 				visibility_map.set_cell(x, y, 0)
-				reveal_item(x, y, false)
+				#reveal_item(x, y, false)
 
 func reveal_item(x, y, reveal: bool = true):
 	for item in items.get_children():
@@ -119,40 +124,40 @@ func _process_actions():
 	var lowest_time = actors[0].act_time
 	
 	var attacked = false
-	if lowest_time == GameState.hero.act_time:
-		# Player can now take a turn
-		if debug: print("player acting")
-		GameState.is_player_turn = true
-		if GameState.hero.action_queue.size() > 0:
-			if actors.size() == 1: # TODO Fix this by normalizing when wait times are scheduled
-				yield(get_tree().create_timer(Actor.MOVE_TIME), "timeout")
-			GameState.hero.act()
-		_update_visuals()
-	else:
-		# Enemies take turns
-		if debug: print("enemies acting")
-		for actor in actors:
-			if actor.act_time == lowest_time:
-				var action = actor.act()
-				
-				# If an actor attacks, it should let the animation finish before actors move
-				if action and action.type == Action.ActionType.ATTACK:
-					attacked = true
+	var hero_acted = false
+	for actor in actors:
+		if actor.act_time == lowest_time:
+			var action = actor.act()
+			
+			# If the hero acted, make note; otherwise it's just become the heros turn
+			if actor == GameState.hero:
+				if action:
+					hero_acted = true
+				else:
+					GameState.is_player_turn = true
 					break
-		
-		if attacked:
-			yield(get_tree().create_timer(Actor.ATTACK_TIME), "timeout")
-			_process_actions()
-		else:
-			yield(get_tree().create_timer(Actor.MOVE_TIME), "timeout")
-			_process_actions()
+			
+			# If an actor attacks, let animation finish before other actors move
+			if action and action.type == Action.ActionType.ATTACK:
+				attacked = true
+				break
+		elif actor == GameState.hero and GameState.hero.act_time != lowest_time:
+			hero_acted = true
+	
+	if attacked:
+		yield(get_tree().create_timer(Actor.ATTACK_TIME), "timeout")
+	else:
+		yield(get_tree().create_timer(Actor.MOVE_TIME), "timeout")
+	 
+	if hero_acted or attacked:
+		_process_actions()
 
 """
 Sorts actors by their act time. Actors who have the lowest act time
 should move first, and continue doing so until they catch up to other actors.
 """
 static func actor_priority_sort(a: Actor, b: Actor):
-	return a.act_time < b.act_time
+	return a.act_time < b.act_time or (a == GameState.hero and a.act_time == b.act_time)
 
 ### TEST UTILITIES
 func _generate_test_entities():

@@ -59,7 +59,6 @@ func _unhandled_input(event):
 					action_queue.append(action)
 	
 	if not action_queue.empty():
-		yield(get_tree().create_timer(Actor.MOVE_TIME), "timeout")
 		Events.emit_signal("player_acted")
 
 func _can_act() -> bool:
@@ -70,10 +69,9 @@ func _can_act() -> bool:
 
 func act():
 	var action = .act()
-	if action and action.type == Action.ActionType.ATTACK:
-		yield(get_tree().create_timer(Actor.ATTACK_TIME), "timeout")
-	GameState.is_player_turn = false
-	Events.emit_signal("player_acted")
+	if action:
+		GameState.is_player_turn = false
+	return action
 
 func queue_attack(tpos: Vector2):
 	var actor = GameState.world.get_actor_at_tpos(tpos)
@@ -195,9 +193,7 @@ func _on_player_equip(item: Item):
 		action_queue.append(ActionBuilder.new().equip(3))
 		Events.emit_signal("log_message", "You equipped the %s" % item.name)
 		Events.emit_signal("refresh_backpack")
-	
-	yield(get_tree().create_timer(MOVE_TIME), "timeout")
-	act()
+	Events.emit_signal("player_acted")
 	# TODO: item is Armor
 
 func _on_player_unequip_weapon():
@@ -205,41 +201,36 @@ func _on_player_unequip_weapon():
 	Events.emit_signal("log_message", "You put away the %s" % GameState.player.equipped.weapon.name)
 	GameState.player.equipped.weapon = null
 	Events.emit_signal("refresh_backpack")
-	yield(get_tree().create_timer(MOVE_TIME), "timeout")
-	act()
+	Events.emit_signal("player_acted")
 
 func _on_player_unequip_armor():
 	action_queue.append(ActionBuilder.new().unequip(3))
 	Events.emit_signal("log_message", "You're naked now, ya dummy!")
 	GameState.player.equipped.armor = null
 	Events.emit_signal("refresh_backpack")
-	yield(get_tree().create_timer(MOVE_TIME), "timeout")
-	act()
+	Events.emit_signal("player_acted")
 
 func _on_player_use_item():
 	action_queue.append(ActionBuilder.new().use_item())
-	yield(get_tree().create_timer(MOVE_TIME), "timeout")
-	act()
+	Events.emit_signal("player_acted")
 
 func _on_player_wait():
 	if _can_act():
 		action_queue.append(ActionBuilder.new().wait())
 		talk("...")
-		yield(get_tree().create_timer(MOVE_TIME), "timeout")
-		act()
+		Events.emit_signal("player_acted")
 
 func _on_player_search():
 	if _can_act():
 		action_queue.append(ActionBuilder.new().search(2))
 		talk("search")
-		yield(get_tree().create_timer(MOVE_TIME), "timeout")
-		act()
+		Events.emit_signal("player_acted")
 
 func _on_player_continue():
 	if _can_act() and not interrupted_actions.empty():
 		action_queue.append_array(interrupted_actions)
 		interrupted_actions.clear()
-		act()
+		Events.emit_signal("player_acted")
 
 func _on_Player_area_entered(area):
 	if area is WorldItem and area.has_method("collect"):
