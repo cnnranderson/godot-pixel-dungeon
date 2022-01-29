@@ -82,15 +82,15 @@ func _update_visuals():
 					
 					# Also punch a hole in overall fog map
 					fog_map.set_cell(x, y, -1)
-					#reveal_item(x, y)
+					reveal_item(x, y)
 				else:
 					# Hide again if not within FoV
 					visibility_map.set_cell(x, y, 0)
-					#reveal_item(x, y, false)
+					reveal_item(x, y, false)
 			else:
 				# Hide if no collision in general
 				visibility_map.set_cell(x, y, 0)
-				#reveal_item(x, y, false)
+				reveal_item(x, y, false)
 
 func reveal_item(x, y, reveal: bool = true):
 	for item in items.get_children():
@@ -150,6 +150,7 @@ func _process_actions():
 		yield(get_tree().create_timer(Actor.MOVE_TIME), "timeout")
 	 
 	if hero_acted or attacked:
+		_update_visuals()
 		_process_actions()
 
 """
