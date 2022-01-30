@@ -11,7 +11,7 @@ enum WeaponType {
 export(WeaponType) var type = WeaponType.AXE
 export var name = "Axe"
 export var equippable = true
-export var damage = 1
+export var roll_damage = "1d4"
 export var upgrade = 0
 export var enchanted = false # TODO figure out special weapon enchantments
 export var unique = false
@@ -29,5 +29,9 @@ func get_name():
 	return value
 
 func calc_damage():
-	# TODO player will calc bonuses/buffs?
-	return damage + upgrade
+	var total_damage = 0
+	var calc = roll_damage.split("+")
+	for die in calc:
+		var attempts = die.split("d")
+		total_damage += Helpers.dice_roll(attempts[0] as int, attempts[1] as int)
+	return total_damage

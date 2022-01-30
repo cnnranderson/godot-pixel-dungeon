@@ -155,13 +155,6 @@ func attack(actor: Actor):
 	Events.emit_signal("camera_shake", 0.2, 0.6)
 	var origin_pos = position
 	var attack_pos = actor.position + Vector2(8, 8)
-	#tween.interpolate_property(self, "position",
-	#	position, attack_pos,
-	#	MOVE_TIME, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
-	#tween.interpolate_property(self, "position",
-	#	attack_pos, origin_pos,
-	#	MOVE_TIME * 2, Tween.TRANS_SINE, Tween.EASE_IN, MOVE_TIME)
-	#tween.start()
 	Sounds.play_hit()
 
 func take_damage(damage: int, crit = false, heal = false):

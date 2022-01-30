@@ -49,10 +49,15 @@ func _process(delta):
 func init_world():
 	_clear_world()
 	level.init_level()
-	for x in level.level_size.x:
-		for y in level.level_size.y:
-			visibility_map.set_cell(x, y, 0)
-			fog_map.set_cell(x, y, 0)
+	
+	if GameState.fog_of_war:
+		for x in level.level_size.x:
+			for y in level.level_size.y:
+				visibility_map.set_cell(x, y, 0)
+				fog_map.set_cell(x, y, 0)
+	else:
+		visibility_map.visible = false
+		fog_map.visible = false
 	
 	_init_player()
 	_generate_test_entities()
@@ -61,10 +66,18 @@ func init_world():
 	Events.emit_signal("map_ready")
 	_update_visuals()
 	_process_actions()
-	
+
+func _init_player():
+	var player = Player.instance()
+	GameState.hero = player
+	GameState.hero.position = level.map_to_world(level.spawn) + Vector2(8, 8)
+	$Actors.add_child(GameState.hero)
+	GameState.is_player_turn = true
 
 func _update_visuals():
 	if debug: print("Updating FoV")
+	if not GameState.fog_of_war: return
+	
 	var space_state = get_world_2d().direct_space_state
 	var min_bound = GameState.hero.tpos() - Vector2.ONE * (GameState.player.fov + 2)
 	var max_bound = GameState.hero.tpos() + Vector2.ONE * (GameState.player.fov + 2)
@@ -82,35 +95,34 @@ func _update_visuals():
 					
 					# Also punch a hole in overall fog map
 					fog_map.set_cell(x, y, -1)
-					reveal_item(x, y)
+					_reveal_entities(x, y)
 				else:
 					# Hide again if not within FoV
 					visibility_map.set_cell(x, y, 0)
-					reveal_item(x, y, false)
+					_reveal_entities(x, y, false)
 			else:
 				# Hide if no collision in general
 				visibility_map.set_cell(x, y, 0)
-				reveal_item(x, y, false)
+				_reveal_entities(x, y, false)
 
-func reveal_item(x, y, reveal: bool = true):
+func _reveal_entities(x, y, reveal: bool = true):
+	var tpos = Vector2(x, y)
 	for item in items.get_children():
-		if Helpers.world_to_tile(item.position) == Vector2(x, y):
+		if Helpers.world_to_tile(item.position) == tpos:
 			item.visible = reveal
 			break
-	pass
+	
+	for actor in actors.get_children():
+		if actor != GameState.hero:
+			if actor.tpos() == tpos:
+				actor.visible = reveal
+				break
 
 func _clear_world():
 	Helpers.delete_children(items)
 	Helpers.delete_children(actors)
 	Helpers.delete_children(effects)
 	Helpers.delete_children(objects)
-
-func _init_player():
-	var player = Player.instance()
-	player.position = level.map_to_world(level.spawn) + Vector2(8, 8)
-	GameState.hero = player
-	$Actors.add_child(player)
-	GameState.is_player_turn = true
 
 func get_actor_at_tpos(tpos: Vector2) -> Actor:
 	for actor in $Actors.get_children():
@@ -159,6 +171,7 @@ should move first, and continue doing so until they catch up to other actors.
 """
 static func actor_priority_sort(a: Actor, b: Actor):
 	return a.act_time < b.act_time or (a == GameState.hero and a.act_time == b.act_time)
+
 
 ### TEST UTILITIES
 func _generate_test_entities():
