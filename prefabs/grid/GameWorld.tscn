@@ -58,8 +58,6 @@ cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 0, 0, 0, 0, 0, 0 )
 format = 1
 
-[node name="Effects" type="Node2D" parent="."]
-
 [node name="Fog" type="TileMap" parent="."]
 tile_set = SubResource( 4 )
 cell_size = Vector2( 16, 16 )
@@ -69,3 +67,5 @@ format = 1
 
 [node name="Cursor" parent="." instance=ExtResource( 4 )]
 visible = false
+
+[node name="Effects" type="Node2D" parent="."]

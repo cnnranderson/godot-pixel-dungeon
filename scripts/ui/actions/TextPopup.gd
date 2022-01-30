@@ -11,9 +11,9 @@ func _ready():
 	display()
 
 func display():
-	var time = 0.8
+	var time = 0.6
 	tween.interpolate_property(self, 'modulate:a', modulate.a, 0.0, time, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-	tween.interpolate_property(self, 'rect_position:y', rect_position.y, rect_position.y - 10, time, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	tween.interpolate_property(self, 'rect_position:y', rect_position.y, rect_position.y - 16, time, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	tween.start()
 	
 	yield(tween, "tween_all_completed")

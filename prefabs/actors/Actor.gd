@@ -105,6 +105,13 @@ func attack(actor: Actor):
 	actor.take_damage(mob.strength)
 
 func take_damage(damage: int, crit = false, heal = false):
+	# 5% + (5% * lvl) + (5% * monster AC) + (5% * DEX)
+	var chance_to_hit = 5 + (5 * GameState.player.stats.level) + (5 * GameState.player.stats.dex)
+	
+	if not Helpers.chance_luck(chance_to_hit):
+		talk("Dodged")
+		return
+	
 	var damage_text = DamagePopup.instance()
 	damage_text.amount = damage
 	damage_text.is_crit = crit
