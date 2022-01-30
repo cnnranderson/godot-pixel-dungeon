@@ -12,6 +12,7 @@ export(WeaponType) var type = WeaponType.AXE
 export var name = "Axe"
 export var equippable = true
 export var roll_damage = "1d4"
+export var weight = 10
 export var upgrade = 0
 export var enchanted = false # TODO figure out special weapon enchantments
 export var unique = false

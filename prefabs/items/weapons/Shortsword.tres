@@ -15,6 +15,7 @@ type = 1
 name = "Shortsword"
 equippable = true
 roll_damage = "3d4"
+weight = 10
 upgrade = 0
 enchanted = false
 unique = false

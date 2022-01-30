@@ -27,7 +27,13 @@ func display_item(item):
 			item_eq.visible = (GameState.player.equipped.weapon == item)
 			item_stat.visible = true
 			item_upgrade.visible = true
-			item_stat.text = "%d" % item.damage
+			item_stat.text = "%d" % item.weight
+			item_upgrade.text = "+%d" % item.upgrade
+		elif item is Armor:
+			item_eq.visible = (GameState.player.equipped.armor == item)
+			item_stat.visible = true
+			item_upgrade.visible = true
+			item_stat.text = "%d" % item.ac
 			item_upgrade.text = "+%d" % item.upgrade
 		else:
 			_hide_stats()
@@ -63,6 +69,13 @@ func _on_ItemImage_gui_input(event):
 		if item is Weapon:
 			if item == GameState.player.equipped.weapon:
 				Events.emit_signal("player_unequip_weapon")
+				Events.emit_signal("open_inventory")
+			else:
+				Events.emit_signal("player_equip", item)
+				Events.emit_signal("open_inventory")
+		elif item is Armor:
+			if item == GameState.player.equipped.armor:
+				Events.emit_signal("player_unequip_armor")
 				Events.emit_signal("open_inventory")
 			else:
 				Events.emit_signal("player_equip", item)

@@ -14,6 +14,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
+log_count = 4
 
 [node name="Feed" type="VBoxContainer" parent="."]
 anchor_right = 1.0

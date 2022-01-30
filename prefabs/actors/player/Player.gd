@@ -201,8 +201,13 @@ func _on_player_equip(item: Item):
 		action_queue.append(ActionBuilder.new().equip(3))
 		Events.emit_signal("log_message", "You equipped the %s" % item.name)
 		Events.emit_signal("refresh_backpack")
+	if item is Armor:
+		GameState.player.equipped.armor = item
+		action_queue.append(ActionBuilder.new().equip(3))
+		Events.emit_signal("log_message", "You equipped the %s" % item.name)
+		Events.emit_signal("refresh_backpack")
 	Events.emit_signal("player_acted")
-	# TODO: item is Armor
+	# TODO: Equip rings
 
 func _on_player_unequip_weapon():
 	action_queue.append(ActionBuilder.new().unequip(3))

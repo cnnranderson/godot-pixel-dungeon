@@ -15,8 +15,7 @@ func _ready():
 
 func _unhandled_input(event):
 	if event.is_action_pressed("cancel"):
-		Events.emit_signal("camera_shake", 0.3, 0.5)
-		GameState.level.reset_doors()
+		Events.emit_signal("next_stage")
 	
 	if event.is_action_pressed("add_key"):
 		GameState.player.inventory.keys += 1
