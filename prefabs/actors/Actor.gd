@@ -15,6 +15,7 @@ export(int) var max_hp = 20
 export(int) var hp = max_hp
 
 onready var tween = $Tween
+onready var hp_bar = $HpBar
 
 var act_time = 0
 var action_queue = []
@@ -31,6 +32,14 @@ func _ready():
 		hp = mob.max_hp
 		if has_node("Sprite"):
 			$Sprite.texture = mob.texture
+	if hp_bar:
+		_init_hp_bar()
+
+func _init_hp_bar():
+	if mob:
+		hp_bar.max_value = mob.max_hp
+		hp_bar.value = mob.max_hp
+	hp_bar.visible = false
 
 func tpos():
 	return curr_tpos
@@ -110,7 +119,7 @@ func take_damage(damage: int, crit = false, heal = false):
 	
 	if not Helpers.chance_luck(chance_to_hit):
 		talk("Dodged")
-		return
+		return false
 	
 	var damage_text = DamagePopup.instance()
 	damage_text.amount = damage
@@ -125,8 +134,14 @@ func take_damage(damage: int, crit = false, heal = false):
 	
 	hp -= damage
 	hp = clamp(hp, 0, max_hp)
+	
+	if hp_bar:
+		hp_bar.visible = true
+		hp_bar.value = hp
+	
 	if hp <= 0:
 		die()
+	return true
 
 func heal(amount: int):
 	take_damage(-amount, false, true)

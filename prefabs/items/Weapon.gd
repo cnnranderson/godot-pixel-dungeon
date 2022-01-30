@@ -29,9 +29,4 @@ func get_name():
 	return value
 
 func calc_damage():
-	var total_damage = 0
-	var calc = roll_damage.split("+")
-	for die in calc:
-		var attempts = die.split("d")
-		total_damage += Helpers.dice_roll(attempts[0] as int, attempts[1] as int)
-	return total_damage
+	return Helpers.dice_roll_composed(roll_damage)

@@ -28,7 +28,7 @@ var player = {
 	"stats": {
 		"xp": 0,
 		"xp_next": 100,
-		"level": 1,
+		"level": 10,
 		"max_hp": 20,
 		"str": 1,
 		"ac": 1,

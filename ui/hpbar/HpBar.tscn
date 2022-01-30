@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="StyleBoxLine" id=1]
+color = Color( 1, 0, 0, 1 )
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 2
+
+[sub_resource type="StyleBoxLine" id=2]
+color = Color( 0.168627, 0.168627, 0.168627, 1 )
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 2
+
+[node name="HpBar" type="ProgressBar"]
+margin_left = -8.0
+margin_top = -1.0
+margin_right = 8.0
+margin_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 16, 2 )
+custom_styles/fg = SubResource( 1 )
+custom_styles/bg = SubResource( 2 )
+step = 1.0
+value = 50.0
+rounded = true
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}

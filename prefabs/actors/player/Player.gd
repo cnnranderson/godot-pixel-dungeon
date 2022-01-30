@@ -9,6 +9,7 @@ const ANIM = {
 export var move_speed = 8
 export var fast_travel_speed = 140
 export var crit_chance = 30
+export var base_damage = "1d3"
 
 onready var sprite = $AnimSprite
 onready var stats = GameState.player.stats
@@ -145,7 +146,14 @@ func move_tween(tpos: Vector2, blocked = false):
 	tween.start()
 
 func attack(actor: Actor):
-	var damage = 1 if not GameState.player.equipped.weapon else GameState.player.equipped.weapon.calc_damage()
+	# Determine hit damage
+	var damage = 0
+	if GameState.player.equipped.weapon:
+		damage = GameState.player.equipped.weapon.calc_damage()
+	else:
+		damage = Helpers.dice_roll_composed(base_damage)
+	
+	# Calc critical hit chance
 	var crit = false
 	if Helpers.chance_luck(crit_chance):
 		crit = true
@@ -158,9 +166,10 @@ func attack(actor: Actor):
 	Sounds.play_hit()
 
 func take_damage(damage: int, crit = false, heal = false):
-	.take_damage(damage, crit, heal)
-	interrupt()
-	Events.emit_signal("player_hit")
+	var was_hit = .take_damage(damage, crit, heal)
+	if was_hit:
+		interrupt()
+		Events.emit_signal("player_hit")
 
 func teleport(tpos: Vector2):
 	.teleport(tpos)

@@ -17,6 +17,14 @@ func chance_luck(percentage):
 		return chance in range(1, percentage)
 	return false
 
+func dice_roll_composed(dice: String) -> int:
+	var damage = 0
+	var calc = dice.split("+")
+	for die in calc:
+		var attempts = die.split("d")
+		damage += dice_roll(attempts[0] as int, attempts[1] as int)
+	return damage
+
 func dice_roll(count: int = 1, sides: int = 6):
 	var sum = 0
 	for i in range(count):

@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://prefabs/actors/Actor.gd" type="Script" id=1]
 [ext_resource path="res://prefabs/actors/bat/Bat.tres" type="Resource" id=2]
 [ext_resource path="res://assets/images/mobs/bat.png" type="Texture" id=3]
 [ext_resource path="res://prefabs/actors/WakeObserver.tscn" type="PackedScene" id=4]
+[ext_resource path="res://ui/hpbar/HpBar.tscn" type="PackedScene" id=5]
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 3 )
@@ -27,5 +28,11 @@ visible = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 8, 8 )
 shape = SubResource( 1 )
+
+[node name="HpBar" parent="." instance=ExtResource( 5 )]
+margin_left = 0.0
+margin_top = -2.0
+margin_right = 16.0
+margin_bottom = 0.0
 
 [node name="Tween" type="Tween" parent="."]
