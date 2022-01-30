@@ -25,7 +25,7 @@ func dice_roll_composed(dice: String) -> int:
 		damage += dice_roll(attempts[0] as int, attempts[1] as int)
 	return damage
 
-func dice_roll(count: int = 1, sides: int = 6):
+func dice_roll(count: int = 1, sides: int = 6) -> int:
 	var sum = 0
 	for i in range(count):
 		var roll = randi() % sides + 1

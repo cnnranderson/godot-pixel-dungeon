@@ -55,6 +55,7 @@ custom_colors/font_color = Color( 1, 0.960784, 0.392157, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 1
 custom_constants/shadow_offset_y = 1
+custom_constants/shadow_as_outline = 1
 text = "E"
 
 [node name="Stat" type="Label" parent="Extra"]
@@ -64,6 +65,7 @@ rect_min_size = Vector2( 56, 56 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 1
 custom_constants/shadow_offset_y = 1
+custom_constants/shadow_as_outline = 1
 text = "0"
 align = 2
 
@@ -75,6 +77,7 @@ custom_colors/font_color = Color( 0.0627451, 0.847059, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 1
 custom_constants/shadow_offset_y = 1
+custom_constants/shadow_as_outline = 1
 text = "+0"
 align = 2
 valign = 2

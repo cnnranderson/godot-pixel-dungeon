@@ -1,4 +1,7 @@
+tool
 extends CenterContainer
+
+export(Texture) var default_img
 
 onready var item_image = $ItemImage
 onready var item_eq = $Extra/Equipped
@@ -8,6 +11,8 @@ onready var inventory = GameState.player.backpack
 
 func _ready():
 	_hide_stats()
+	if default_img:
+		item_image.texture = default_img
 
 func _hide_stats():
 	item_eq.visible = false

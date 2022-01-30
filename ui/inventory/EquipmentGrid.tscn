@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://ui/inventory/InventoryItem.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/images/items.png" type="Texture" id=2]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 80, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 2 )
+region = Rect2( 96, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 2 )
+region = Rect2( 112, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 2 )
+region = Rect2( 112, 0, 16, 16 )
+
+[node name="EquipmentGrid" type="GridContainer"]
+anchor_right = 0.242
+anchor_bottom = 0.092
+margin_right = -0.360016
+margin_bottom = -0.240005
+custom_constants/vseparation = 0
+custom_constants/hseparation = 1
+columns = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Weapon" parent="." instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 64.0
+margin_bottom = 64.0
+default_img = SubResource( 1 )
+
+[node name="Armor" parent="." instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 65.0
+margin_right = 129.0
+margin_bottom = 64.0
+default_img = SubResource( 2 )
+
+[node name="Ring1" parent="." instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 130.0
+margin_right = 194.0
+margin_bottom = 64.0
+default_img = SubResource( 3 )
+
+[node name="Ring2" parent="." instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 195.0
+margin_right = 259.0
+margin_bottom = 64.0
+default_img = SubResource( 4 )
