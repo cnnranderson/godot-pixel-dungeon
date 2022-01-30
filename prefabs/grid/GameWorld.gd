@@ -18,6 +18,12 @@ const Weapons = {
 	"shortsword": preload("res://prefabs/items/weapons/Shortsword.tres"),
 	"staff": preload("res://prefabs/items/weapons/Staff.tres")
 }
+const Armors = {
+	"cloth": preload("res://prefabs/items/armor/Cloth.tres"),
+	"leather": preload("res://prefabs/items/armor/Leather.tres"),
+	"chain": preload("res://prefabs/items/armor/Chainmail.tres"),
+	"plate": preload("res://prefabs/items/armor/Plate.tres")
+}
 const Enemies = {
 	"bat": preload("res://prefabs/actors/bat/Bat.tscn")
 }
@@ -179,6 +185,7 @@ func _generate_test_entities():
 	_generate_test_coins()
 	_generate_test_scrolls()
 	_generate_test_weapons()
+	_generate_test_armor()
 	_generate_test_enemies()
 	pass
 
@@ -201,6 +208,11 @@ func _generate_test_weapons():
 	var weapon_pos = level.items.weapon_spawns
 	for tpos in weapon_pos:
 		spawn_weapon(Weapons.values()[randi() % Weapons.size()], tpos)
+
+func _generate_test_armor():
+	var armor_pos = level.items.armor_spawns
+	for tpos in armor_pos:
+		spawn_armor(Armors.values()[randi() % Armors.size()], tpos)
 
 func _generate_test_enemies():
 	var enemy_pos = level.enemies
@@ -232,5 +244,8 @@ func spawn_weapon(weapon: Resource, tpos: Vector2):
 	$Items.add_child(world_item)
 
 func spawn_armor(armor: Resource, tpos: Vector2):
-	pass
+	var world_item = WorldItem.instance()
+	world_item.item = armor
+	world_item.position = level.map_to_world(tpos)
+	$Items.add_child(world_item)
 

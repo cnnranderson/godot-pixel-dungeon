@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://prefabs/actors/Actor.gd"
 }, {
+"base": "Item",
+"class": "Armor",
+"language": "GDScript",
+"path": "res://prefabs/items/Armor.gd"
+}, {
 "base": "Camera2D",
 "class": "GameCam",
 "language": "GDScript",
@@ -88,6 +93,7 @@ _global_script_class_icons={
 "Action": "",
 "ActionBuilder": "",
 "Actor": "",
+"Armor": "",
 "GameCam": "",
 "GameWorld": "",
 "Inventory": "",
