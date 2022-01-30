@@ -7,10 +7,12 @@ onready var item_image = $ItemImage
 onready var item_eq = $Extra/Equipped
 onready var item_stat = $Extra/Stat
 onready var item_upgrade = $Extra/Upgrade
-onready var inventory = GameState.player.backpack
+var inventory
 
 func _ready():
-	_hide_stats()
+	if not Engine.editor_hint:
+		inventory = GameState.player.backpack
+		_hide_stats()
 	if default_img:
 		item_image.texture = default_img
 
