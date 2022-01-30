@@ -37,10 +37,8 @@ func display_item(item):
 			item_upgrade.visible = true
 			item_stat.text = "%d" % item.ac
 			item_upgrade.text = "+%d" % item.upgrade
-		else:
-			_hide_stats()
 	else:
-		item_image.texture = null
+		item_image.texture = default_img
 		_hide_stats()
 
 func get_drag_data(_position):
@@ -61,30 +59,22 @@ func can_drop_data(_position, data):
 
 func drop_data(_position, data):
 	var item_index = get_index()
-	# var item = inventory.items[item_index]
+	var item = inventory.items[item_index]
 	inventory.swap_items(item_index, data.item_index)
 	inventory.set_item(item_index, data.item)
 
 func _on_ItemImage_gui_input(event):
 	if event.is_action_released("select"):
-		var item = inventory.get_item(get_index()) as Item
-		if item is Weapon:
-			if GameState.player.equipped.weapon:
-				var ref = GameState.player.equipped.weapon
-				inventory.set_item(get_index(), ref)
-			else:
-				inventory.remove_item(get_index())
-			Events.emit_signal("player_equip", item)
-			Events.emit_signal("open_inventory")
-		elif item is Armor:
-			if GameState.player.equipped.armor:
-				inventory.set_item(get_index(), GameState.player.equipped.armor)
-			else:
-				inventory.remove_item(get_index())
-			Events.emit_signal("player_equip", item)
-			Events.emit_signal("open_inventory")
-		elif item is Scroll:
-			item.use()
-			inventory.remove_item(get_index())
-			Events.emit_signal("player_use_item")
-			Events.emit_signal("open_inventory")
+		match name:
+			"Weapon":
+				if GameState.player.equipped.weapon:
+					inventory.add_item(GameState.player.equipped.weapon)
+					Events.emit_signal("player_unequip_weapon")
+					Events.emit_signal("open_inventory")
+			"Armor":
+				if GameState.player.equipped.armor:
+					inventory.add_item(GameState.player.equipped.armor)
+					Events.emit_signal("player_unequip_armor")
+					Events.emit_signal("open_inventory")
+		Events.emit_signal("refresh_backpack")
+	# TODO: Rings
