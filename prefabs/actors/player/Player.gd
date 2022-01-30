@@ -28,6 +28,7 @@ func _ready():
 	Events.connect("player_use_item", self, "_on_player_use_item")
 	Events.connect("player_unequip_weapon", self, "_on_player_unequip_weapon")
 	Events.connect("player_unequip_armor", self, "_on_player_unequip_armor")
+	Events.connect("enemy_died", self, "_on_enemy_died")
 	Events.connect("next_stage", self, "_on_next_stage")
 	act_time = 0
 
@@ -101,6 +102,7 @@ func move(tpos):
 		else:
 			GameState.level.open_door(tpos)
 	
+	# TODO: Make an interact button (similar to picking up items)
 	if GameState.level.is_stair_down(tpos):
 		Events.emit_signal("next_stage")
 	
@@ -151,7 +153,7 @@ func attack(actor: Actor):
 	if GameState.player.equipped.weapon:
 		damage = GameState.player.equipped.weapon.calc_damage()
 	else:
-		damage = Helpers.dice_roll_composed(base_damage)
+		damage = Helpers.dice_roll(max(stats.str, 3), 4)
 	
 	# Calc critical hit chance
 	var crit = false
@@ -233,6 +235,17 @@ func _on_player_continue():
 		action_queue.append_array(interrupted_actions)
 		interrupted_actions.clear()
 		Events.emit_signal("player_acted")
+
+func _on_enemy_died(xp: int):
+	stats.xp += xp
+	if stats.xp >= stats.xp_next:
+		stats.xp = stats.xp % stats.xp_next
+		stats.xp_next = int(stats.xp_next * 1.8)
+		stats.level += 1
+		max_hp += 2 * stats.level
+		hp = max(hp + 4, max_hp)
+	Events.emit_signal("player_gain_xp")
+	pass
 
 func _on_Player_area_entered(area):
 	if area is WorldItem and area.has_method("collect"):

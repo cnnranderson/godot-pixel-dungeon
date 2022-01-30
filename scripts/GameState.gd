@@ -8,6 +8,7 @@ var inventory_open = false
 var fog_of_war = false
 var auto_pickup = true
 var free_auto_pickup = true
+var guaranteed_player_hit = true
 
 # =======   STATE VARS   ==========
 var hero: Actor = null
@@ -27,9 +28,10 @@ var player = {
 	},
 	"stats": {
 		"xp": 0,
-		"xp_next": 100,
-		"level": 10,
+		"xp_next": 10,
+		"level": 1,
 		"max_hp": 20,
+		"hp": 20,
 		"str": 1,
 		"ac": 1,
 		"dex": 1

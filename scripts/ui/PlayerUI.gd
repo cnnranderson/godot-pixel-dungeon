@@ -21,7 +21,7 @@ var waiting = false
 
 func _ready():
 	Events.connect("player_interact", self, "_on_player_interact")
-	Events.connect("player_levelup", self, "_on_player_levelup")
+	Events.connect("player_gain_xp", self, "_on_player_gain_xp")
 	Events.connect("player_hit", self, "_on_player_hit")
 	backpack.connect("pressed", self, "_on_backpack_pressed")
 	search.connect("pressed", self, "_on_search_pressed")
@@ -45,11 +45,11 @@ func _on_player_interact(item):
 		Item.Category.KEY: keys.text = str(GameState.player.inventory.keys)
 		Item.Category.COINS: coins.text = str(GameState.player.inventory.coins)
 
-func _on_player_levelup():
-	lvl.text = "Lv: %d" % GameState.player.level
-	hp.value = GameState.player.stats.hp
-	hp.max_value = GameState.player.stats.hp_max
-	xp.value = GameState.player.stats.hp
+func _on_player_gain_xp():
+	lvl.text = "Lv: %d" % GameState.player.stats.level
+	hp.value = GameState.hero.hp
+	hp.max_value = GameState.hero.max_hp
+	xp.value = GameState.player.stats.xp
 	xp.max_value = GameState.player.stats.xp_next
 
 func _on_player_hit():

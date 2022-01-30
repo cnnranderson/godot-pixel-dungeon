@@ -13,3 +13,5 @@ export(int) var max_hp = 1
 export(int) var strength = 1
 export(int) var ac = 1
 export(int) var level = 1
+export(int) var hd = 1
+export(int) var xp_value = 20

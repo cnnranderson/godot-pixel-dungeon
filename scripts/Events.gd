@@ -15,8 +15,8 @@ signal map_ready
 signal next_stage
 
 # Actor Events
-signal enemy_acted
 signal player_acted
+signal enemy_died(xp)
 
 # Player Events
 signal player_interact(item)

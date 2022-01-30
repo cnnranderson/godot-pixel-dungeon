@@ -12,7 +12,7 @@ const PASS_TIME = 0.3
 export(Resource) var mob = null
 export(int) var turn_speed = 20
 export(int) var max_hp = 20
-export(int) var hp = max_hp
+export(int) var hp = 20
 
 onready var tween = $Tween
 onready var hp_bar = $HpBar
@@ -29,6 +29,7 @@ func _ready():
 	curr_tpos = GameState.level.world_to_map(position)
 	if mob:
 		# asleep = true
+		mob.max_hp = Helpers.dice_roll(mob.hd, 8)
 		hp = mob.max_hp
 		if has_node("Sprite"):
 			$Sprite.texture = mob.texture
@@ -117,31 +118,32 @@ func take_damage(damage: int, crit = false, heal = false):
 	# 5% + (5% * lvl) + (5% * monster AC) + (5% * DEX)
 	var chance_to_hit = 5 + (5 * GameState.player.stats.level) + (5 * GameState.player.stats.dex)
 	
-	if not Helpers.chance_luck(chance_to_hit):
+	if (GameState.guaranteed_player_hit and mob) or Helpers.chance_luck(chance_to_hit):
+		var damage_text = DamagePopup.instance()
+		damage_text.amount = damage
+		damage_text.is_crit = crit
+		damage_text.is_heal = heal
+		damage_text.rect_global_position = position
+		if mob:
+			damage_text.rect_global_position += Vector2(8, 0)
+		else:
+			damage_text.rect_global_position += Vector2(0, -8)
+		GameState.world.get_node("Effects").add_child(damage_text)
+		
+		hp -= damage
+		hp = clamp(hp, 0, max_hp)
+		
+		if hp_bar:
+			hp_bar.visible = true
+			hp_bar.value = hp
+		
+		if hp <= 0:
+			die()
+		return true
+	else:
 		talk("Dodged")
 		return false
 	
-	var damage_text = DamagePopup.instance()
-	damage_text.amount = damage
-	damage_text.is_crit = crit
-	damage_text.is_heal = heal
-	damage_text.rect_global_position = position
-	if mob:
-		damage_text.rect_global_position += Vector2(8, 0)
-	else:
-		damage_text.rect_global_position += Vector2(0, -8)
-	GameState.world.get_node("Effects").add_child(damage_text)
-	
-	hp -= damage
-	hp = clamp(hp, 0, max_hp)
-	
-	if hp_bar:
-		hp_bar.visible = true
-		hp_bar.value = hp
-	
-	if hp <= 0:
-		die()
-	return true
 
 func heal(amount: int):
 	take_damage(-amount, false, true)
@@ -158,4 +160,7 @@ func teleport(tpos: Vector2):
 
 func die():
 	GameState.level.free_tile(tpos())
+	if mob and mob.type == Mob.Type.ENEMY:
+		Events.emit_signal("enemy_died", mob.xp_value)
 	queue_free()
+	
