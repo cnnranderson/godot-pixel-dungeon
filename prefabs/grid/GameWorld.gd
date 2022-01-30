@@ -143,7 +143,7 @@ func _process_actions():
 			
 			# If the hero acted, make note; otherwise it's just become the heros turn
 			if actor == GameState.hero:
-				if action:
+				if action and action.cost > 0:
 					hero_acted = true
 				else:
 					GameState.is_player_turn = true

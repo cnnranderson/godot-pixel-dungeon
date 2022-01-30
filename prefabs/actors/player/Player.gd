@@ -57,8 +57,12 @@ func _unhandled_input(event):
 				if target in GameState.level.blocked:
 					queue_attack(target)
 				else:
-					var action = ActionBuilder.new().move(target)
-					action_queue.append(action)
+					if GameState.level.can_move_to(target):
+						var action = ActionBuilder.new().move(target)
+						action_queue.append(action)
+					else:
+						var action = ActionBuilder.new().move(target, 0)
+						action_queue.append(action)
 	
 	if not action_queue.empty():
 		Events.emit_signal("player_acted")

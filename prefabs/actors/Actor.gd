@@ -28,7 +28,7 @@ var asleep = false
 func _ready():
 	curr_tpos = GameState.level.world_to_map(position)
 	if mob:
-		# asleep = true
+		asleep = false if GameState.enemies_start_awake else true
 		mob.max_hp = Helpers.dice_roll(mob.hd, 8)
 		hp = mob.max_hp
 		if has_node("Sprite"):
