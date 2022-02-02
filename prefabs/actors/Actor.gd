@@ -68,10 +68,11 @@ func act():
 	# Teleportation rules - can override sleep
 	if should_teleport:
 		unstable_teleport -= 1
-		print(unstable_teleport)
 		if unstable_teleport <= 0:
 			should_teleport = false
 			action_queue.clear()
+			
+			# Setup teleport location
 			var t_location = GameState.level.get_random_empty_tile()
 			action_queue.append(ActionBuilder.new().teleport(t_location))
 	
@@ -119,7 +120,7 @@ func take_damage(damage: int, crit = false, heal = false):
 	# 5% + (5% * lvl) + (5% * monster AC) + (5% * DEX)
 	var chance_to_hit = 5 + (5 * GameState.player.stats.level) + (5 * GameState.player.stats.dex)
 	
-	if (GameState.guaranteed_player_hit and mob) or Helpers.chance_luck(chance_to_hit):
+	if (GameState.player_guaranteed_hit and mob) or Helpers.chance_luck(chance_to_hit):
 		var damage_text = DamagePopup.instance()
 		damage_text.amount = damage
 		damage_text.is_crit = crit

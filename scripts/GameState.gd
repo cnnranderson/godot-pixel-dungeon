@@ -6,10 +6,12 @@ var inventory_open = false
 
 # ======= GAME SETTINGS  ==========
 var fog_of_war = false
-var enemies_start_awake = false
+var enemies_start_awake = true
 var auto_pickup = true
 var free_auto_pickup = true
-var guaranteed_player_hit = true
+var player_guaranteed_hit = false
+var player_guaranteed_miss = false
+var player_any_dist_hit = true # Attack at any distance
 
 # =======   STATE VARS   ==========
 var hero: Actor = null

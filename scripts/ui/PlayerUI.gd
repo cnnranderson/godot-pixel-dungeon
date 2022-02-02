@@ -12,6 +12,7 @@ onready var depth = $VBox/Panel/HBox/Stats/Vbox/Level/Floor/Label
 onready var backpack = $VBox/Hbox/Backpack/Button
 onready var search = $VBox/Hbox/Search/Button
 onready var wait = $VBox/Hbox/Wait/Button
+onready var continue_box = $VBox/Hbox/Continue
 onready var continue_queue = $VBox/Hbox/Continue/Button
 
 # Indicators/Effects
@@ -23,6 +24,7 @@ func _ready():
 	Events.connect("player_interact", self, "_on_player_interact")
 	Events.connect("player_gain_xp", self, "_on_player_gain_xp")
 	Events.connect("player_hit", self, "_on_player_hit")
+	Events.connect("player_interrupted", self, "_on_player_interrupted")
 	backpack.connect("pressed", self, "_on_backpack_pressed")
 	search.connect("pressed", self, "_on_search_pressed")
 	wait.connect("pressed", self, "_on_wait_pressed")
@@ -40,6 +42,9 @@ func _process(delta):
 		wait_indicator.set_rotation(wait_indicator.get_rotation() + deg2rad(10 + 360 * delta))
 
 ### Player Events
+func _on_player_interrupted():
+	continue_box.visible = not GameState.hero.interrupted_actions.empty()
+
 func _on_player_interact(item):
 	match (item):
 		Item.Category.KEY: keys.text = str(GameState.player.inventory.keys)
@@ -69,4 +74,6 @@ func _on_wait_pressed():
 
 func _on_continue_pressed():
 	if not GameState.inventory_open:
+		continue_box.visible = false
 		Events.emit_signal("player_continue")
+		

@@ -43,7 +43,9 @@ func _unhandled_input(event):
 		interrupted_actions.clear()
 		if travel.size() == 0:
 			if m_tpos in GameState.level.blocked:
-				queue_attack(m_tpos)
+				var dist = (m_tpos - tpos()).length()
+				if dist < 2 or GameState.player_any_dist_hit:
+					queue_attack(m_tpos)
 		else:
 			for point in travel:
 				var action = ActionBuilder.new().move(point)
@@ -88,6 +90,7 @@ func interrupt():
 	sprite.animation = ANIM.idle
 	interrupted_actions.append_array(action_queue)
 	action_queue.clear()
+	Events.emit_signal("player_interrupted")
 
 func move(tpos):
 	var blocked = false
@@ -173,7 +176,7 @@ func attack(actor: Actor):
 
 func take_damage(damage: int, crit = false, heal = false):
 	var was_hit = .take_damage(damage, crit, heal)
-	if was_hit:
+	if was_hit or true:
 		interrupt()
 		Events.emit_signal("player_hit")
 
@@ -241,7 +244,9 @@ func _on_player_search():
 
 func _on_player_continue():
 	if _can_act() and not interrupted_actions.empty():
-		action_queue.append_array(interrupted_actions)
+		var final_dest = interrupted_actions.back().dest
+		var adjusted_travel_path = GameState.level.get_travel_path(tpos(), final_dest)
+		action_queue.append_array(adjusted_travel_path)
 		interrupted_actions.clear()
 		Events.emit_signal("player_acted")
 

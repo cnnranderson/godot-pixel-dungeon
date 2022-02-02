@@ -19,6 +19,7 @@ signal player_acted
 signal enemy_died(xp)
 
 # Player Events
+signal player_interrupted
 signal player_interact(item)
 signal player_equip(item)
 signal player_use_item
