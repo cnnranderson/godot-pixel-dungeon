@@ -248,7 +248,9 @@ func _on_player_continue():
 	if _can_act() and not interrupted_actions.empty():
 		var final_dest = interrupted_actions.back().dest
 		var adjusted_travel_path = GameState.level.get_travel_path(tpos(), final_dest)
-		action_queue.append_array(adjusted_travel_path)
+		for point in adjusted_travel_path:
+			var action = ActionBuilder.new().move(point)
+			action_queue.append(action)
 		interrupted_actions.clear()
 		Events.emit_signal("player_acted")
 
