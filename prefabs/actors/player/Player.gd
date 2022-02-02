@@ -46,6 +46,8 @@ func _unhandled_input(event):
 				var dist = (m_tpos - tpos()).length()
 				if dist < 2 or GameState.player_any_dist_hit:
 					queue_attack(m_tpos)
+			else:
+				Events.emit_signal("log_message", "Something blocks your path...")
 		else:
 			for point in travel:
 				var action = ActionBuilder.new().move(point)

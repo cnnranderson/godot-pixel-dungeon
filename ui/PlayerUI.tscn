@@ -434,6 +434,7 @@ __meta__ = {
 }
 
 [node name="Continue" type="TextureRect" parent="VBox/Hbox"]
+visible = false
 margin_left = 102.0
 margin_right = 134.0
 margin_bottom = 32.0
