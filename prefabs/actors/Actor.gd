@@ -157,7 +157,7 @@ func teleport(tpos: Vector2):
 		new_pos += Vector2(8, 8)
 	tween.interpolate_property(self, "position",
 		position, new_pos,
-		MOVE_TIME * 2, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		MOVE_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
 
 func die():
