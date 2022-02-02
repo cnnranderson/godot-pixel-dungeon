@@ -30,7 +30,6 @@ func _ready():
 	Events.connect("player_unequip_armor", self, "_on_player_unequip_armor")
 	Events.connect("enemy_died", self, "_on_enemy_died")
 	Events.connect("next_stage", self, "_on_next_stage")
-	act_time = 0
 
 func _unhandled_input(event):
 	if not _can_act(): return
@@ -74,6 +73,7 @@ func _can_act() -> bool:
 			and action_queue.empty()
 
 func act():
+	if action_queue.empty(): return
 	var action = .act()
 	if action:
 		GameState.is_player_turn = false

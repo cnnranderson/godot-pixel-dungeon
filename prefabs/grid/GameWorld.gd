@@ -145,15 +145,10 @@ func _process_actions():
 	var hero_acted = false
 	for actor in actors:
 		if actor.act_time == lowest_time:
-			var action
-			if actor.mob:
-				action = actor.act()
+			var action = actor.act()
 			
 			# If the hero acted, make note; otherwise it's just become the heros turn
 			if actor == GameState.hero:
-				if not GameState.hero.action_queue.empty():
-					action = actor.act()
-				
 				if action and action.cost > 0:
 					hero_acted = true
 				else:
