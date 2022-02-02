@@ -145,10 +145,15 @@ func _process_actions():
 	var hero_acted = false
 	for actor in actors:
 		if actor.act_time == lowest_time:
-			var action = actor.act()
+			var action
+			if actor.mob:
+				action = actor.act()
 			
 			# If the hero acted, make note; otherwise it's just become the heros turn
 			if actor == GameState.hero:
+				if not GameState.hero.action_queue.empty():
+					action = actor.act()
+				
 				if action and action.cost > 0:
 					hero_acted = true
 				else:
@@ -202,7 +207,7 @@ func _generate_test_coins():
 func _generate_test_scrolls():
 	var scroll_pos = level.items.scroll_spawns
 	for tpos in scroll_pos:
-		spawn_scroll(Scrolls.values()[randi() % Scrolls.size()], tpos)
+		spawn_scroll(Scrolls.values()[1], tpos) #randi() % Scrolls.size()], tpos)
 
 func _generate_test_weapons():
 	var weapon_pos = level.items.weapon_spawns

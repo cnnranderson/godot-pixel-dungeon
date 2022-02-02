@@ -647,7 +647,6 @@ extents = Vector2( 4, 4 )
 
 [node name="Player" type="Area2D"]
 script = ExtResource( 1 )
-hp = 20
 move_speed = 6
 
 [node name="Tween" type="Tween" parent="."]

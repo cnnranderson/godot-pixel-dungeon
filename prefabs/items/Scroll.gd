@@ -37,7 +37,7 @@ func use():
 			GameState.hero.unstable_teleport = randi() % 4 + 2
 			print(GameState.hero.unstable_teleport)
 			GameState.hero.should_teleport = true
-			pass
+			print("Unstable Count %d" % GameState.hero.unstable_teleport)
 		ScrollType.ALARM:
 			#GameState.world.alert_all()
 			pass

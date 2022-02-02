@@ -68,6 +68,7 @@ func act():
 	# Teleportation rules - can override sleep
 	if should_teleport:
 		unstable_teleport -= 1
+		print(unstable_teleport)
 		if unstable_teleport <= 0:
 			should_teleport = false
 			action_queue.clear()
