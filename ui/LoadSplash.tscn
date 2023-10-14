@@ -1,10 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=3 uid="uid://mwbm4xshkgqw"]
 
-[ext_resource path="res://assets/pd_import/images/arcs1.png" type="Texture2D" id=1]
-[ext_resource path="res://assets/pd_import/images/arcs2.png" type="Texture2D" id=3]
-[ext_resource path="res://ui/log_theme.tres" type="Theme" id=4]
+[ext_resource type="Texture2D" uid="uid://xkf4ivi472qv" path="res://assets/pd_import/images/arcs1.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://dcssp67l4w1p7" path="res://assets/pd_import/images/arcs2.png" id="3"]
+[ext_resource type="Theme" uid="uid://bq3ur21uw0y6r" path="res://ui/log_theme.tres" id="4"]
 
-[sub_resource type="Shader" id=4]
+[sub_resource type="Shader" id="4"]
 code = "shader_type canvas_item;
 
 uniform vec2 Direction = vec2(1.0, 1.0);
@@ -15,76 +15,74 @@ void fragment()
 	COLOR = texture(TEXTURE, UV + (Direction * TIME * Speed));
 }"
 
-[sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 4 )
-shader_param/Direction = Vector2( 1, 1 )
-shader_param/Speed = 0.1
+[sub_resource type="ShaderMaterial" id="2"]
+shader = SubResource("4")
+shader_parameter/Direction = Vector2(1, 1)
+shader_parameter/Speed = 0.1
 
-[sub_resource type="ShaderMaterial" id=5]
-shader = SubResource( 4 )
-shader_param/Direction = Vector2( -1, 1 )
-shader_param/Speed = 0.1
+[sub_resource type="ShaderMaterial" id="5"]
+shader = SubResource("4")
+shader_parameter/Direction = Vector2(-1, 1)
+shader_parameter/Speed = 0.1
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id="3"]
 resource_name = "hover"
 length = 4.0
-loop = true
+loop_mode = 1
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath(".:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PackedFloat32Array( 0, 2, 4 ),
-"transitions": PackedFloat32Array( 1.5, 1.5, 1.5 ),
+"times": PackedFloat32Array(0, 2, 4),
+"transitions": PackedFloat32Array(1.5, 1.5, 1.5),
 "update": 0,
-"values": [ Vector2( 458, 346 ), Vector2( 458, 360 ), Vector2( 458, 346 ) ]
+"values": [Vector2(458, 346), Vector2(458, 360), Vector2(458, 346)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1t3wv"]
+_data = {
+"hover": SubResource("3")
 }
 
 [node name="LoadSplash" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 offset_right = 1080.0
 offset_bottom = 720.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = ExtResource("4")
 
 [node name="Backdrop" type="Sprite2D" parent="."]
-material = SubResource( 2 )
-scale = Vector2( 4, 4 )
-texture = ExtResource( 1 )
+material = SubResource("2")
+scale = Vector2(4, 4)
+texture = ExtResource("1")
 centered = false
 region_enabled = true
-region_rect = Rect2( 0, 0, 270, 180 )
+region_rect = Rect2(0, 0, 270, 180)
 
 [node name="Frontdrop" type="Sprite2D" parent="."]
-material = SubResource( 5 )
-scale = Vector2( 3, 3 )
-texture = ExtResource( 3 )
+material = SubResource("5")
+scale = Vector2(3, 3)
+texture = ExtResource("3")
 centered = false
 region_enabled = true
-region_rect = Rect2( 0, 0, 360, 240 )
+region_rect = Rect2(0, 0, 360, 240)
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="CenterContainer"]
-offset_left = 458.0
-offset_top = 346.0
-offset_right = 622.0
-offset_bottom = 374.0
+layout_mode = 2
 text = "Descending..."
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CenterContainer/Label"]
+libraries = {
+"": SubResource("AnimationLibrary_1t3wv")
+}
 autoplay = "hover"
-anims/hover = SubResource( 3 )

@@ -1,123 +1,112 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=24 format=3 uid="uid://j4yii6ljvlas"]
 
-[ext_resource path="res://assets/images/hp_9x.png" type="Texture2D" id=1]
-[ext_resource path="res://assets/images/menu_9x.png" type="Texture2D" id=2]
-[ext_resource path="res://assets/images/exp_9x.png" type="Texture2D" id=3]
-[ext_resource path="res://ui/pd_theme.tres" type="Theme" id=4]
-[ext_resource path="res://assets/images/menu_slot_9x.png" type="Texture2D" id=6]
-[ext_resource path="res://assets/pd_import/images/items.png" type="Texture2D" id=7]
-[ext_resource path="res://scripts/ui/PlayerUI.gd" type="Script" id=8]
-[ext_resource path="res://assets/pd_import/images/avatars.png" type="Texture2D" id=9]
-[ext_resource path="res://assets/images/icons.png" type="Texture2D" id=10]
-[ext_resource path="res://assets/pd_import/images/locked_badge.png" type="Texture2D" id=11]
-[ext_resource path="res://assets/images/toolbar_icons.png" type="Texture2D" id=12]
+[ext_resource type="Texture2D" uid="uid://ldw8p76533lh" path="res://assets/images/hp_9x.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://b46dyquca0p2p" path="res://assets/images/menu_9x.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://cw2rijsbitrgv" path="res://assets/images/exp_9x.png" id="3"]
+[ext_resource type="Theme" uid="uid://bhvq38rpgtg7l" path="res://ui/pd_theme.tres" id="4"]
+[ext_resource type="Texture2D" uid="uid://b0rgv11ydgdoj" path="res://assets/images/menu_slot_9x.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://ba10286bp7vun" path="res://assets/pd_import/images/items.png" id="7"]
+[ext_resource type="Script" path="res://scripts/ui/PlayerUI.gd" id="8"]
+[ext_resource type="Texture2D" uid="uid://1a0kxdcidcdm" path="res://assets/pd_import/images/avatars.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://ceoqmvtyu6dwy" path="res://assets/images/icons.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://bx74fhbmnrssc" path="res://assets/pd_import/images/locked_badge.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://20m7j4aumjn6" path="res://assets/images/toolbar_icons.png" id="12"]
 
-[sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 9 )
-region = Rect2( 0, 0, 24, 32 )
+[sub_resource type="AtlasTexture" id="10"]
+atlas = ExtResource("9")
+region = Rect2(0, 0, 24, 32)
 
-[sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 10 )
-region = Rect2( 46, 12, 8, 8 )
+[sub_resource type="AtlasTexture" id="11"]
+atlas = ExtResource("10")
+region = Rect2(46, 12, 8, 8)
 
-[sub_resource type="Gradient" id=1]
-offsets = PackedFloat32Array( 0 )
-colors = PackedColorArray( 0.219608, 0.0941176, 0.0941176, 1 )
+[sub_resource type="Gradient" id="1"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.219608, 0.0941176, 0.0941176, 1)
 
-[sub_resource type="GradientTexture2D" id=2]
-gradient = SubResource( 1 )
+[sub_resource type="GradientTexture2D" id="2"]
+gradient = SubResource("1")
 width = 1
 
-[sub_resource type="Gradient" id=4]
-offsets = PackedFloat32Array( 0 )
-colors = PackedColorArray( 0.243137, 0.196078, 0.196078, 1 )
+[sub_resource type="Gradient" id="4"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.243137, 0.196078, 0.196078, 1)
 
-[sub_resource type="GradientTexture2D" id=5]
-gradient = SubResource( 4 )
+[sub_resource type="GradientTexture2D" id="5"]
+gradient = SubResource("4")
 width = 1
 
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 7 )
-region = Rect2( 96, 16, 16, 16 )
+[sub_resource type="AtlasTexture" id="8"]
+atlas = ExtResource("7")
+region = Rect2(96, 16, 16, 16)
 
-[sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 7 )
-region = Rect2( 32, 16, 16, 16 )
+[sub_resource type="AtlasTexture" id="6"]
+atlas = ExtResource("7")
+region = Rect2(32, 16, 16, 16)
 
-[sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 12 )
-region = Rect2( 48, 0, 16, 16 )
+[sub_resource type="AtlasTexture" id="12"]
+atlas = ExtResource("12")
+region = Rect2(48, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 12 )
-region = Rect2( 16, 0, 16, 16 )
+[sub_resource type="AtlasTexture" id="13"]
+atlas = ExtResource("12")
+region = Rect2(16, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 0, 16, 16 )
+[sub_resource type="AtlasTexture" id="14"]
+atlas = ExtResource("12")
+region = Rect2(0, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 10 )
-region = Rect2( 8, 0, 8, 8 )
+[sub_resource type="AtlasTexture" id="15"]
+atlas = ExtResource("10")
+region = Rect2(8, 0, 8, 8)
 
 [node name="PlayerUI" type="Control"]
+custom_minimum_size = Vector2(264, 72)
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -816.0
 offset_bottom = -639.0
-custom_minimum_size = Vector2( 264, 72 )
 mouse_filter = 2
-theme = ExtResource( 4 )
-script = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Tween" type="Tween" parent="."]
+theme = ExtResource("4")
+script = ExtResource("8")
 
 [node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
 theme_override_constants/separation = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Panel" type="NinePatchRect" parent="VBox"]
-offset_right = 250.0
-offset_bottom = 48.0
-custom_minimum_size = Vector2( 250, 48 )
+custom_minimum_size = Vector2(250, 48)
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource( 2 )
+texture = ExtResource("2")
 patch_margin_left = 3
 patch_margin_top = 5
 patch_margin_right = 3
 patch_margin_bottom = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBox" type="HBoxContainer" parent="VBox/Panel"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 6.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Profile" type="NinePatchRect" parent="VBox/Panel/HBox"]
-offset_right = 38.0
-offset_bottom = 48.0
-custom_minimum_size = Vector2( 38, 48 )
-texture = ExtResource( 6 )
+custom_minimum_size = Vector2(38, 48)
+layout_mode = 2
+texture = ExtResource("6")
 patch_margin_left = 3
 patch_margin_top = 5
 patch_margin_right = 4
 patch_margin_bottom = 6
 
 [node name="Container" type="CenterContainer" parent="VBox/Panel/HBox/Profile"]
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -126,36 +115,23 @@ offset_left = -20.0
 offset_top = -20.0
 offset_right = 20.0
 offset_bottom = 20.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Image" type="TextureRect" parent="VBox/Panel/HBox/Profile/Container"]
-offset_left = 8.0
-offset_top = 4.0
-offset_right = 32.0
-offset_bottom = 36.0
-texture = SubResource( 10 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 2
+texture = SubResource("10")
 
 [node name="Stats" type="NinePatchRect" parent="VBox/Panel/HBox"]
-offset_left = 42.0
-offset_right = 172.0
-offset_bottom = 48.0
-custom_minimum_size = Vector2( 130, 48 )
+custom_minimum_size = Vector2(130, 48)
+layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource( 6 )
+texture = ExtResource("6")
 patch_margin_left = 3
 patch_margin_top = 5
 patch_margin_right = 4
 patch_margin_bottom = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Vbox" type="VBoxContainer" parent="VBox/Panel/HBox/Stats"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 5.0
@@ -164,122 +140,88 @@ offset_right = -6.0
 offset_bottom = -6.0
 theme_override_constants/separation = -3
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Level" type="HBoxContainer" parent="VBox/Panel/HBox/Stats/Vbox"]
-offset_top = 1.0
-offset_right = 119.0
-offset_bottom = 15.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="VBox/Panel/HBox/Stats/Vbox/Level"]
-offset_right = 57.0
-offset_bottom = 14.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Lv: 1"
 
 [node name="Floor" type="HBoxContainer" parent="VBox/Panel/HBox/Stats/Vbox/Level"]
-offset_left = 61.0
-offset_right = 119.0
-offset_bottom = 14.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Image" type="TextureRect" parent="VBox/Panel/HBox/Stats/Vbox/Level/Floor"]
-offset_top = 3.0
-offset_right = 8.0
-offset_bottom = 11.0
+layout_mode = 2
 size_flags_vertical = 4
-texture = SubResource( 11 )
+texture = SubResource("11")
 
 [node name="Label" type="Label" parent="VBox/Panel/HBox/Stats/Vbox/Level/Floor"]
-offset_left = 12.0
-offset_right = 25.0
-offset_bottom = 14.0
+layout_mode = 2
 text = ": 1"
 
 [node name="Hp" type="HBoxContainer" parent="VBox/Panel/HBox/Stats/Vbox"]
-offset_top = 12.0
-offset_right = 119.0
-offset_bottom = 26.0
+layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 2
 alignment = 1
 
 [node name="Label" type="Label" parent="VBox/Panel/HBox/Stats/Vbox/Hp"]
-offset_right = 20.0
-offset_bottom = 14.0
-theme_override_colors/font_color = Color( 1, 0.701961, 0.701961, 1 )
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.701961, 0.701961, 1)
 text = "HP:"
 
 [node name="Bar" type="TextureProgressBar" parent="VBox/Panel/HBox/Stats/Vbox/Hp"]
-offset_left = 22.0
-offset_top = 3.0
-offset_right = 119.0
-offset_bottom = 11.0
-custom_minimum_size = Vector2( 0, 8 )
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 value = 50.0
-texture_under = SubResource( 2 )
-texture_progress = ExtResource( 1 )
 nine_patch_stretch = true
 stretch_margin_left = 1
 stretch_margin_top = 1
 stretch_margin_right = 1
 stretch_margin_bottom = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture_under = SubResource("2")
+texture_progress = ExtResource("1")
 
 [node name="Xp" type="HBoxContainer" parent="VBox/Panel/HBox/Stats/Vbox"]
-offset_top = 23.0
-offset_right = 119.0
-offset_bottom = 37.0
+layout_mode = 2
 theme_override_constants/separation = 2
 alignment = 1
 
 [node name="Label" type="Label" parent="VBox/Panel/HBox/Stats/Vbox/Xp"]
-offset_right = 20.0
-offset_bottom = 14.0
-theme_override_colors/font_color = Color( 1, 0.964706, 0.854902, 1 )
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.964706, 0.854902, 1)
 text = "XP:"
 
 [node name="Bar" type="TextureProgressBar" parent="VBox/Panel/HBox/Stats/Vbox/Xp"]
-offset_left = 22.0
-offset_top = 3.0
-offset_right = 119.0
-offset_bottom = 11.0
-custom_minimum_size = Vector2( 0, 8 )
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 value = 50.0
-texture_under = SubResource( 5 )
-texture_progress = ExtResource( 3 )
 nine_patch_stretch = true
 stretch_margin_left = 1
 stretch_margin_top = 1
 stretch_margin_right = 1
 stretch_margin_bottom = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture_under = SubResource("5")
+texture_progress = ExtResource("3")
 
 [node name="Items" type="NinePatchRect" parent="VBox/Panel/HBox"]
-offset_left = 176.0
-offset_right = 240.0
-offset_bottom = 48.0
-custom_minimum_size = Vector2( 64, 48 )
-texture = ExtResource( 6 )
+custom_minimum_size = Vector2(64, 48)
+layout_mode = 2
+texture = ExtResource("6")
 patch_margin_left = 2
 patch_margin_top = 4
 patch_margin_right = 4
 patch_margin_bottom = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Vbox" type="VBoxContainer" parent="VBox/Panel/HBox/Items"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -287,88 +229,56 @@ offset_top = 6.0
 offset_right = -4.0
 offset_bottom = -6.0
 theme_override_constants/separation = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Coins" type="HBoxContainer" parent="VBox/Panel/HBox/Items/Vbox"]
-offset_right = 58.0
-offset_bottom = 18.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Image" type="TextureRect" parent="VBox/Panel/HBox/Items/Vbox/Coins"]
-offset_right = 16.0
-offset_bottom = 18.0
-texture = SubResource( 8 )
+layout_mode = 2
+texture = SubResource("8")
 
 [node name="space" type="Label" parent="VBox/Panel/HBox/Items/Vbox/Coins"]
-offset_left = 20.0
-offset_top = 2.0
-offset_right = 23.0
-offset_bottom = 16.0
+layout_mode = 2
 text = ":"
 
 [node name="Count" type="Label" parent="VBox/Panel/HBox/Items/Vbox/Coins"]
-offset_left = 27.0
-offset_top = 2.0
-offset_right = 58.0
-offset_bottom = 16.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "0"
-align = 2
 
 [node name="Keys" type="HBoxContainer" parent="VBox/Panel/HBox/Items/Vbox"]
-offset_top = 18.0
-offset_right = 58.0
-offset_bottom = 36.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Image" type="TextureRect" parent="VBox/Panel/HBox/Items/Vbox/Keys"]
-offset_right = 16.0
-offset_bottom = 18.0
-texture = SubResource( 6 )
+layout_mode = 2
+texture = SubResource("6")
 
 [node name="space" type="Label" parent="VBox/Panel/HBox/Items/Vbox/Keys"]
-offset_left = 20.0
-offset_top = 2.0
-offset_right = 23.0
-offset_bottom = 16.0
+layout_mode = 2
 text = ":"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Count" type="Label" parent="VBox/Panel/HBox/Items/Vbox/Keys"]
-offset_left = 27.0
-offset_top = 2.0
-offset_right = 58.0
-offset_bottom = 16.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "0"
-align = 2
 
 [node name="Hbox" type="HBoxContainer" parent="VBox"]
-offset_top = 48.0
-offset_right = 250.0
-offset_bottom = 80.0
-custom_minimum_size = Vector2( 250, 32 )
 clip_contents = true
+custom_minimum_size = Vector2(250, 32)
+layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Backpack" type="TextureRect" parent="VBox/Hbox"]
-offset_right = 32.0
-offset_bottom = 32.0
-grow_horizontal = 0
-grow_vertical = 0
-custom_minimum_size = Vector2( 32, 32 )
-texture = ExtResource( 11 )
-expand = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("11")
+expand_mode = 1
 
 [node name="Button" type="TextureButton" parent="VBox/Hbox/Backpack"]
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -379,21 +289,17 @@ offset_right = 8.0
 offset_bottom = 8.0
 size_flags_horizontal = 5
 size_flags_vertical = 5
-texture_normal = SubResource( 12 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture_normal = SubResource("12")
 
 [node name="Search" type="TextureRect" parent="VBox/Hbox"]
-offset_left = 34.0
-offset_right = 66.0
-offset_bottom = 32.0
-custom_minimum_size = Vector2( 32, 32 )
-texture = ExtResource( 11 )
-expand = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("11")
+expand_mode = 1
 
 [node name="Button" type="TextureButton" parent="VBox/Hbox/Search"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -402,22 +308,17 @@ offset_left = -8.0
 offset_top = -8.0
 offset_right = 8.0
 offset_bottom = 8.0
-custom_minimum_size = Vector2( 16, 16 )
-texture_normal = SubResource( 13 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture_normal = SubResource("13")
 
 [node name="Wait" type="TextureRect" parent="VBox/Hbox"]
-offset_left = 68.0
-offset_right = 100.0
-offset_bottom = 32.0
-custom_minimum_size = Vector2( 32, 32 )
-texture = ExtResource( 11 )
-expand = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("11")
+expand_mode = 1
 
 [node name="Button" type="TextureButton" parent="VBox/Hbox/Wait"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -426,25 +327,17 @@ offset_left = -8.0
 offset_top = -8.0
 offset_right = 8.0
 offset_bottom = 8.0
-custom_minimum_size = Vector2( 16, 16 )
-texture_normal = SubResource( 14 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture_normal = SubResource("14")
 
 [node name="Continue" type="TextureRect" parent="VBox/Hbox"]
 visible = false
-offset_left = 102.0
-offset_right = 134.0
-offset_bottom = 32.0
-grow_horizontal = 0
-grow_vertical = 0
-custom_minimum_size = Vector2( 32, 32 )
-texture = ExtResource( 11 )
-expand = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("11")
+expand_mode = 1
 
 [node name="Button" type="TextureButton" parent="VBox/Hbox/Continue"]
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -455,30 +348,20 @@ offset_right = 8.0
 offset_bottom = 8.0
 size_flags_horizontal = 5
 size_flags_vertical = 5
-texture_normal = SubResource( 12 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture_normal = SubResource("12")
 
 [node name="Wait" type="Panel" parent="VBox"]
-offset_top = 80.0
-offset_right = 250.0
-offset_bottom = 80.0
+layout_mode = 2
 
 [node name="Container" type="MarginContainer" parent="VBox/Wait"]
+layout_mode = 0
 offset_left = 5.0
 offset_top = 5.0
-offset_right = 8.0
-offset_bottom = 8.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_right = 13.0
+offset_bottom = 13.0
 
 [node name="Image" type="TextureRect" parent="VBox/Wait/Container"]
-offset_right = 8.0
-offset_bottom = 8.0
-pivot_offset = Vector2( 4, 4 )
+layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-texture = SubResource( 15 )
+texture = SubResource("15")
