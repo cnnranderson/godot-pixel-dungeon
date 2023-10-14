@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/game/GameScene.gd" id="1"]
 [ext_resource type="PackedScene" path="res://ui/LoadSplash.tscn" id="2"]
-[ext_resource type="PackedScene" path="res://prefabs/grid/GameWorld.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://6r5e0y8q5dwy" path="res://prefabs/grid/GameWorld.tscn" id="3"]
 [ext_resource type="PackedScene" path="res://ui/PlayerUI.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://ui/log/EventLog.tscn" id="6"]
 [ext_resource type="PackedScene" path="res://ui/inventory/Backpack.tscn" id="7"]

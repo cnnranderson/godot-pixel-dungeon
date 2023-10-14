@@ -20,7 +20,7 @@ var interrupted_actions = []
 
 func _ready():
 	sprite.animation = ANIM.idle
-	#sprite.playing = true
+	sprite.play()
 	Events.connect("player_wait", Callable(self, "_on_player_wait"))
 	Events.connect("player_search", Callable(self, "_on_player_search"))
 	Events.connect("player_continue", Callable(self, "_on_player_continue"))
