@@ -4,13 +4,13 @@
 [ext_resource path="res://ui/log_theme.tres" type="Theme" id=2]
 
 [node name="EventLabel" type="Label"]
-margin_right = 500.0
-margin_bottom = 14.0
-rect_min_size = Vector2( 500, 8 )
+offset_right = 500.0
+offset_bottom = 14.0
+custom_minimum_size = Vector2( 500, 8 )
 theme = ExtResource( 2 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 2
-custom_constants/shadow_offset_y = 2
+theme_override_colors/font_shadow_color = Color( 0, 0, 0, 1 )
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 text = "Welcome to the dungeon!"
 valign = 1
 script = ExtResource( 1 )

@@ -1,16 +1,16 @@
 [gd_scene load_steps=24 format=2]
 
-[ext_resource path="res://assets/images/hp_9x.png" type="Texture" id=1]
-[ext_resource path="res://assets/images/menu_9x.png" type="Texture" id=2]
-[ext_resource path="res://assets/images/exp_9x.png" type="Texture" id=3]
+[ext_resource path="res://assets/images/hp_9x.png" type="Texture2D" id=1]
+[ext_resource path="res://assets/images/menu_9x.png" type="Texture2D" id=2]
+[ext_resource path="res://assets/images/exp_9x.png" type="Texture2D" id=3]
 [ext_resource path="res://ui/pd_theme.tres" type="Theme" id=4]
-[ext_resource path="res://assets/images/menu_slot_9x.png" type="Texture" id=6]
-[ext_resource path="res://assets/pd_import/images/items.png" type="Texture" id=7]
+[ext_resource path="res://assets/images/menu_slot_9x.png" type="Texture2D" id=6]
+[ext_resource path="res://assets/pd_import/images/items.png" type="Texture2D" id=7]
 [ext_resource path="res://scripts/ui/PlayerUI.gd" type="Script" id=8]
-[ext_resource path="res://assets/pd_import/images/avatars.png" type="Texture" id=9]
-[ext_resource path="res://assets/images/icons.png" type="Texture" id=10]
-[ext_resource path="res://assets/pd_import/images/locked_badge.png" type="Texture" id=11]
-[ext_resource path="res://assets/images/toolbar_icons.png" type="Texture" id=12]
+[ext_resource path="res://assets/pd_import/images/avatars.png" type="Texture2D" id=9]
+[ext_resource path="res://assets/images/icons.png" type="Texture2D" id=10]
+[ext_resource path="res://assets/pd_import/images/locked_badge.png" type="Texture2D" id=11]
+[ext_resource path="res://assets/images/toolbar_icons.png" type="Texture2D" id=12]
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 9 )
@@ -21,18 +21,18 @@ atlas = ExtResource( 10 )
 region = Rect2( 46, 12, 8, 8 )
 
 [sub_resource type="Gradient" id=1]
-offsets = PoolRealArray( 0 )
-colors = PoolColorArray( 0.219608, 0.0941176, 0.0941176, 1 )
+offsets = PackedFloat32Array( 0 )
+colors = PackedColorArray( 0.219608, 0.0941176, 0.0941176, 1 )
 
-[sub_resource type="GradientTexture" id=2]
+[sub_resource type="GradientTexture2D" id=2]
 gradient = SubResource( 1 )
 width = 1
 
 [sub_resource type="Gradient" id=4]
-offsets = PoolRealArray( 0 )
-colors = PoolColorArray( 0.243137, 0.196078, 0.196078, 1 )
+offsets = PackedFloat32Array( 0 )
+colors = PackedColorArray( 0.243137, 0.196078, 0.196078, 1 )
 
-[sub_resource type="GradientTexture" id=5]
+[sub_resource type="GradientTexture2D" id=5]
 gradient = SubResource( 4 )
 width = 1
 
@@ -63,9 +63,9 @@ region = Rect2( 8, 0, 8, 8 )
 [node name="PlayerUI" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -816.0
-margin_bottom = -639.0
-rect_min_size = Vector2( 264, 72 )
+offset_right = -816.0
+offset_bottom = -639.0
+custom_minimum_size = Vector2( 264, 72 )
 mouse_filter = 2
 theme = ExtResource( 4 )
 script = ExtResource( 8 )
@@ -76,18 +76,18 @@ __meta__ = {
 [node name="Tween" type="Tween" parent="."]
 
 [node name="VBox" type="VBoxContainer" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+offset_right = 40.0
+offset_bottom = 40.0
 mouse_filter = 2
-custom_constants/separation = 0
+theme_override_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Panel" type="NinePatchRect" parent="VBox"]
-margin_right = 250.0
-margin_bottom = 48.0
-rect_min_size = Vector2( 250, 48 )
+offset_right = 250.0
+offset_bottom = 48.0
+custom_minimum_size = Vector2( 250, 48 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 2 )
@@ -102,15 +102,15 @@ __meta__ = {
 [node name="HBox" type="HBoxContainer" parent="VBox/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 6.0
+offset_left = 6.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Profile" type="NinePatchRect" parent="VBox/Panel/HBox"]
-margin_right = 38.0
-margin_bottom = 48.0
-rect_min_size = Vector2( 38, 48 )
+offset_right = 38.0
+offset_bottom = 48.0
+custom_minimum_size = Vector2( 38, 48 )
 texture = ExtResource( 6 )
 patch_margin_left = 3
 patch_margin_top = 5
@@ -122,29 +122,29 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -20.0
-margin_right = 20.0
-margin_bottom = 20.0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Image" type="TextureRect" parent="VBox/Panel/HBox/Profile/Container"]
-margin_left = 8.0
-margin_top = 4.0
-margin_right = 32.0
-margin_bottom = 36.0
+offset_left = 8.0
+offset_top = 4.0
+offset_right = 32.0
+offset_bottom = 36.0
 texture = SubResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Stats" type="NinePatchRect" parent="VBox/Panel/HBox"]
-margin_left = 42.0
-margin_right = 172.0
-margin_bottom = 48.0
-rect_min_size = Vector2( 130, 48 )
+offset_left = 42.0
+offset_right = 172.0
+offset_bottom = 48.0
+custom_minimum_size = Vector2( 130, 48 )
 size_flags_vertical = 3
 texture = ExtResource( 6 )
 patch_margin_left = 3
@@ -158,66 +158,66 @@ __meta__ = {
 [node name="Vbox" type="VBoxContainer" parent="VBox/Panel/HBox/Stats"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 4.0
-margin_right = -6.0
-margin_bottom = -6.0
-custom_constants/separation = -3
+offset_left = 5.0
+offset_top = 4.0
+offset_right = -6.0
+offset_bottom = -6.0
+theme_override_constants/separation = -3
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Level" type="HBoxContainer" parent="VBox/Panel/HBox/Stats/Vbox"]
-margin_top = 1.0
-margin_right = 119.0
-margin_bottom = 15.0
+offset_top = 1.0
+offset_right = 119.0
+offset_bottom = 15.0
 
 [node name="Label" type="Label" parent="VBox/Panel/HBox/Stats/Vbox/Level"]
-margin_right = 57.0
-margin_bottom = 14.0
+offset_right = 57.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "Lv: 1"
 
 [node name="Floor" type="HBoxContainer" parent="VBox/Panel/HBox/Stats/Vbox/Level"]
-margin_left = 61.0
-margin_right = 119.0
-margin_bottom = 14.0
+offset_left = 61.0
+offset_right = 119.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Image" type="TextureRect" parent="VBox/Panel/HBox/Stats/Vbox/Level/Floor"]
-margin_top = 3.0
-margin_right = 8.0
-margin_bottom = 11.0
+offset_top = 3.0
+offset_right = 8.0
+offset_bottom = 11.0
 size_flags_vertical = 4
 texture = SubResource( 11 )
 
 [node name="Label" type="Label" parent="VBox/Panel/HBox/Stats/Vbox/Level/Floor"]
-margin_left = 12.0
-margin_right = 25.0
-margin_bottom = 14.0
+offset_left = 12.0
+offset_right = 25.0
+offset_bottom = 14.0
 text = ": 1"
 
 [node name="Hp" type="HBoxContainer" parent="VBox/Panel/HBox/Stats/Vbox"]
-margin_top = 12.0
-margin_right = 119.0
-margin_bottom = 26.0
+offset_top = 12.0
+offset_right = 119.0
+offset_bottom = 26.0
 size_flags_horizontal = 3
-custom_constants/separation = 2
+theme_override_constants/separation = 2
 alignment = 1
 
 [node name="Label" type="Label" parent="VBox/Panel/HBox/Stats/Vbox/Hp"]
-margin_right = 20.0
-margin_bottom = 14.0
-custom_colors/font_color = Color( 1, 0.701961, 0.701961, 1 )
+offset_right = 20.0
+offset_bottom = 14.0
+theme_override_colors/font_color = Color( 1, 0.701961, 0.701961, 1 )
 text = "HP:"
 
-[node name="Bar" type="TextureProgress" parent="VBox/Panel/HBox/Stats/Vbox/Hp"]
-margin_left = 22.0
-margin_top = 3.0
-margin_right = 119.0
-margin_bottom = 11.0
-rect_min_size = Vector2( 0, 8 )
+[node name="Bar" type="TextureProgressBar" parent="VBox/Panel/HBox/Stats/Vbox/Hp"]
+offset_left = 22.0
+offset_top = 3.0
+offset_right = 119.0
+offset_bottom = 11.0
+custom_minimum_size = Vector2( 0, 8 )
 size_flags_horizontal = 3
 size_flags_vertical = 4
 value = 50.0
@@ -233,24 +233,24 @@ __meta__ = {
 }
 
 [node name="Xp" type="HBoxContainer" parent="VBox/Panel/HBox/Stats/Vbox"]
-margin_top = 23.0
-margin_right = 119.0
-margin_bottom = 37.0
-custom_constants/separation = 2
+offset_top = 23.0
+offset_right = 119.0
+offset_bottom = 37.0
+theme_override_constants/separation = 2
 alignment = 1
 
 [node name="Label" type="Label" parent="VBox/Panel/HBox/Stats/Vbox/Xp"]
-margin_right = 20.0
-margin_bottom = 14.0
-custom_colors/font_color = Color( 1, 0.964706, 0.854902, 1 )
+offset_right = 20.0
+offset_bottom = 14.0
+theme_override_colors/font_color = Color( 1, 0.964706, 0.854902, 1 )
 text = "XP:"
 
-[node name="Bar" type="TextureProgress" parent="VBox/Panel/HBox/Stats/Vbox/Xp"]
-margin_left = 22.0
-margin_top = 3.0
-margin_right = 119.0
-margin_bottom = 11.0
-rect_min_size = Vector2( 0, 8 )
+[node name="Bar" type="TextureProgressBar" parent="VBox/Panel/HBox/Stats/Vbox/Xp"]
+offset_left = 22.0
+offset_top = 3.0
+offset_right = 119.0
+offset_bottom = 11.0
+custom_minimum_size = Vector2( 0, 8 )
 size_flags_horizontal = 3
 size_flags_vertical = 4
 value = 50.0
@@ -266,10 +266,10 @@ __meta__ = {
 }
 
 [node name="Items" type="NinePatchRect" parent="VBox/Panel/HBox"]
-margin_left = 176.0
-margin_right = 240.0
-margin_bottom = 48.0
-rect_min_size = Vector2( 64, 48 )
+offset_left = 176.0
+offset_right = 240.0
+offset_bottom = 48.0
+custom_minimum_size = Vector2( 64, 48 )
 texture = ExtResource( 6 )
 patch_margin_left = 2
 patch_margin_top = 4
@@ -282,89 +282,89 @@ __meta__ = {
 [node name="Vbox" type="VBoxContainer" parent="VBox/Panel/HBox/Items"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 2.0
-margin_top = 6.0
-margin_right = -4.0
-margin_bottom = -6.0
-custom_constants/separation = 0
+offset_left = 2.0
+offset_top = 6.0
+offset_right = -4.0
+offset_bottom = -6.0
+theme_override_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Coins" type="HBoxContainer" parent="VBox/Panel/HBox/Items/Vbox"]
-margin_right = 58.0
-margin_bottom = 18.0
+offset_right = 58.0
+offset_bottom = 18.0
 size_flags_vertical = 3
 
 [node name="Image" type="TextureRect" parent="VBox/Panel/HBox/Items/Vbox/Coins"]
-margin_right = 16.0
-margin_bottom = 18.0
+offset_right = 16.0
+offset_bottom = 18.0
 texture = SubResource( 8 )
 
 [node name="space" type="Label" parent="VBox/Panel/HBox/Items/Vbox/Coins"]
-margin_left = 20.0
-margin_top = 2.0
-margin_right = 23.0
-margin_bottom = 16.0
+offset_left = 20.0
+offset_top = 2.0
+offset_right = 23.0
+offset_bottom = 16.0
 text = ":"
 
 [node name="Count" type="Label" parent="VBox/Panel/HBox/Items/Vbox/Coins"]
-margin_left = 27.0
-margin_top = 2.0
-margin_right = 58.0
-margin_bottom = 16.0
+offset_left = 27.0
+offset_top = 2.0
+offset_right = 58.0
+offset_bottom = 16.0
 size_flags_horizontal = 3
 text = "0"
 align = 2
 
 [node name="Keys" type="HBoxContainer" parent="VBox/Panel/HBox/Items/Vbox"]
-margin_top = 18.0
-margin_right = 58.0
-margin_bottom = 36.0
+offset_top = 18.0
+offset_right = 58.0
+offset_bottom = 36.0
 size_flags_vertical = 3
 
 [node name="Image" type="TextureRect" parent="VBox/Panel/HBox/Items/Vbox/Keys"]
-margin_right = 16.0
-margin_bottom = 18.0
+offset_right = 16.0
+offset_bottom = 18.0
 texture = SubResource( 6 )
 
 [node name="space" type="Label" parent="VBox/Panel/HBox/Items/Vbox/Keys"]
-margin_left = 20.0
-margin_top = 2.0
-margin_right = 23.0
-margin_bottom = 16.0
+offset_left = 20.0
+offset_top = 2.0
+offset_right = 23.0
+offset_bottom = 16.0
 text = ":"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Count" type="Label" parent="VBox/Panel/HBox/Items/Vbox/Keys"]
-margin_left = 27.0
-margin_top = 2.0
-margin_right = 58.0
-margin_bottom = 16.0
+offset_left = 27.0
+offset_top = 2.0
+offset_right = 58.0
+offset_bottom = 16.0
 size_flags_horizontal = 3
 text = "0"
 align = 2
 
 [node name="Hbox" type="HBoxContainer" parent="VBox"]
-margin_top = 48.0
-margin_right = 250.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 250, 32 )
-rect_clip_content = true
+offset_top = 48.0
+offset_right = 250.0
+offset_bottom = 80.0
+custom_minimum_size = Vector2( 250, 32 )
+clip_contents = true
 mouse_filter = 2
-custom_constants/separation = 2
+theme_override_constants/separation = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Backpack" type="TextureRect" parent="VBox/Hbox"]
-margin_right = 32.0
-margin_bottom = 32.0
+offset_right = 32.0
+offset_bottom = 32.0
 grow_horizontal = 0
 grow_vertical = 0
-rect_min_size = Vector2( 32, 32 )
+custom_minimum_size = Vector2( 32, 32 )
 texture = ExtResource( 11 )
 expand = true
 
@@ -373,10 +373,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -8.0
-margin_top = -8.0
-margin_right = 8.0
-margin_bottom = 8.0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
 size_flags_horizontal = 5
 size_flags_vertical = 5
 texture_normal = SubResource( 12 )
@@ -386,10 +386,10 @@ __meta__ = {
 }
 
 [node name="Search" type="TextureRect" parent="VBox/Hbox"]
-margin_left = 34.0
-margin_right = 66.0
-margin_bottom = 32.0
-rect_min_size = Vector2( 32, 32 )
+offset_left = 34.0
+offset_right = 66.0
+offset_bottom = 32.0
+custom_minimum_size = Vector2( 32, 32 )
 texture = ExtResource( 11 )
 expand = true
 
@@ -398,11 +398,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -8.0
-margin_top = -8.0
-margin_right = 8.0
-margin_bottom = 8.0
-rect_min_size = Vector2( 16, 16 )
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+custom_minimum_size = Vector2( 16, 16 )
 texture_normal = SubResource( 13 )
 expand = true
 __meta__ = {
@@ -410,10 +410,10 @@ __meta__ = {
 }
 
 [node name="Wait" type="TextureRect" parent="VBox/Hbox"]
-margin_left = 68.0
-margin_right = 100.0
-margin_bottom = 32.0
-rect_min_size = Vector2( 32, 32 )
+offset_left = 68.0
+offset_right = 100.0
+offset_bottom = 32.0
+custom_minimum_size = Vector2( 32, 32 )
 texture = ExtResource( 11 )
 expand = true
 
@@ -422,11 +422,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -8.0
-margin_top = -8.0
-margin_right = 8.0
-margin_bottom = 8.0
-rect_min_size = Vector2( 16, 16 )
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+custom_minimum_size = Vector2( 16, 16 )
 texture_normal = SubResource( 14 )
 expand = true
 __meta__ = {
@@ -435,12 +435,12 @@ __meta__ = {
 
 [node name="Continue" type="TextureRect" parent="VBox/Hbox"]
 visible = false
-margin_left = 102.0
-margin_right = 134.0
-margin_bottom = 32.0
+offset_left = 102.0
+offset_right = 134.0
+offset_bottom = 32.0
 grow_horizontal = 0
 grow_vertical = 0
-rect_min_size = Vector2( 32, 32 )
+custom_minimum_size = Vector2( 32, 32 )
 texture = ExtResource( 11 )
 expand = true
 
@@ -449,10 +449,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -8.0
-margin_top = -8.0
-margin_right = 8.0
-margin_bottom = 8.0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
 size_flags_horizontal = 5
 size_flags_vertical = 5
 texture_normal = SubResource( 12 )
@@ -462,23 +462,23 @@ __meta__ = {
 }
 
 [node name="Wait" type="Panel" parent="VBox"]
-margin_top = 80.0
-margin_right = 250.0
-margin_bottom = 80.0
+offset_top = 80.0
+offset_right = 250.0
+offset_bottom = 80.0
 
 [node name="Container" type="MarginContainer" parent="VBox/Wait"]
-margin_left = 5.0
-margin_top = 5.0
-margin_right = 8.0
-margin_bottom = 8.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 8.0
+offset_bottom = 8.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Image" type="TextureRect" parent="VBox/Wait/Container"]
-margin_right = 8.0
-margin_bottom = 8.0
-rect_pivot_offset = Vector2( 4, 4 )
+offset_right = 8.0
+offset_bottom = 8.0
+pivot_offset = Vector2( 4, 4 )
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = SubResource( 15 )

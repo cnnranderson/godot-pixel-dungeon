@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://assets/images/menu_slot_9x.png" type="Texture" id=1]
+[ext_resource path="res://assets/images/menu_slot_9x.png" type="Texture2D" id=1]
 [ext_resource path="res://ui/inventory/InventoryGrid.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/ui/inventory/Backpack.gd" type="Script" id=3]
 [ext_resource path="res://ui/pd_theme.tres" type="Theme" id=4]
@@ -16,8 +16,8 @@ __meta__ = {
 }
 
 [node name="Backdrop" type="NinePatchRect" parent="."]
-margin_right = 270.0
-margin_bottom = 263.0
+offset_right = 270.0
+offset_bottom = 263.0
 size_flags_vertical = 3
 texture = ExtResource( 1 )
 patch_margin_left = 2
@@ -29,32 +29,32 @@ __meta__ = {
 }
 
 [node name="Center" type="CenterContainer" parent="."]
-margin_right = 270.0
-margin_bottom = 263.0
-rect_min_size = Vector2( 0, 108 )
+offset_right = 270.0
+offset_bottom = 263.0
+custom_minimum_size = Vector2( 0, 108 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="MarginContainer" type="MarginContainer" parent="Center"]
-margin_right = 270.0
-margin_bottom = 263.0
+offset_right = 270.0
+offset_bottom = 263.0
 size_flags_vertical = 8
 
 [node name="VBox" type="VBoxContainer" parent="Center/MarginContainer"]
-margin_right = 270.0
-margin_bottom = 263.0
+offset_right = 270.0
+offset_bottom = 263.0
 grow_horizontal = 2
 grow_vertical = 2
-rect_min_size = Vector2( 270, 90 )
-custom_constants/separation = 0
+custom_minimum_size = Vector2( 270, 90 )
+theme_override_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Equipment" type="Label" parent="Center/MarginContainer/VBox"]
-margin_right = 270.0
-margin_bottom = 28.0
-rect_min_size = Vector2( 270, 28 )
+offset_right = 270.0
+offset_bottom = 28.0
+custom_minimum_size = Vector2( 270, 28 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Equipment"
@@ -67,17 +67,17 @@ __meta__ = {
 [node name="EquipmentGrid" parent="Center/MarginContainer/VBox" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 5.0
-margin_top = 28.0
-margin_right = 264.0
-margin_bottom = 92.0
+offset_left = 5.0
+offset_top = 28.0
+offset_right = 264.0
+offset_bottom = 92.0
 size_flags_horizontal = 4
 
 [node name="Backpack" type="Label" parent="Center/MarginContainer/VBox"]
-margin_top = 92.0
-margin_right = 270.0
-margin_bottom = 120.0
-rect_min_size = Vector2( 270, 28 )
+offset_top = 92.0
+offset_right = 270.0
+offset_bottom = 120.0
+custom_minimum_size = Vector2( 270, 28 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Backpack"
@@ -88,14 +88,14 @@ __meta__ = {
 }
 
 [node name="InventoryGrid" parent="Center/MarginContainer/VBox" instance=ExtResource( 2 )]
-margin_left = 5.0
-margin_top = 120.0
-margin_right = 264.0
-margin_bottom = 249.0
+offset_left = 5.0
+offset_top = 120.0
+offset_right = 264.0
+offset_bottom = 249.0
 size_flags_horizontal = 4
 size_flags_vertical = 8
 
 [node name="spacer" type="Label" parent="Center/MarginContainer/VBox"]
-margin_top = 249.0
-margin_right = 270.0
-margin_bottom = 263.0
+offset_top = 249.0
+offset_right = 270.0
+offset_bottom = 263.0

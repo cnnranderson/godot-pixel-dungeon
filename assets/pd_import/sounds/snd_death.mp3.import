@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/snd_death.mp3-1381aeb188d2f7f2c6a2455aef32f24c.mp3str"
+uid="uid://u6sb3gx16kyy"
+path="res://.godot/imported/snd_death.mp3-1381aeb188d2f7f2c6a2455aef32f24c.mp3str"
 
 [deps]
 
 source_file="res://assets/pd_import/sounds/snd_death.mp3"
-dest_files=[ "res://.import/snd_death.mp3-1381aeb188d2f7f2c6a2455aef32f24c.mp3str" ]
+dest_files=["res://.godot/imported/snd_death.mp3-1381aeb188d2f7f2c6a2455aef32f24c.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

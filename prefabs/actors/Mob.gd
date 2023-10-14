@@ -7,11 +7,11 @@ enum Type {
 	NPC
 }
 
-export(Type) var type
-export(Texture) var texture
-export(int) var max_hp = 1
-export(int) var strength = 1
-export(int) var ac = 1
-export(int) var level = 1
-export(int) var hd = 1
-export(int) var xp_value = 20
+@export var type: Type
+@export var texture: Texture2D
+@export var max_hp: int = 1
+@export var strength: int = 1
+@export var ac: int = 1
+@export var level: int = 1
+@export var hd: int = 1
+@export var xp_value: int = 20

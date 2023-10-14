@@ -1,58 +1,48 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://cb51exxtxrsfv"]
 
-[ext_resource path="res://scenes/start/StartScene.gd" type="Script" id=1]
-[ext_resource path="res://assets/fonts/MiKrollFantasy.ttf" type="DynamicFontData" id=3]
+[ext_resource type="Script" path="res://scenes/start/StartScene.gd" id="1"]
 
-[sub_resource type="DynamicFont" id=1]
-size = 60
-font_data = ExtResource( 3 )
+[sub_resource type="FontFile" id="1"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [node name="StartScene" type="Control"]
+custom_minimum_size = Vector2(1080, 720)
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 1080, 720 )
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("1")
 
 [node name="Container" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(360, 240)
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 360, 240 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBox" type="VBoxContainer" parent="Container"]
-margin_left = 499.0
-margin_top = 327.0
-margin_right = 581.0
-margin_bottom = 393.0
+layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
-custom_constants/separation = 12
+theme_override_constants/separation = 12
 
 [node name="Title" type="Label" parent="Container/VBox"]
-margin_right = 82.0
-margin_bottom = 2.0
-custom_colors/font_color = Color( 0.317647, 0.278431, 0.180392, 1 )
-custom_fonts/font = SubResource( 1 )
+layout_mode = 2
+theme_override_colors/font_color = Color(0.317647, 0.278431, 0.180392, 1)
+theme_override_fonts/font = SubResource("1")
 text = "BATTLESHIP"
-align = 1
 
 [node name="PlayButton" type="Button" parent="Container/VBox"]
-margin_left = 1.0
-margin_top = 14.0
-margin_right = 81.0
-margin_bottom = 34.0
+layout_mode = 2
 size_flags_horizontal = 4
 text = "Play Game"
 
 [node name="QuitButton" type="Button" parent="Container/VBox"]
-margin_top = 46.0
-margin_right = 82.0
-margin_bottom = 66.0
+layout_mode = 2
 size_flags_horizontal = 4
 text = "Quit Game"
 

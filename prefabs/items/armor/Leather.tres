@@ -1,16 +1,14 @@
-[gd_resource type="Resource" load_steps=4 format=2]
+[gd_resource type="Resource" script_class="Armor" load_steps=4 format=3 uid="uid://cqsjqlx5dto1m"]
 
-[ext_resource path="res://assets/images/items.png" type="Texture" id=1]
-[ext_resource path="res://prefabs/items/Armor.gd" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://u3yu1uapac8i" path="res://assets/images/items.png" id="1"]
+[ext_resource type="Script" path="res://prefabs/items/Armor.gd" id="2"]
 
-[sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 1 )
-region = Rect2( 16, 48, 16, 16 )
+[sub_resource type="AtlasTexture" id="1"]
+atlas = ExtResource("1")
+region = Rect2(16, 48, 16, 16)
 
 [resource]
-script = ExtResource( 2 )
-texture = SubResource( 1 )
-category = 5
+script = ExtResource("2")
 type = 1
 name = "Leather"
 equippable = true
@@ -20,3 +18,5 @@ ac = 3
 upgrade = 0
 enchanted = false
 unique = false
+texture = SubResource("1")
+category = 5

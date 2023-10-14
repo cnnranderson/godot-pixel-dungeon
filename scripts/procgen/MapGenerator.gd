@@ -62,8 +62,8 @@ func _clear_map():
 func _add_rooms():
 	for i in range(200):
 		# Create a room of certain size
-		var size = floor(rand_range(1, 3)) * 2 + 1
-		var stretch = floor(rand_range(0, 1 + floor(size / 2))) * 2
+		var size = floor(randf_range(1, 3)) * 2 + 1
+		var stretch = floor(randf_range(0, 1 + floor(size / 2))) * 2
 		var rwidth = size
 		var rheight = size
 		if Helpers.chance_luck(50):
@@ -72,8 +72,8 @@ func _add_rooms():
 			rheight += stretch
 		
 		# Blueprint a room to be made
-		var x = floor(rand_range(0, floor((width - rwidth) / 2))) * 2 + 1
-		var y = floor(rand_range(0, floor((height - rheight) / 2))) * 2 + 1
+		var x = floor(randf_range(0, floor((width - rwidth) / 2))) * 2 + 1
+		var y = floor(randf_range(0, floor((height - rheight) / 2))) * 2 + 1
 		var room = Rect2(x, y, rwidth, rheight)
 		
 		# Check if any rooms overlap
@@ -147,13 +147,13 @@ func _grow_hallway(start: Vector2):
 	_carve(start)
 	cells.append(start)
 	var last_dir
-	while not cells.empty():
+	while not cells.is_empty():
 		var cell = cells.back()
 		var unmade_cells = []
 		for dir in Constants.CARDINAL:
 			if can_tile(cell, dir):
 				unmade_cells.append(dir)
-		if not unmade_cells.empty():
+		if not unmade_cells.is_empty():
 			var dir
 			if unmade_cells.has(last_dir) and Helpers.chance_luck(50):
 				dir = last_dir

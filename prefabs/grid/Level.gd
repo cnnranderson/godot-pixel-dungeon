@@ -22,8 +22,8 @@ const SOUND = {
 
 const MapGen = preload("res://scripts/procgen/MapGenerator.gd")
 
-export var level_size := Vector2(21, 15)
-export var rooms_max := 100
+@export var level_size := Vector2(21, 15)
+@export var rooms_max := 100
 
 var map: Array = []
 var astar = AStar2D.new()
@@ -99,11 +99,11 @@ func _add_points():
 	var used_cells = get_used_cells_by_id(TILE_TYPE.NOBLOCK)
 	used_cells.append_array(get_used_cells_by_id(TILE_TYPE.INTERACTIVE))
 	for cell in used_cells:
-		var type = get_cellv(cell)
+		var type = get_tile(cell)
 		astar.add_point(_tile_id(cell), cell, 1.0)
 
 func _connect_points():
-	var used_cells = get_used_cells()
+	var used_cells = get_used_cells(0)
 	for cell in used_cells:
 		for neighbor in Constants.VALID_DIRS:
 			var next_cell = cell + neighbor
@@ -128,7 +128,7 @@ func get_random_empty_tile() -> Vector2:
 	return Vector2.ZERO
 
 func reset_doors():
-	var tiles = get_used_cells()
+	var tiles = get_used_cells(0)
 	for tile in tiles:
 		close_door(tile)
 
@@ -151,13 +151,13 @@ func close_door(tpos: Vector2):
 		set_tile(tpos, TILE_TYPE.INTERACTIVE, TILE.door_closed)
 
 func get_tile(tpos: Vector2):
-	return get_cell_autotile_coord(tpos.x, tpos.y)
+	return get_cell_atlas_coords(0, tpos)
 
 func set_tile(tpos: Vector2, set: int, tile: Vector2):
-	set_cell(tpos.x, tpos.y, set, false, false, false, tile)
+	set_cell(0, tpos, set, tile)
 
 func is_blocking(tpos: Vector2) -> bool:
-	var type = get_cellv(tpos)
+	var type = get_cell_source_id(0, tpos)
 	return type == TILE_TYPE.BLOCK
 
 func is_door(tpos: Vector2) -> bool:
@@ -165,21 +165,21 @@ func is_door(tpos: Vector2) -> bool:
 
 func is_locked_door(tpos: Vector2) -> bool:
 	var tile = get_tile(tpos)
-	var type = get_cellv(tpos)
+	var type = get_cell_source_id(0, tpos)
 	return tile == TILE.door_locked and type == TILE_TYPE.INTERACTIVE
 
 func is_open_door(tpos: Vector2) -> bool:
 	var tile = get_tile(tpos)
-	var type = get_cellv(tpos)
+	var type = get_cell_source_id(0, tpos)
 	return tile == TILE.door_open and type == TILE_TYPE.NOBLOCK
 
 func is_closed_door(tpos: Vector2) -> bool:
 	var tile = get_tile(tpos)
-	var type = get_cellv(tpos)
+	var type = get_cell_source_id(0, tpos)
 	return tile == TILE.door_closed and type == TILE_TYPE.INTERACTIVE
 
 func is_stair_down(tpos: Vector2) -> bool:
 	var tile = get_tile(tpos)
-	var type = get_cellv(tpos)
+	var type = get_cell_source_id(0, tpos)
 	return tile == TILE.stair_down and type == TILE_TYPE.INTERACTIVE
 

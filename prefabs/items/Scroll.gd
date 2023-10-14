@@ -10,15 +10,15 @@ enum ScrollType {
 }
 
 
-export(ScrollType) var type = ScrollType.HEALING
-export(Array) var textures = []
-export var name = "UNKNOWN"
-export var discovered = false
+@export var type: ScrollType = ScrollType.HEALING
+@export var textures: Array = []
+@export var name = "UNKNOWN"
+@export var discovered = false
 
 func is_discovered() -> bool:
 	return GameState.discovered_scrolls.has(type)
 
-func get_name():
+func get_item_name():
 	if is_discovered():
 		return "a scroll of %s" % name
 	else:

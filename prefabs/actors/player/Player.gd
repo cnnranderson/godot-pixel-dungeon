@@ -6,30 +6,30 @@ const ANIM = {
 	"walk": "walk"
 }
 
-export var move_speed = 8
-export var fast_travel_speed = 140
-export var crit_chance = 30
-export var base_damage = "1d3"
+@export var move_speed = 8
+@export var fast_travel_speed = 140
+@export var crit_chance = 30
+@export var base_damage = "1d3"
 
-onready var sprite = $AnimSprite
-onready var stats = GameState.player.stats
-onready var inventory = GameState.player.inventory
-onready var backpack = GameState.player.backpack
+@onready var sprite = $AnimSprite
+@onready var stats = GameState.player.stats
+@onready var inventory = GameState.player.inventory
+@onready var backpack = GameState.player.backpack
 
 var interrupted_actions = []
 
 func _ready():
 	sprite.animation = ANIM.idle
 	sprite.playing = true
-	Events.connect("player_wait", self, "_on_player_wait")
-	Events.connect("player_search", self, "_on_player_search")
-	Events.connect("player_continue", self, "_on_player_continue")
-	Events.connect("player_equip", self, "_on_player_equip")
-	Events.connect("player_use_item", self, "_on_player_use_item")
-	Events.connect("player_unequip_weapon", self, "_on_player_unequip_weapon")
-	Events.connect("player_unequip_armor", self, "_on_player_unequip_armor")
-	Events.connect("enemy_died", self, "_on_enemy_died")
-	Events.connect("next_stage", self, "_on_next_stage")
+	Events.connect("player_wait", Callable(self, "_on_player_wait"))
+	Events.connect("player_search", Callable(self, "_on_player_search"))
+	Events.connect("player_continue", Callable(self, "_on_player_continue"))
+	Events.connect("player_equip", Callable(self, "_on_player_equip"))
+	Events.connect("player_use_item", Callable(self, "_on_player_use_item"))
+	Events.connect("player_unequip_weapon", Callable(self, "_on_player_unequip_weapon"))
+	Events.connect("player_unequip_armor", Callable(self, "_on_player_unequip_armor"))
+	Events.connect("enemy_died", Callable(self, "_on_enemy_died"))
+	Events.connect("next_stage", Callable(self, "_on_next_stage"))
 
 func _unhandled_input(event):
 	if not _can_act(): return
@@ -38,7 +38,7 @@ func _unhandled_input(event):
 	if event.is_action_pressed("select"):
 		# Handle mouse input
 		var p_tpos = tpos()
-		var m_tpos = GameState.level.world_to_map(get_global_mouse_position())
+		var m_tpos = GameState.level.local_to_map(get_global_mouse_position())
 		var travel = GameState.level.get_travel_path(p_tpos, m_tpos)
 		interrupted_actions.clear()
 		if travel.size() == 0:
@@ -67,18 +67,18 @@ func _unhandled_input(event):
 						var action = ActionBuilder.new().move(target, 0)
 						action_queue.append(action)
 	
-	if not action_queue.empty():
+	if not action_queue.is_empty():
 		Events.emit_signal("player_acted")
 
 func _can_act() -> bool:
 	return GameState.is_player_turn \
 			and not GameState.inventory_open \
 			and not tween.is_active() \
-			and action_queue.empty()
+			and action_queue.is_empty()
 
 func act():
-	if action_queue.empty(): return
-	var action = .act()
+	if action_queue.is_empty(): return
+	var action = super.act()
 	if action:
 		GameState.is_player_turn = false
 	return action
@@ -124,7 +124,7 @@ func move(tpos):
 	# Try to move
 	move_tween(tpos, blocked)
 	
-	yield(tween, "tween_all_completed")
+	await tween.tween_all_completed
 	if action_queue.size() == 0:
 		sprite.animation = ANIM.idle
 
@@ -135,7 +135,7 @@ func move_tween(tpos: Vector2, blocked = false):
 		sprite.flip_h = true
 	
 	if not blocked:
-		var new_pos = GameState.level.map_to_world(tpos) + Vector2(8, 8)
+		var new_pos = GameState.level.map_to_local(tpos) + Vector2(8, 8)
 		curr_tpos = tpos
 		Sounds.play_step()
 		tween.interpolate_property(self, "position",
@@ -143,7 +143,7 @@ func move_tween(tpos: Vector2, blocked = false):
 			MOVE_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	else:
 		var origin_pos = position
-		var hit_position = position + (GameState.level.map_to_world(tpos - tpos()) / 2)
+		var hit_position = position + (GameState.level.map_to_local(tpos - tpos()) / 2)
 		Events.emit_signal("camera_shake", 0.15, 0.6)
 		Sounds.play_collision()
 		tween.interpolate_property(self, "position",
@@ -177,13 +177,13 @@ func attack(actor: Actor):
 	Sounds.play_hit()
 
 func take_damage(damage: int, crit = false, heal = false):
-	var was_hit = .take_damage(damage, crit, heal)
+	var was_hit = super.take_damage(damage, crit, heal)
 	if was_hit or true:
 		interrupt()
 		Events.emit_signal("player_hit")
 
 func teleport(tpos: Vector2):
-	.teleport(tpos)
+	super.teleport(tpos)
 	Events.emit_signal("log_message", "You've been teleported!")
 
 func can_unlock(tpos: Vector2):
@@ -245,7 +245,7 @@ func _on_player_search():
 		Events.emit_signal("player_acted")
 
 func _on_player_continue():
-	if _can_act() and not interrupted_actions.empty():
+	if _can_act() and not interrupted_actions.is_empty():
 		var final_dest = interrupted_actions.back().dest
 		var adjusted_travel_path = GameState.level.get_travel_path(tpos(), final_dest)
 		for point in adjusted_travel_path:

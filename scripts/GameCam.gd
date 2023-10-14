@@ -7,7 +7,7 @@ var decay = 0.8  # How quickly the shaking stops [0, 1].
 var max_offset = Vector2(64, 48)  # Maximum hor/ver shake in pixels.
 
 func _ready():
-	Events.connect("camera_shake", self, "add_trauma")
+	Events.connect("camera_shake", Callable(self, "add_trauma"))
 
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_accept"):
@@ -27,5 +27,5 @@ func add_trauma(amount, decay_percent):
 
 func shake():
 	var amount = pow(trauma, trauma_power)
-	offset.x = max_offset.x * amount * rand_range(-1, 1)
-	offset.y = max_offset.y * amount * rand_range(-1, 1)
+	offset.x = max_offset.x * amount * randf_range(-1, 1)
+	offset.y = max_offset.y * amount * randf_range(-1, 1)

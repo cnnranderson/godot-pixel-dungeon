@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/surface.mp3-101025fe3293134f263c6b6d7c18cef6.mp3str"
+uid="uid://b85w31f15ot3h"
+path="res://.godot/imported/surface.mp3-101025fe3293134f263c6b6d7c18cef6.mp3str"
 
 [deps]
 
 source_file="res://assets/pd_import/sounds/surface.mp3"
-dest_files=[ "res://.import/surface.mp3-101025fe3293134f263c6b6d7c18cef6.mp3str" ]
+dest_files=["res://.godot/imported/surface.mp3-101025fe3293134f263c6b6d7c18cef6.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,10 +1,10 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://prefabs/items/WorldItem.gd" type="Script" id=1]
-[ext_resource path="res://assets/images/items.png" type="Texture" id=2]
+[ext_resource path="res://assets/images/items.png" type="Texture2D" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8, 8 )
+size = Vector2( 8, 8 )
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 2 )
@@ -18,9 +18,9 @@ position = Vector2( 8, 8 )
 shape = SubResource( 1 )
 
 [node name="TextureRect" type="TextureRect" parent="."]
-margin_right = 16.0
-margin_bottom = 16.0
-rect_min_size = Vector2( 16, 16 )
+offset_right = 16.0
+offset_bottom = 16.0
+custom_minimum_size = Vector2( 16, 16 )
 mouse_filter = 2
 texture = SubResource( 2 )
 __meta__ = {

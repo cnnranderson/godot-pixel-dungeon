@@ -1,23 +1,20 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://ds143mri0nem2"]
 
-[ext_resource path="res://scenes/main/Main.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://scenes/main/Main.gd" id="1"]
 
 [node name="Main" type="Node2D"]
-pause_mode = 2
-script = ExtResource( 1 )
+process_mode = 3
+script = ExtResource("1")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_right = 1080.0
-margin_bottom = 720.0
-rect_min_size = Vector2( 360, 240 )
+custom_minimum_size = Vector2(360, 240)
+offset_right = 1080.0
+offset_bottom = 720.0
 mouse_filter = 2
-color = Color( 0.156863, 0.156863, 0.156863, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+color = Color(0.156863, 0.156863, 0.156863, 1)
 
 [node name="Scene" type="Node2D" parent="."]
-pause_mode = 1
+process_mode = 1
 
 [node name="Timers" type="CanvasLayer" parent="."]
 

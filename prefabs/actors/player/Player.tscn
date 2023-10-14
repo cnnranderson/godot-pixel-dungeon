@@ -1,13 +1,13 @@
 [gd_scene load_steps=166 format=2]
 
 [ext_resource path="res://prefabs/actors/player/Player.gd" type="Script" id=1]
-[ext_resource path="res://assets/pd_import/images/warrior.png" type="Texture" id=2]
+[ext_resource path="res://assets/pd_import/images/warrior.png" type="Texture2D" id=2]
 [ext_resource path="res://scripts/GameCam.gd" type="Script" id=3]
 
 [sub_resource type="Gradient" id=158]
-colors = PoolColorArray( 0.410156, 0.410156, 0.410156, 1, 1, 1, 1, 1 )
+colors = PackedColorArray( 0.410156, 0.410156, 0.410156, 1, 1, 1, 1, 1 )
 
-[sub_resource type="GradientTexture" id=159]
+[sub_resource type="GradientTexture2D" id=159]
 gradient = SubResource( 158 )
 width = 80
 
@@ -18,7 +18,7 @@ _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -9.53668, 0.0, 0, 0 
 width = 256
 curve = SubResource( 160 )
 
-[sub_resource type="ParticlesMaterial" id=162]
+[sub_resource type="ParticleProcessMaterial" id=162]
 trail_divisor = 20
 emission_shape = 2
 emission_box_extents = Vector3( 1, 1, 1 )
@@ -672,7 +672,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 4, 4 )
+size = Vector2( 4, 4 )
 
 [node name="Player" type="Area2D"]
 script = ExtResource( 1 )
@@ -680,14 +680,14 @@ move_speed = 6
 
 [node name="Tween" type="Tween" parent="."]
 
-[node name="Particles2D" type="Particles2D" parent="."]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 visible = false
 position = Vector2( 0, 5 )
 lifetime = 0.5
 local_coords = false
 process_material = SubResource( 162 )
 
-[node name="AnimSprite" type="AnimatedSprite" parent="."]
+[node name="AnimSprite" type="AnimatedSprite2D" parent="."]
 frames = SubResource( 157 )
 animation = "idle"
 frame = 1
@@ -695,15 +695,15 @@ playing = true
 centered = false
 offset = Vector2( -6, -7 )
 
-[node name="Camera" type="Camera2D" parent="."]
+[node name="Camera3D" type="Camera2D" parent="."]
 current = true
 zoom = Vector2( 0.5, 0.5 )
-smoothing_enabled = true
+position_smoothing_enabled = true
 script = ExtResource( 3 )
 
-[node name="Tween" type="Tween" parent="Camera"]
+[node name="Tween" type="Tween" parent="Camera3D"]
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )

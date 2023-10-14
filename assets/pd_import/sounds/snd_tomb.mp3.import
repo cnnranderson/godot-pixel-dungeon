@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/snd_tomb.mp3-6fe6b23ce55354ab4d63a99ba10aba0a.mp3str"
+uid="uid://brbtj0pv4x15g"
+path="res://.godot/imported/snd_tomb.mp3-6fe6b23ce55354ab4d63a99ba10aba0a.mp3str"
 
 [deps]
 
 source_file="res://assets/pd_import/sounds/snd_tomb.mp3"
-dest_files=[ "res://.import/snd_tomb.mp3-6fe6b23ce55354ab4d63a99ba10aba0a.mp3str" ]
+dest_files=["res://.godot/imported/snd_tomb.mp3-6fe6b23ce55354ab4d63a99ba10aba0a.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

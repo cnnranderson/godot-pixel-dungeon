@@ -13,15 +13,15 @@ grow_end = 0.0
 thickness = 2
 
 [node name="HpBar" type="ProgressBar"]
-margin_left = -8.0
-margin_top = -1.0
-margin_right = 8.0
-margin_bottom = 1.0
+offset_left = -8.0
+offset_top = -1.0
+offset_right = 8.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-rect_min_size = Vector2( 16, 2 )
-custom_styles/fg = SubResource( 1 )
-custom_styles/bg = SubResource( 2 )
+custom_minimum_size = Vector2( 16, 2 )
+theme_override_styles/fg = SubResource( 1 )
+theme_override_styles/bg = SubResource( 2 )
 step = 1.0
 value = 50.0
 rounded = true

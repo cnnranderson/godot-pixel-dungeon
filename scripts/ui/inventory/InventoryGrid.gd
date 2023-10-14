@@ -11,10 +11,10 @@ func _ready():
 	# Setup inventory spaces
 	inventory = GameState.player.backpack
 	for i in inventory.items.size():
-		var slot = InventoryItem.instance()
+		var slot = InventoryItem.instantiate()
 		add_child(slot)
-	Events.connect("refresh_backpack", self, "refresh_inventory")
-	inventory.connect("items_changed", self, "_on_items_changed")
+	Events.connect("refresh_backpack", Callable(self, "refresh_inventory"))
+	inventory.connect("items_changed", Callable(self, "_on_items_changed"))
 	refresh_inventory()
 
 func refresh_inventory():

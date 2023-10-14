@@ -11,16 +11,16 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
-margin_left = -14.0
-margin_top = -7.0
-margin_right = 14.0
-margin_bottom = 7.0
+offset_left = -14.0
+offset_top = -7.0
+offset_right = 14.0
+offset_bottom = 7.0
 grow_horizontal = 2
 grow_vertical = 2
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 1
-custom_constants/shadow_offset_y = 1
-custom_constants/shadow_as_outline = 1
+theme_override_colors/font_shadow_color = Color( 0, 0, 0, 1 )
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 1
 text = "0000"
 align = 1
 valign = 1

@@ -3,7 +3,7 @@ class_name Inventory
 
 signal items_changed(indexes)
 
-export(Array, Resource) var items = []
+@export var items = [] # (Array, Resource)
 
 func set_backpack_size(size):
 	for i in size:

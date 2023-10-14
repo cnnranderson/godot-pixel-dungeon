@@ -1,10 +1,10 @@
 extends Label
 
-export var fade_in_time = 0.25
-export var hold_time = 2
-export var fade_out_time = 1.5
+@export var fade_in_time = 0.25
+@export var hold_time = 2
+@export var fade_out_time = 1.5
 
-onready var tween = $Tween
+@onready var tween = $Tween
 
 var display_text: String
 var count = 1

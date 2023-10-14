@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://prefabs/actors/WakeObserver.gd" type="Script" id=1]
-[ext_resource path="res://assets/images/icons.png" type="Texture" id=2]
+[ext_resource path="res://assets/images/icons.png" type="Texture2D" id=2]
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 36, 36 )
+size = Vector2( 36, 36 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 2 )
@@ -23,11 +23,11 @@ script = ExtResource( 1 )
 position = Vector2( 8, 8 )
 shape = SubResource( 3 )
 
-[node name="Waking" type="Sprite" parent="."]
+[node name="Waking" type="Sprite2D" parent="."]
 visible = false
 texture = SubResource( 4 )
 
-[node name="Sleeping" type="Sprite" parent="."]
+[node name="Sleeping" type="Sprite2D" parent="."]
 texture = SubResource( 5 )
 
 [node name="Tween" type="Tween" parent="."]

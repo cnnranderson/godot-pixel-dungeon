@@ -14,7 +14,7 @@ var debug = true
 
 func _ready():
 	randomize()
-	pause_mode = Node.PAUSE_MODE_PROCESS
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _process(_delta):
 	if debug:

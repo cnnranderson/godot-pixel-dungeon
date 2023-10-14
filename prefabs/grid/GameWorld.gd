@@ -28,27 +28,27 @@ const Enemies = {
 	"bat": preload("res://prefabs/actors/bat/Bat.tscn")
 }
 
-onready var level = $Level
-onready var visibility_map = $Visibility
-onready var fog_map = $Fog
-onready var items = $Items
-onready var actors = $Actors
-onready var effects = $Effects
-onready var objects = $Objects
+@onready var level = $Level
+@onready var visibility_map = $Visibility
+@onready var fog_map = $Fog
+@onready var items = $Items
+@onready var actors = $Actors
+@onready var effects = $Effects
+@onready var objects = $Objects
 
 var debug = false
 
 func _ready():
 	GameState.level = level
-	Events.connect("player_acted", self, "_process_actions")
+	Events.connect("player_acted", Callable(self, "_process_actions"))
 
 func _process(delta):
 	var mouse_pos = get_local_mouse_position()
-	var m_tpos = level.world_to_map(mouse_pos)
-	var tile = level.get_cellv(m_tpos)
-	if tile != TileMap.INVALID_CELL and not GameState.inventory_open:
+	var m_tpos = level.local_to_map(mouse_pos)
+	var tile = level.get_cell_tile_data(0, m_tpos)
+	if not GameState.inventory_open:
 		$Cursor.visible = true
-		$Cursor.position = level.map_to_world(level.world_to_map(mouse_pos))
+		$Cursor.position = level.map_to_local(level.local_to_map(mouse_pos))
 	else:
 		$Cursor.visible = false
 
@@ -68,15 +68,15 @@ func init_world():
 	_init_player()
 	_generate_test_entities()
 	
-	yield(get_tree().create_timer(0.1), "timeout")
+	await get_tree().create_timer(0.1).timeout
 	Events.emit_signal("map_ready")
 	_update_visuals()
 	_process_actions()
 
 func _init_player():
-	var player = Player.instance()
+	var player = Player.instantiate()
 	GameState.hero = player
-	GameState.hero.position = level.map_to_world(level.spawn) + Vector2(8, 8)
+	GameState.hero.position = level.map_to_local(level.spawn) + Vector2(8, 8)
 	$Actors.add_child(GameState.hero)
 	GameState.is_player_turn = true
 
@@ -93,7 +93,9 @@ func _update_visuals():
 			var y_dir = 1 if y < GameState.hero.tpos().y else -1
 			var test_point = Helpers.tile_to_world(Vector2(x, y)) + Vector2(x_dir, y_dir) * Constants.TILE_V / 2
 			
-			var occlusion = space_state.intersect_ray(GameState.hero.position, test_point)
+			var params = PhysicsRayQueryParameters2D.create(GameState.hero.position, test_point)
+			
+			var occlusion = space_state.intersect_ray(params)
 			if not occlusion or (occlusion.position - test_point).length() < 1:
 				if (GameState.hero.position - test_point).length() / Constants.TILE_SIZE < GameState.player.fov:
 					# Reveal if it's within FoV
@@ -138,7 +140,7 @@ func get_actor_at_tpos(tpos: Vector2) -> Actor:
 
 func _process_actions():
 	var actors = $Actors.get_children()
-	actors.sort_custom(self, "actor_priority_sort")
+	actors.sort_custom(Callable(self, "actor_priority_sort"))
 	var lowest_time = actors[0].act_time
 	
 	var attacked = false
@@ -163,10 +165,9 @@ func _process_actions():
 			hero_acted = true
 	
 	if attacked:
-		yield(get_tree().create_timer(Actor.ATTACK_TIME), "timeout")
+		await get_tree().create_timer(Actor.ATTACK_TIME).timeout
 	else:
-		yield(get_tree().create_timer(Actor.MOVE_TIME), "timeout")
-	 
+		await get_tree().create_timer(Actor.MOVE_TIME).timeout
 	if hero_acted or attacked:
 		_update_visuals()
 		_process_actions()
@@ -217,35 +218,35 @@ func _generate_test_armor():
 func _generate_test_enemies():
 	var enemy_pos = level.enemies
 	for tpos in enemy_pos:
-		var bat = Enemies.bat.instance()
-		bat.position = level.map_to_world(tpos)
+		var bat = Enemies.bat.instantiate()
+		bat.position = level.map_to_local(tpos)
 		$Actors.add_child(bat)
 		level.occupy_tile(tpos)
 
 # TODO: For these utility functions, see if they can be combined.
 # They're only separated in case special stuff needs to happen between types.
 func spawn_basic_item(item: Resource, count: int, tpos: Vector2):
-	var world_item = WorldItem.instance()
+	var world_item = WorldItem.instantiate()
 	world_item.item = item
 	world_item.count = count
-	world_item.position = level.map_to_world(tpos)
+	world_item.position = level.map_to_local(tpos)
 	$Items.add_child(world_item)
 
 func spawn_scroll(scroll: Resource, tpos: Vector2):
-	var world_item = WorldItem.instance()
+	var world_item = WorldItem.instantiate()
 	world_item.item = scroll
-	world_item.position = level.map_to_world(tpos)
+	world_item.position = level.map_to_local(tpos)
 	$Items.add_child(world_item)
 
 func spawn_weapon(weapon: Resource, tpos: Vector2):
-	var world_item = WorldItem.instance()
+	var world_item = WorldItem.instantiate()
 	world_item.item = weapon
-	world_item.position = level.map_to_world(tpos)
+	world_item.position = level.map_to_local(tpos)
 	$Items.add_child(world_item)
 
 func spawn_armor(armor: Resource, tpos: Vector2):
-	var world_item = WorldItem.instance()
+	var world_item = WorldItem.instantiate()
 	world_item.item = armor
-	world_item.position = level.map_to_world(tpos)
+	world_item.position = level.map_to_local(tpos)
 	$Items.add_child(world_item)
 

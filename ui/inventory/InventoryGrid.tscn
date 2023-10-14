@@ -4,8 +4,8 @@
 [ext_resource path="res://ui/inventory/InventoryItem.tscn" type="PackedScene" id=2]
 
 [node name="InventoryGrid" type="GridContainer"]
-custom_constants/vseparation = 1
-custom_constants/hseparation = 1
+theme_override_constants/v_separation = 1
+theme_override_constants/h_separation = 1
 columns = 4
 script = ExtResource( 1 )
 __meta__ = {
@@ -15,33 +15,33 @@ __meta__ = {
 [node name="InventoryItem" parent="." instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 64.0
-margin_bottom = 64.0
+offset_right = 64.0
+offset_bottom = 64.0
 
 [node name="InventoryItem2" parent="." instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 65.0
-margin_right = 129.0
-margin_bottom = 64.0
+offset_left = 65.0
+offset_right = 129.0
+offset_bottom = 64.0
 
 [node name="InventoryItem3" parent="." instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 130.0
-margin_right = 194.0
-margin_bottom = 64.0
+offset_left = 130.0
+offset_right = 194.0
+offset_bottom = 64.0
 
 [node name="InventoryItem4" parent="." instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 195.0
-margin_right = 259.0
-margin_bottom = 64.0
+offset_left = 195.0
+offset_right = 259.0
+offset_bottom = 64.0
 
 [node name="InventoryItem5" parent="." instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 65.0
-margin_right = 64.0
-margin_bottom = 129.0
+offset_top = 65.0
+offset_right = 64.0
+offset_bottom = 129.0

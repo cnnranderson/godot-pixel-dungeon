@@ -10,17 +10,17 @@ enum ArmorType {
 	UNIQUE
 }
 
-export(ArmorType) var type = ArmorType.LEATHER
-export var name = "Cloth"
-export var equippable = true
-export var cursed = false
-export var str_required = 1
-export var ac = 1
-export var upgrade = 0
-export var enchanted = false # TODO figure out special weapon enchantments
-export var unique = false
+@export var type: ArmorType = ArmorType.LEATHER
+@export var name = "Cloth"
+@export var equippable = true
+@export var cursed = false
+@export var str_required = 1
+@export var ac = 1
+@export var upgrade = 0
+@export var enchanted = false # TODO figure out special weapon enchantments
+@export var unique = false
 
-func get_name():
+func get_item_name():
 	var value = ""
 	match(type):
 		ArmorType.UNIQUE:
