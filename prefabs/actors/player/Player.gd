@@ -136,7 +136,7 @@ func move_tween(tpos: Vector2, blocked = false):
 		sprite.flip_h = true
 	
 	if not blocked:
-		var new_pos = GameState.level.map_to_local(tpos) + Vector2(8, 8)
+		var new_pos = GameState.level.map_to_local(tpos)
 		curr_tpos = tpos
 		Sounds.play_step()
 		tween.interpolate_property(self, "position",
@@ -174,7 +174,7 @@ func attack(actor: Actor):
 	actor.take_damage(damage, crit)
 	Events.emit_signal("camera_shake", 0.2, 0.6)
 	var origin_pos = position
-	var attack_pos = actor.position + Vector2(8, 8)
+	var attack_pos = actor.position
 	Sounds.play_hit()
 
 func take_damage(damage: int, crit = false, heal = false):

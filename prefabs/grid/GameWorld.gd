@@ -76,7 +76,7 @@ func init_world():
 func _init_player():
 	var player = Player.instantiate()
 	GameState.hero = player
-	GameState.hero.position = level.map_to_local(level.spawn) + Vector2(8, 8)
+	GameState.hero.position = level.map_to_local(level.spawn)
 	$Actors.add_child(GameState.hero)
 	GameState.is_player_turn = true
 

@@ -153,8 +153,6 @@ func heal(amount: int):
 func teleport(tpos: Vector2):
 	var new_pos = GameState.level.map_to_local(tpos)
 	curr_tpos = tpos
-	if not mob:
-		new_pos += Vector2(8, 8)
 	tween.interpolate_property(self, "position",
 		position, new_pos,
 		MOVE_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)

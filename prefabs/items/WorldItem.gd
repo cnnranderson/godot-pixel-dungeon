@@ -8,9 +8,9 @@ const SOUND = {
 }
 
 @export var count: int = 1
+@export var item: Resource: set = set_item
 
 var collected = false
-@export var item: Resource: set = set_item
 
 func set_item(new_value):
 	item = new_value as Item
