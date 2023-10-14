@@ -16,7 +16,7 @@ extends Control
 @onready var continue_queue = $VBox/Hbox/Continue/Button
 
 # Indicators/Effects
-@onready var wait_indicator = $VBox/Wait/Container/Image
+@onready var wait_indicator = $VBox/Wait/Container
 
 var waiting = false
 

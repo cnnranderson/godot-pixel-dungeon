@@ -67,7 +67,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -816.0
-offset_bottom = -639.0
+offset_bottom = -620.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("4")
 script = ExtResource("8")
@@ -354,13 +356,17 @@ texture_normal = SubResource("12")
 layout_mode = 2
 
 [node name="Container" type="MarginContainer" parent="VBox/Wait"]
-layout_mode = 0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 13.0
-offset_bottom = 13.0
+layout_mode = 1
+anchors_preset = -1
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 12.0
+offset_bottom = 12.0
+pivot_offset = Vector2(4, 4)
 
 [node name="Image" type="TextureRect" parent="VBox/Wait/Container"]
+clip_contents = true
+custom_minimum_size = Vector2(8, 8)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
