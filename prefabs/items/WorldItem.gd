@@ -19,9 +19,9 @@ func set_item(new_value):
 		match item.category:
 			Item.Category.SCROLL:
 				item.texture.region.position.x = 16 * (randi() % 8)
-				$TextureRect.texture = item.texture
+				$Sprite2D.texture = item.texture
 			_:
-				$TextureRect.texture = item.texture
+				$Sprite2D.texture = item.texture
 
 func collect():
 	if collected: return

@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var world = $World
 @onready var load_splash = $UI/LoadSplash
-# var tween = create_tween()
+var tween = create_tween()
 
 func _ready():
 	Events.connect("map_ready", Callable($UI/PlayerUI, "_init_stats"))

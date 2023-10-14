@@ -144,7 +144,7 @@ func move_tween(tpos: Vector2, blocked = false):
 			MOVE_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	else:
 		var origin_pos = position
-		var hit_position = position + (GameState.level.map_to_local(tpos - tpos()) / 2)
+		var hit_position = position + (GameState.level.map_to_local(tpos - tpos()))
 		Events.emit_signal("camera_shake", 0.15, 0.6)
 		Sounds.play_collision()
 		tween.interpolate_property(self, "position",

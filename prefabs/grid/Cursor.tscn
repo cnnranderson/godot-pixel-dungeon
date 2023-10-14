@@ -5,20 +5,21 @@
 [node name="Cursor" type="Node2D"]
 
 [node name="TopLeft" type="Sprite2D" parent="."]
+position = Vector2(-8, -8)
 texture = ExtResource("1")
 
 [node name="TopRight" type="Sprite2D" parent="."]
-position = Vector2(16, 0)
+position = Vector2(8, -8)
 texture = ExtResource("1")
 flip_h = true
 
 [node name="BottomRight" type="Sprite2D" parent="."]
-position = Vector2(16, 16)
+position = Vector2(8, 8)
 texture = ExtResource("1")
 flip_h = true
 flip_v = true
 
 [node name="BottomLeft" type="Sprite2D" parent="."]
-position = Vector2(0, 16)
+position = Vector2(-8, 8)
 texture = ExtResource("1")
 flip_v = true
