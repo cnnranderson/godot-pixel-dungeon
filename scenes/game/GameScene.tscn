@@ -45,11 +45,16 @@ offset_left = 20.0
 offset_top = -200.0
 offset_right = 380.0
 offset_bottom = -20.0
+grow_vertical = 0
 
 [node name="PlayerUI" parent="UI" instance=ExtResource("5")]
 visible = false
 layout_mode = 3
 anchors_preset = 15
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(2, 2)
 
 [node name="LoadSplash" parent="UI" instance=ExtResource("2")]

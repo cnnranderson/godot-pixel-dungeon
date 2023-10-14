@@ -13,8 +13,8 @@ func show_event(event: String):
 	display_text = event
 	text = event
 	modulate.a = 0
-	$Tween.interpolate_property(self, "modulate:a", 0.0, 1.0, fade_in_time, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	$Tween.start()
+	#$Tween.interpolate_property(self, "modulate:a", 0.0, 1.0, fade_in_time, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	#$Tween.start()
 
 func add_event_count():
 	count += 1

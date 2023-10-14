@@ -21,9 +21,9 @@ scene - The scene to load; Scenes should be mapped in the Global script.
 skip_exit - whether or not to use a transition when leaving the current scene.
 skip_enter - whether or not to use a transition when entering the next scene.
 """
-func load_scene(scene: Global.Scenes = -1, skip_exit = false, skip_enter = false):
+func load_scene(scene: Global.Scenes = Global.Scenes.NONE, skip_exit = false, skip_enter = false):
 	# Validate scene - make sure the scene is mapped to a corresponding tscn
-	if scene != -1:
+	if scene != Global.Scenes.NONE:
 		assert(scene in Global.Scenes.values())
 		scene_state = 0
 		curr_scene = scene

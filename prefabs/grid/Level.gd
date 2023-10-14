@@ -103,12 +103,13 @@ func _add_points():
 		astar.add_point(_tile_id(cell), cell, 1.0)
 
 func _connect_points():
-	var used_cells = get_used_cells(0)
-	for cell in used_cells:
-		for neighbor in Constants.VALID_DIRS:
-			var next_cell = cell + neighbor
-			if used_cells.has(next_cell):
-				astar.connect_points(_tile_id(cell), _tile_id(next_cell), false)
+	pass
+	#var used_cells = get_used_cells(0)
+	#for cell in used_cells:
+		#for neighbor in Constants.VALID_DIRS:
+			#var next_cell = cell + neighbor
+			#if used_cells.has(next_cell):
+				#astar.connect_points(_tile_id(cell), _tile_id(next_cell), false)
 
 func _tile_id(point):
 	var a = point.x

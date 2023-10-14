@@ -20,7 +20,7 @@ var interrupted_actions = []
 
 func _ready():
 	sprite.animation = ANIM.idle
-	sprite.playing = true
+	#sprite.playing = true
 	Events.connect("player_wait", Callable(self, "_on_player_wait"))
 	Events.connect("player_search", Callable(self, "_on_player_search"))
 	Events.connect("player_continue", Callable(self, "_on_player_continue"))
@@ -32,7 +32,7 @@ func _ready():
 	Events.connect("next_stage", Callable(self, "_on_next_stage"))
 
 func _unhandled_input(event):
-	if not _can_act(): return
+	#if not _can_act(): return
 	
 	# Attempt an action or movement
 	if event.is_action_pressed("select"):
@@ -71,10 +71,11 @@ func _unhandled_input(event):
 		Events.emit_signal("player_acted")
 
 func _can_act() -> bool:
-	return GameState.is_player_turn \
-			and not GameState.inventory_open \
-			and not tween.is_active() \
-			and action_queue.is_empty()
+	return true
+	#return GameState.is_player_turn \
+			#and not GameState.inventory_open \
+			#and not tween.is_active() \
+			#and action_queue.is_empty()
 
 func act():
 	if action_queue.is_empty(): return
