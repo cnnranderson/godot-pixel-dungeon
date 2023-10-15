@@ -20,6 +20,7 @@ var interrupted_actions = []
 var tween: Tween
 
 func _ready():
+	super()
 	sprite.animation = ANIM.idle
 	sprite.play()
 	
@@ -85,7 +86,7 @@ func _can_act() -> bool:
 
 func act():
 	if action_queue.is_empty(): return
-	var action = super.act()
+	var action = super()
 	if action:
 		GameState.is_player_turn = false
 	return action
@@ -158,11 +159,12 @@ func move_tween(tpos: Vector2, blocked = false):
 			.set_trans(Tween.TRANS_LINEAR)
 	else:
 		var origin_pos = position
-		var hit_position = position + (GameState.level.map_to_local(tpos - tpos()))
+		var hit_position = position + (GameState.level.map_to_local(tpos - tpos()) / 2)
 		
 		print("=====")
 		print(tpos)
 		print(tpos())
+		print(tpos - tpos())
 		print(hit_position)
 		print(position)
 		
@@ -199,13 +201,13 @@ func attack(actor: Actor):
 	Sounds.play_hit()
 
 func take_damage(damage: int, crit = false, heal = false):
-	var was_hit = super.take_damage(damage, crit, heal)
+	var was_hit = super(damage, crit, heal)
 	if was_hit or true:
 		interrupt()
 		Events.emit_signal("player_hit")
 
 func teleport(tpos: Vector2):
-	super.teleport(tpos)
+	super(tpos)
 	Events.emit_signal("log_message", "You've been teleported!")
 
 func can_unlock(tpos: Vector2):

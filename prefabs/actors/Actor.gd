@@ -32,6 +32,7 @@ func _ready():
 		hp = mob.max_hp
 		if has_node("Sprite2D"):
 			$Sprite2D.texture = mob.texture
+	
 	if hp_bar:
 		_init_hp_bar()
 

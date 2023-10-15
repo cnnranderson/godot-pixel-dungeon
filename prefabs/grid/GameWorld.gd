@@ -187,7 +187,7 @@ func _generate_test_entities():
 	_generate_test_scrolls()
 	_generate_test_weapons()
 	_generate_test_armor()
-	_generate_test_enemies()
+	#_generate_test_enemies()
 	pass
 
 func _generate_test_keys():
