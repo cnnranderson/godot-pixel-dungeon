@@ -29,7 +29,7 @@ var map: Array = []
 var astar: AStarGrid2D
 var spawn: Vector2i
 var stair_spawn: Vector2i
-var blocked = []
+var blocked: Array[Vector2i] = []
 var items = {}
 var enemies = []
 

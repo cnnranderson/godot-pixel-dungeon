@@ -161,8 +161,8 @@ func move_tween(tpos: Vector2, blocked = false):
 		tween.tween_property(self, "position", origin_pos, MOVE_TIME / 2) \
 			.set_trans(Tween.TRANS_SINE) \
 			.set_ease(Tween.EASE_IN).set_delay(MOVE_TIME / 2)
-		
 	sprite.animation = ANIM.walk
+		
 
 func attack(actor: Actor):
 	# Determine hit damage
@@ -170,19 +170,19 @@ func attack(actor: Actor):
 	if GameState.player.equipped.weapon:
 		damage = GameState.player.equipped.weapon.calc_damage()
 	else:
-		damage = Helpers.dice_roll(max(stats.str, 3), 4)
+		damage = Helpers.dice_roll_composed(base_damage) # Helpers.dice_roll(max(stats.str, 3), 4)
 	
 	# Calc critical hit chance
 	var crit = false
 	if Helpers.chance_luck(crit_chance):
 		crit = true
-		damage = ceil(damage * 1.5)
+		damage = ceil(damage * 1.25)
 	
 	actor.take_damage(damage, crit)
 	Events.emit_signal("camera_shake", 0.2, 0.6)
 	var origin_pos = position
 	var attack_pos = actor.position
-	var hit_position = position + (actor.tpos() - tpos()) * Constants.TILE_HALF
+	var hit_position = position + Vector2(actor.tpos() - tpos()) * Constants.TILE_HALF
 	Sounds.play_hit()
 	
 	tween = create_tween()

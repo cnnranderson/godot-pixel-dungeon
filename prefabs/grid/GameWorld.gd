@@ -132,7 +132,7 @@ func _clear_world():
 	Helpers.delete_children(effects)
 	Helpers.delete_children(objects)
 
-func get_actor_at_tpos(tpos: Vector2) -> Actor:
+func get_actor_at_tpos(tpos: Vector2i) -> Actor:
 	for actor in $Actors.get_children():
 		if actor.tpos() == tpos:
 			return actor

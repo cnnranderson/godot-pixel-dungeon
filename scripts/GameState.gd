@@ -6,7 +6,7 @@ var inventory_open = false
 var world_generating = false
 
 # ======= GAME SETTINGS  ==========
-var fog_of_war = true
+var fog_of_war = false
 var enemies_start_awake = true
 var auto_pickup = true
 var free_auto_pickup = true
