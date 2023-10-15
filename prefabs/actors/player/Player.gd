@@ -151,13 +151,6 @@ func move_tween(tpos: Vector2, blocked = false):
 		var origin_pos = position
 		var hit_position = position + (tpos - tpos()) * Constants.TILE_HALF
 		
-		print("=====")
-		print(tpos)
-		print(tpos())
-		print(GameState.level.map_to_local(tpos - tpos()))
-		print(hit_position)
-		print(position)
-		
 		Events.emit_signal("camera_shake", 0.15, 0.6)
 		Sounds.play_collision()
 		
