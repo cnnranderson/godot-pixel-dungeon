@@ -23,8 +23,14 @@ var unstable_teleport = 0
 var should_teleport = false
 var should_wake = false
 var asleep = false
+var tween: Tween
 
 func _ready():
+	# Stupid way to do this but oh well - need to bind to self, then immediately stop
+	# otherwise it thinks it's running.. This breaks _can_act() function
+	tween = create_tween()
+	tween.stop()
+	
 	curr_tpos = GameState.level.local_to_map(position)
 	if mob:
 		asleep = false if GameState.enemies_start_awake else true

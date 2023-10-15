@@ -3,6 +3,7 @@ extends Node
 # General Constants
 const BASE_ACTION_COST = 100
 const TILE_SIZE = 16
+const TILE_HALF = TILE_SIZE / 2
 const TILE_V = Vector2.ONE * TILE_SIZE
 const CARDINAL = [
 	Vector2.RIGHT,

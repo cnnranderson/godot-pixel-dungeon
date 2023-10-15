@@ -17,17 +17,11 @@ const ANIM = {
 @onready var backpack = GameState.player.backpack
 
 var interrupted_actions = []
-var tween: Tween
 
 func _ready():
 	super()
 	sprite.animation = ANIM.idle
 	sprite.play()
-	
-	# Stupid way to do this but oh well - need to bind to self, then immediately stop
-	# otherwise it thinks it's running.. This breaks _can_act() function
-	tween = create_tween()
-	tween.stop()
 	
 	Events.connect("player_wait", Callable(self, "_on_player_wait"))
 	Events.connect("player_search", Callable(self, "_on_player_search"))
@@ -147,10 +141,6 @@ func move_tween(tpos: Vector2, blocked = false):
 	
 	if not blocked:
 		var new_pos = GameState.level.map_to_local(tpos)
-		print("=====")
-		print(tpos)
-		print(new_pos)
-		print(position)
 		
 		curr_tpos = tpos
 		Sounds.play_step()
@@ -159,24 +149,24 @@ func move_tween(tpos: Vector2, blocked = false):
 			.set_trans(Tween.TRANS_LINEAR)
 	else:
 		var origin_pos = position
-		var hit_position = position + (GameState.level.map_to_local(tpos - tpos()) / 2)
+		var hit_position = position + (tpos - tpos()) * Constants.TILE_HALF
 		
 		print("=====")
 		print(tpos)
 		print(tpos())
-		print(tpos - tpos())
+		print(GameState.level.map_to_local(tpos - tpos()))
 		print(hit_position)
 		print(position)
 		
 		Events.emit_signal("camera_shake", 0.15, 0.6)
 		Sounds.play_collision()
 		
-		tween.tween_property(self, "position", hit_position, MOVE_TIME) \
+		tween.tween_property(self, "position", hit_position, MOVE_TIME / 2) \
 			.set_trans(Tween.TRANS_CUBIC) \
 			.set_ease(Tween.EASE_IN_OUT)
-		tween.tween_property(self, "position", origin_pos, MOVE_TIME) \
+		tween.tween_property(self, "position", origin_pos, MOVE_TIME / 2) \
 			.set_trans(Tween.TRANS_SINE) \
-			.set_ease(Tween.EASE_IN).set_delay(MOVE_TIME)
+			.set_ease(Tween.EASE_IN).set_delay(MOVE_TIME / 2)
 		
 	sprite.animation = ANIM.walk
 
