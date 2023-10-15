@@ -7,13 +7,13 @@ enum TILE_TYPE {
 	INTERACTIVE
 }
 const TILE = {
-	"wall": Vector2(0, 0),
-	"ground": Vector2(0, 0),
-	"stair_down": Vector2(0, 1),
-	"stair_up": Vector2(0, 0),
-	"door_closed": Vector2(3, 0),
-	"door_open": Vector2(3, 0),
-	"door_locked": Vector2(3, 1)
+	"wall": Vector2i(0, 0),
+	"ground": Vector2i(0, 0),
+	"stair_down": Vector2i(0, 1),
+	"stair_up": Vector2i(0, 0),
+	"door_closed": Vector2i(3, 0),
+	"door_open": Vector2i(3, 0),
+	"door_locked": Vector2i(3, 1)
 }
 const SOUND = {
 	"door": "res://assets/pd_import/sounds/snd_door_open.mp3",
@@ -141,45 +141,45 @@ func unlock_door(tpos: Vector2, keep_closed: bool = true):
 		else:
 			set_tile(tpos, TILE_TYPE.NOBLOCK, TILE.door_open)
 
-func open_door(tpos: Vector2):
+func open_door(tpos: Vector2i):
 	if is_closed_door(tpos) or is_locked_door(tpos):
 		Sounds.play_sound(Sounds.SoundType.SFX, SOUND.door)
 		set_tile(tpos, TILE_TYPE.NOBLOCK, TILE.door_open)
 
-func close_door(tpos: Vector2):
+func close_door(tpos: Vector2i):
 	if is_open_door(tpos):
 		Sounds.play_sound(Sounds.SoundType.SFX, SOUND.door)
 		set_tile(tpos, TILE_TYPE.INTERACTIVE, TILE.door_closed)
 
-func get_tile(tpos: Vector2):
+func get_tile(tpos: Vector2i):
 	return get_cell_atlas_coords(0, tpos)
 
-func set_tile(tpos: Vector2, set: int, tile: Vector2):
+func set_tile(tpos: Vector2i, set: int, tile: Vector2):
 	set_cell(0, tpos, set, tile)
 
-func is_blocking(tpos: Vector2) -> bool:
+func is_blocking(tpos: Vector2i) -> bool:
 	var type = get_cell_source_id(0, tpos)
 	return type == TILE_TYPE.BLOCK
 
-func is_door(tpos: Vector2) -> bool:
+func is_door(tpos: Vector2i) -> bool:
 	return is_open_door(tpos) or is_closed_door(tpos) or is_locked_door(tpos)
 
-func is_locked_door(tpos: Vector2) -> bool:
+func is_locked_door(tpos: Vector2i) -> bool:
 	var tile = get_tile(tpos)
 	var type = get_cell_source_id(0, tpos)
 	return tile == TILE.door_locked and type == TILE_TYPE.INTERACTIVE
 
-func is_open_door(tpos: Vector2) -> bool:
+func is_open_door(tpos: Vector2i) -> bool:
 	var tile = get_tile(tpos)
 	var type = get_cell_source_id(0, tpos)
 	return tile == TILE.door_open and type == TILE_TYPE.NOBLOCK
 
-func is_closed_door(tpos: Vector2) -> bool:
+func is_closed_door(tpos: Vector2i) -> bool:
 	var tile = get_tile(tpos)
 	var type = get_cell_source_id(0, tpos)
 	return tile == TILE.door_closed and type == TILE_TYPE.INTERACTIVE
 
-func is_stair_down(tpos: Vector2) -> bool:
+func is_stair_down(tpos: Vector2i) -> bool:
 	var tile = get_tile(tpos)
 	var type = get_cell_source_id(0, tpos)
 	return tile == TILE.stair_down and type == TILE_TYPE.INTERACTIVE

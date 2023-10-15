@@ -51,8 +51,6 @@ grow_vertical = 0
 visible = false
 offset_right = 0.0
 offset_bottom = 0.0
-grow_horizontal = 2
-grow_vertical = 2
 scale = Vector2(2, 2)
 
 [node name="LoadSplash" parent="UI" instance=ExtResource("2")]

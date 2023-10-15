@@ -29,7 +29,6 @@ Helpers="*res://scripts/Helpers.gd"
 
 window/size/viewport_width=1080
 window/size/viewport_height=720
-window/stretch/mode="canvas_items"
 
 [importer_defaults]
 

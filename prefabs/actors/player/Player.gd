@@ -32,7 +32,7 @@ func _ready():
 	Events.connect("next_stage", Callable(self, "_on_next_stage"))
 
 func _unhandled_input(event):
-	#if not _can_act(): return
+	if not _can_act(): return
 	
 	# Attempt an action or movement
 	if event.is_action_pressed("select"):
@@ -71,11 +71,10 @@ func _unhandled_input(event):
 		Events.emit_signal("player_acted")
 
 func _can_act() -> bool:
-	return true
-	#return GameState.is_player_turn \
-			#and not GameState.inventory_open \
-			#and not tween.is_active() \
-			#and action_queue.is_empty()
+	print("check")
+	return GameState.is_player_turn \
+			and not GameState.inventory_open \
+			and action_queue.is_empty()
 
 func act():
 	if action_queue.is_empty(): return
@@ -125,11 +124,12 @@ func move(tpos):
 	# Try to move
 	move_tween(tpos, blocked)
 	
-	await tween.tween_all_completed
 	if action_queue.size() == 0:
 		sprite.animation = ANIM.idle
 
 func move_tween(tpos: Vector2, blocked = false):
+	var tween = create_tween()
+	
 	if tpos.x > curr_tpos.x:
 		sprite.flip_h = false
 	if tpos.x < curr_tpos.x:
@@ -137,25 +137,28 @@ func move_tween(tpos: Vector2, blocked = false):
 	
 	if not blocked:
 		var new_pos = GameState.level.map_to_local(tpos)
+		print(tpos)
+		print(new_pos)
+		print(position)
 		curr_tpos = tpos
 		Sounds.play_step()
-		tween.interpolate_property(self, "position",
-			position, new_pos,
-			MOVE_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		
+		tween.tween_property(self, "position", new_pos * 16, MOVE_TIME) \
+			.set_trans(Tween.TRANS_LINEAR)
 	else:
 		var origin_pos = position
 		var hit_position = position + (GameState.level.map_to_local(tpos - tpos()))
 		Events.emit_signal("camera_shake", 0.15, 0.6)
 		Sounds.play_collision()
-		tween.interpolate_property(self, "position",
-			position, hit_position,
-			MOVE_TIME / 2, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
-		tween.interpolate_property(self, "position",
-			hit_position, origin_pos,
-			MOVE_TIME / 2, Tween.TRANS_SINE, Tween.EASE_IN, MOVE_TIME / 2)
+		
+		tween.tween_property(self, "position", hit_position, MOVE_TIME) \
+			.set_trans(Tween.TRANS_CUBIC) \
+			.set_ease(Tween.EASE_IN_OUT)
+		tween.tween_property(self, "position", origin_pos, MOVE_TIME / 2) \
+			.set_trans(Tween.TRANS_SINE) \
+			.set_ease(Tween.EASE_IN).set_delay(MOVE_TIME / 2)
 		
 	sprite.animation = ANIM.walk
-	tween.start()
 
 func attack(actor: Actor):
 	# Determine hit damage

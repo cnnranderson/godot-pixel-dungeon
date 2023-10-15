@@ -14,7 +14,6 @@ const PASS_TIME = 0.3
 @export var max_hp: int = 20
 @export var hp: int = 20
 
-@onready var tween = $Tween
 @onready var hp_bar = $HpBar
 
 var act_time = 0
@@ -96,10 +95,10 @@ func move(tpos: Vector2):
 	GameState.level.free_tile(curr_tpos)
 	curr_tpos = tpos
 	GameState.level.occupy_tile(tpos)
-	tween.interpolate_property(self, "position",
-		position, new_pos,
-		MOVE_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.start()
+	#tween.interpolate_property(self, "position",
+		#position, new_pos,
+		#MOVE_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	#tween.start()
 
 func talk(message: String):
 	var message_text = TextPopup.instantiate()
@@ -153,10 +152,10 @@ func heal(amount: int):
 func teleport(tpos: Vector2):
 	var new_pos = GameState.level.map_to_local(tpos)
 	curr_tpos = tpos
-	tween.interpolate_property(self, "position",
-		position, new_pos,
-		MOVE_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.start()
+	#tween.interpolate_property(self, "position",
+		#position, new_pos,
+		#MOVE_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	#tween.start()
 
 func die():
 	GameState.level.free_tile(tpos())
