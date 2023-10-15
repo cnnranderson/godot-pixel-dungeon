@@ -44,7 +44,7 @@ func _unhandled_input(event):
 		var travel = GameState.level.get_travel_path(p_tpos, m_tpos)
 		interrupted_actions.clear()
 		if travel.size() == 0:
-			if m_tpos in GameState.level.blocked:
+			if GameState.world.get_actor_at_tpos(m_tpos):
 				var dist = (m_tpos - tpos()).length()
 				if dist < 2 or GameState.player_any_dist_hit:
 					queue_attack(m_tpos)
@@ -87,6 +87,7 @@ func act():
 
 func queue_attack(tpos: Vector2):
 	var actor = GameState.world.get_actor_at_tpos(tpos)
+	if not actor: return
 	var attack = ActionBuilder.new().attack(tpos, actor)
 	action_queue.append(attack)
 
