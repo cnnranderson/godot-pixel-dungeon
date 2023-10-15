@@ -30,6 +30,11 @@ Helpers="*res://scripts/Helpers.gd"
 window/size/viewport_width=1080
 window/size/viewport_height=720
 
+[filesystem]
+
+import/blender/enabled=false
+import/fbx/enabled=false
+
 [importer_defaults]
 
 mp3={

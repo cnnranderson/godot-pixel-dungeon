@@ -17,10 +17,17 @@ const ANIM = {
 @onready var backpack = GameState.player.backpack
 
 var interrupted_actions = []
+var tween: Tween
 
 func _ready():
 	sprite.animation = ANIM.idle
 	sprite.play()
+	
+	# Stupid way to do this but oh well - need to bind to self, then immediately stop
+	# otherwise it thinks it's running.. This breaks _can_act() function
+	tween = create_tween()
+	tween.stop()
+	
 	Events.connect("player_wait", Callable(self, "_on_player_wait"))
 	Events.connect("player_search", Callable(self, "_on_player_search"))
 	Events.connect("player_continue", Callable(self, "_on_player_continue"))
@@ -71,9 +78,9 @@ func _unhandled_input(event):
 		Events.emit_signal("player_acted")
 
 func _can_act() -> bool:
-	print("check")
 	return GameState.is_player_turn \
 			and not GameState.inventory_open \
+			and not tween.is_running() \
 			and action_queue.is_empty()
 
 func act():
@@ -124,11 +131,13 @@ func move(tpos):
 	# Try to move
 	move_tween(tpos, blocked)
 	
+	await tween.finished
+	
 	if action_queue.size() == 0:
 		sprite.animation = ANIM.idle
 
 func move_tween(tpos: Vector2, blocked = false):
-	var tween = create_tween()
+	tween = create_tween()
 	
 	if tpos.x > curr_tpos.x:
 		sprite.flip_h = false
@@ -137,26 +146,35 @@ func move_tween(tpos: Vector2, blocked = false):
 	
 	if not blocked:
 		var new_pos = GameState.level.map_to_local(tpos)
+		print("=====")
 		print(tpos)
 		print(new_pos)
 		print(position)
+		
 		curr_tpos = tpos
 		Sounds.play_step()
 		
-		tween.tween_property(self, "position", new_pos * 16, MOVE_TIME) \
+		tween.tween_property(self, "position", new_pos, MOVE_TIME) \
 			.set_trans(Tween.TRANS_LINEAR)
 	else:
 		var origin_pos = position
 		var hit_position = position + (GameState.level.map_to_local(tpos - tpos()))
+		
+		print("=====")
+		print(tpos)
+		print(tpos())
+		print(hit_position)
+		print(position)
+		
 		Events.emit_signal("camera_shake", 0.15, 0.6)
 		Sounds.play_collision()
 		
 		tween.tween_property(self, "position", hit_position, MOVE_TIME) \
 			.set_trans(Tween.TRANS_CUBIC) \
 			.set_ease(Tween.EASE_IN_OUT)
-		tween.tween_property(self, "position", origin_pos, MOVE_TIME / 2) \
+		tween.tween_property(self, "position", origin_pos, MOVE_TIME) \
 			.set_trans(Tween.TRANS_SINE) \
-			.set_ease(Tween.EASE_IN).set_delay(MOVE_TIME / 2)
+			.set_ease(Tween.EASE_IN).set_delay(MOVE_TIME)
 		
 	sprite.animation = ANIM.walk
 
