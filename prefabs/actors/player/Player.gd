@@ -59,7 +59,7 @@ func _unhandled_input(event):
 		for dir in Constants.INPUTS.keys():
 			if event.is_action(dir):
 				var target = tpos() + Constants.INPUTS[dir]
-				if target in GameState.level.blocked:
+				if GameState.world.get_actor_at_tpos(target):
 					queue_attack(target)
 				else:
 					if GameState.level.can_move_to(target):
@@ -97,6 +97,9 @@ func interrupt():
 	action_queue.clear()
 	Events.emit_signal("player_interrupted")
 
+# TODO: What the heck was I doing with this? This all needs a rework
+# There are serious complexity issues going on here that feel like
+# they're sidestepping the action queue.
 func move(tpos):
 	var blocked = false
 	var interacted = false
