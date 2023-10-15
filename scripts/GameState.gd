@@ -15,9 +15,9 @@ var player_guaranteed_miss = false
 var player_any_dist_hit = true # Attack at any distance
 
 # =======   STATE VARS   ==========
-var hero: Actor = null
-var world: GameWorld = null
-var level: Level = null
+var hero: Actor
+var world: GameWorld
+var level: Level
 var player = {
 	"fov": 7,
 	"inventory": {

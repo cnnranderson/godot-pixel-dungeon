@@ -85,13 +85,13 @@ func _update_visuals():
 	if not GameState.fog_of_war: return
 	
 	var space_state = get_world_2d().direct_space_state
-	var min_bound = GameState.hero.tpos() - Vector2.ONE * (GameState.player.fov + 2)
-	var max_bound = GameState.hero.tpos() + Vector2.ONE * (GameState.player.fov + 2)
+	var min_bound = GameState.hero.tpos() - Vector2i.ONE * (GameState.player.fov + 2)
+	var max_bound = GameState.hero.tpos() + Vector2i.ONE * (GameState.player.fov + 2)
 	for x in range(max(min_bound.x, 0), min(max_bound.x, level.level_size.x)):
 		for y in range(max(min_bound.y, 0), min(max_bound.y, level.level_size.y)):
 			var x_dir = 1 if x < GameState.hero.tpos().x else -1
 			var y_dir = 1 if y < GameState.hero.tpos().y else -1
-			var test_point = Helpers.tile_to_world(Vector2(x, y)) + Vector2(x_dir, y_dir) * Constants.TILE_V / 2
+			var test_point = Helpers.tile_to_world(Vector2i(x, y)) + Vector2(x_dir, y_dir) * Constants.TILE_V / 2
 			
 			var params = PhysicsRayQueryParameters2D.create(GameState.hero.position, test_point)
 			
@@ -114,7 +114,7 @@ func _update_visuals():
 				_reveal_entities(x, y, false)
 
 func _reveal_entities(x, y, reveal: bool = true):
-	var tpos = Vector2(x, y)
+	var tpos = Vector2i(x, y)
 	for item in items.get_children():
 		if Helpers.world_to_tile(item.position) == tpos:
 			item.visible = reveal

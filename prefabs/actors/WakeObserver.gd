@@ -10,7 +10,7 @@ extends Area2D
 var tween: Tween
 
 func _ready():
-	collision_shape.shape.size = Vector2(t_width, t_height) * Constants.TILE_SIZE
+	collision_shape.shape.size = Vector2i(t_width, t_height) * Constants.TILE_SIZE
 
 func _animate():
 	tween = create_tween()

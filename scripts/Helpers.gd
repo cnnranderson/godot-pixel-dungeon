@@ -32,15 +32,15 @@ func dice_roll(count: int = 1, sides: int = 6) -> int:
 		sum += roll
 	return sum
 
-func tile_to_world(tpos: Vector2, center_offset: bool = true) -> Vector2:
-	tpos *= Constants.TILE_SIZE
+func tile_to_world(tpos: Vector2i, center_offset: bool = true) -> Vector2:
+	var world_pos = Vector2(tpos)
+	world_pos *= Constants.TILE_SIZE
 	if center_offset:
-		tpos += Constants.TILE_V * 0.5
-	return tpos
+		world_pos += Constants.TILE_V * 0.5
+	return world_pos
 
-func world_to_tile(world_pos: Vector2):
-	var tpos = world_pos / float(Constants.TILE_SIZE)
-	tpos = tpos.floor()
+func world_to_tile(world_pos: Vector2) -> Vector2i:
+	var tpos = Vector2i(world_pos / float(Constants.TILE_SIZE))
 	return tpos
 
 func valid(obj):

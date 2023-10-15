@@ -18,7 +18,7 @@ const PASS_TIME = 0.3
 
 var act_time = 0
 var action_queue = []
-var curr_tpos: Vector2
+var curr_tpos: Vector2i
 var unstable_teleport = 0
 var should_teleport = false
 var should_wake = false
@@ -112,11 +112,7 @@ func move(tpos: Vector2):
 func talk(message: String):
 	var message_text = TextPopup.instantiate()
 	message_text.text = message
-	message_text.global_position = position
-	if mob:
-		message_text.global_position += Vector2(8, 0)
-	else:
-		message_text.global_position += Vector2(0, -8)
+	message_text.global_position = position + Vector2(0, -8)
 	GameState.world.get_node("Effects").add_child(message_text)
 
 func attack(actor: Actor):
