@@ -114,7 +114,8 @@ func move(tpos):
 			GameState.level.open_door(tpos)
 	
 	# TODO: Make an interact button (similar to picking up items)
-	if GameState.level.is_stair_down(tpos):
+	if GameState.level.is_stair_down(tpos) and not GameState.world_generating:
+		GameState.world_generating = true
 		Events.emit_signal("next_stage")
 	
 	if not GameState.level.can_move_to(tpos):

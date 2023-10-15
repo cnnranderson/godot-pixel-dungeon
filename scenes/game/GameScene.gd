@@ -14,9 +14,10 @@ func _ready():
 	_reload_map()
 
 func _unhandled_input(event):
-	if event.is_action_pressed("cancel"):
+	if event.is_action_pressed("cancel") and not GameState.world_generating:
+		GameState.world_generating = true
 		Events.emit_signal("next_stage")
-	
+		
 	if event.is_action_pressed("add_key"):
 		GameState.player.inventory.keys += 1
 		Events.emit_signal("player_interact", Item.Category.KEY)
@@ -55,4 +56,5 @@ func _reload_map():
 		.set_ease(Tween.EASE_OUT)
 	await tween.finished
 	
+	GameState.world_generating = false
 	load_splash.visible = false

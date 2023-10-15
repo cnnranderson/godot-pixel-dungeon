@@ -28,7 +28,7 @@ const Enemies = {
 	"bat": preload("res://prefabs/actors/bat/Bat.tscn")
 }
 
-@onready var level = $Level
+@onready var level: Level = $Level
 @onready var visibility_map = $Visibility
 @onready var fog_map = $Fog
 @onready var items = $Items
@@ -59,8 +59,8 @@ func init_world():
 	if GameState.fog_of_war:
 		for x in level.level_size.x:
 			for y in level.level_size.y:
-				visibility_map.set_cell(x, y, 0)
-				fog_map.set_cell(x, y, 0)
+				visibility_map.set_cell(1, Vector2i(x, y), 0)
+				fog_map.set_cell(1, Vector2i(x, y), 0)
 	else:
 		visibility_map.visible = false
 		fog_map.visible = false
@@ -99,18 +99,18 @@ func _update_visuals():
 			if not occlusion or (occlusion.position - test_point).length() < 1:
 				if (GameState.hero.position - test_point).length() / Constants.TILE_SIZE < GameState.player.fov:
 					# Reveal if it's within FoV
-					visibility_map.set_cell(x, y, -1)
+					visibility_map.set_cell(0, Vector2i(x, y), -1)
 					
 					# Also punch a hole in overall fog map
-					fog_map.set_cell(x, y, -1)
+					fog_map.set_cell(0, Vector2i(x, y), -1)
 					_reveal_entities(x, y)
 				else:
 					# Hide again if not within FoV
-					visibility_map.set_cell(x, y, 0)
+					visibility_map.set_cell(0, Vector2i(x, y), 0)
 					_reveal_entities(x, y, false)
 			else:
 				# Hide if no collision in general
-				visibility_map.set_cell(x, y, 0)
+				visibility_map.set_cell(0, Vector2i(x, y), 0)
 				_reveal_entities(x, y, false)
 
 func _reveal_entities(x, y, reveal: bool = true):
@@ -188,7 +188,6 @@ func _generate_test_entities():
 	_generate_test_weapons()
 	_generate_test_armor()
 	_generate_test_enemies()
-	pass
 
 func _generate_test_keys():
 	var key_pos = level.items.key_spawns
