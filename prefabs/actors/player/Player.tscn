@@ -1,31 +1,8 @@
-[gd_scene load_steps=166 format=3 uid="uid://dyjm45xxr2g00"]
+[gd_scene load_steps=161 format=3 uid="uid://dyjm45xxr2g00"]
 
 [ext_resource type="Script" path="res://prefabs/actors/player/Player.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://bmvk7ua7oiq3k" path="res://assets/pd_import/images/warrior.png" id="2"]
 [ext_resource type="Script" path="res://scripts/GameCam.gd" id="3"]
-
-[sub_resource type="Gradient" id="158"]
-colors = PackedColorArray(0.410156, 0.410156, 0.410156, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="159"]
-gradient = SubResource("158")
-width = 80
-
-[sub_resource type="Curve" id="160"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -9.53668, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="161"]
-curve = SubResource("160")
-
-[sub_resource type="ParticleProcessMaterial" id="162"]
-emission_shape = 2
-emission_sphere_radius = 1.0
-spread = 60.23
-gravity = Vector3(0, 0, 0)
-scale_curve = SubResource("161")
-color = Color(0.890196, 0.890196, 0.890196, 1)
-color_ramp = SubResource("159")
 
 [sub_resource type="AtlasTexture" id="4"]
 atlas = ExtResource("2")
@@ -1136,12 +1113,6 @@ size = Vector2(4, 4)
 [node name="Player" type="Area2D"]
 script = ExtResource("1")
 move_speed = 6
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-visible = false
-position = Vector2(0, 5)
-process_material = SubResource("162")
-lifetime = 0.5
 
 [node name="AnimSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("157")

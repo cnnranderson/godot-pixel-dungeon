@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var world = $World
 @onready var load_splash = $UI/LoadSplash
-var tween = create_tween()
+var tween: Tween
 
 func _ready():
 	Events.connect("map_ready", Callable($UI/PlayerUI, "_init_stats"))
@@ -35,14 +35,24 @@ func _unhandled_input(event):
 				Events.emit_signal("player_wait")
 
 func _reload_map():
+	tween = create_tween()
 	load_splash.visible = true
 	load_splash.modulate.a = 0
-	#tween.interpolate_property(load_splash, "modulate:a", 0, 1.0, 0.5, Tween.TRANS_CUBIC, Tween.EASE_IN)
-	#tween.start()
+	
+	# Fade out
+	tween.tween_property(load_splash, "modulate:a", 1.0, 0.5) \
+		.set_trans(Tween.TRANS_CUBIC) \
+		.set_ease(Tween.EASE_IN)
 	await get_tree().create_timer(1.0).timeout
+	
 	GameState.world.init_world()
 	await Events.map_ready
-	#tween.interpolate_property(load_splash, "modulate:a", 1.0, 0, 1.0, Tween.TRANS_EXPO, Tween.EASE_OUT)
-	#tween.start()
-	#await tween.tween_all_completed
+	
+	# Fade back in
+	tween = create_tween()
+	tween.tween_property(load_splash, "modulate:a", 0, 1) \
+		.set_trans(Tween.TRANS_EXPO) \
+		.set_ease(Tween.EASE_OUT)
+	await tween.finished
+	
 	load_splash.visible = false

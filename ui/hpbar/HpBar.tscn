@@ -1,31 +1,20 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://lai0hvlxtqlr"]
 
-[sub_resource type="StyleBoxLine" id=1]
-color = Color( 1, 0, 0, 1 )
-grow_begin = 0.0
-grow_end = 0.0
-thickness = 2
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mc354"]
+bg_color = Color(0.12549, 0.12549, 0.12549, 1)
 
-[sub_resource type="StyleBoxLine" id=2]
-color = Color( 0.168627, 0.168627, 0.168627, 1 )
-grow_begin = 0.0
-grow_end = 0.0
-thickness = 2
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8dx41"]
+bg_color = Color(1, 0, 0, 1)
 
 [node name="HpBar" type="ProgressBar"]
+custom_minimum_size = Vector2(16, 1)
 offset_left = -8.0
-offset_top = -1.0
 offset_right = 8.0
 offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-custom_minimum_size = Vector2( 16, 2 )
-theme_override_styles/fg = SubResource( 1 )
-theme_override_styles/bg = SubResource( 2 )
+theme_override_styles/background = SubResource("StyleBoxFlat_mc354")
+theme_override_styles/fill = SubResource("StyleBoxFlat_8dx41")
 step = 1.0
 value = 50.0
-rounded = true
-percent_visible = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
+show_percentage = false

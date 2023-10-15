@@ -48,7 +48,7 @@ func _process(delta):
 	var tile = level.get_cell_tile_data(0, m_tpos)
 	if not GameState.inventory_open:
 		$Cursor.visible = true
-		$Cursor.position = level.map_to_local(level.local_to_map(mouse_pos))
+		$Cursor.position = level.map_to_local(m_tpos)
 	else:
 		$Cursor.visible = false
 
@@ -187,7 +187,7 @@ func _generate_test_entities():
 	_generate_test_scrolls()
 	_generate_test_weapons()
 	_generate_test_armor()
-	#_generate_test_enemies()
+	_generate_test_enemies()
 	pass
 
 func _generate_test_keys():

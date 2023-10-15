@@ -1,101 +1,63 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://cseoqiihmae2o"]
 
-[ext_resource path="res://assets/images/menu_slot_9x.png" type="Texture2D" id=1]
-[ext_resource path="res://ui/inventory/InventoryGrid.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scripts/ui/inventory/Backpack.gd" type="Script" id=3]
-[ext_resource path="res://ui/pd_theme.tres" type="Theme" id=4]
-[ext_resource path="res://ui/inventory/EquipmentGrid.tscn" type="PackedScene" id=5]
+[ext_resource type="Texture2D" uid="uid://b0rgv11ydgdoj" path="res://assets/images/menu_slot_9x.png" id="1"]
+[ext_resource type="PackedScene" uid="uid://duivnfdtlg00i" path="res://ui/inventory/InventoryGrid.tscn" id="2"]
+[ext_resource type="Script" path="res://scripts/ui/inventory/Backpack.gd" id="3"]
+[ext_resource type="Theme" uid="uid://bhvq38rpgtg7l" path="res://ui/pd_theme.tres" id="4"]
+[ext_resource type="PackedScene" uid="uid://b5g0c8hk0dq1q" path="res://ui/inventory/EquipmentGrid.tscn" id="5"]
 
 [node name="Backpack" type="MarginContainer"]
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme = ExtResource( 4 )
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = ExtResource("4")
+script = ExtResource("3")
 
 [node name="Backdrop" type="NinePatchRect" parent="."]
-offset_right = 270.0
-offset_bottom = 263.0
+layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource( 1 )
+texture = ExtResource("1")
 patch_margin_left = 2
 patch_margin_top = 4
 patch_margin_right = 2
 patch_margin_bottom = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Center" type="CenterContainer" parent="."]
-offset_right = 270.0
-offset_bottom = 263.0
-custom_minimum_size = Vector2( 0, 108 )
+custom_minimum_size = Vector2(0, 108)
+layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="MarginContainer" type="MarginContainer" parent="Center"]
-offset_right = 270.0
-offset_bottom = 263.0
+layout_mode = 2
 size_flags_vertical = 8
 
 [node name="VBox" type="VBoxContainer" parent="Center/MarginContainer"]
-offset_right = 270.0
-offset_bottom = 263.0
-grow_horizontal = 2
-grow_vertical = 2
-custom_minimum_size = Vector2( 270, 90 )
+custom_minimum_size = Vector2(270, 90)
+layout_mode = 2
 theme_override_constants/separation = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Equipment" type="Label" parent="Center/MarginContainer/VBox"]
-offset_right = 270.0
-offset_bottom = 28.0
-custom_minimum_size = Vector2( 270, 28 )
+custom_minimum_size = Vector2(270, 28)
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Equipment"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="EquipmentGrid" parent="Center/MarginContainer/VBox" instance=ExtResource( 5 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 5.0
-offset_top = 28.0
-offset_right = 264.0
-offset_bottom = 92.0
+[node name="EquipmentGrid" parent="Center/MarginContainer/VBox" instance=ExtResource("5")]
+layout_mode = 2
 size_flags_horizontal = 4
 
 [node name="Backpack" type="Label" parent="Center/MarginContainer/VBox"]
-offset_top = 92.0
-offset_right = 270.0
-offset_bottom = 120.0
-custom_minimum_size = Vector2( 270, 28 )
+custom_minimum_size = Vector2(270, 28)
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Backpack"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="InventoryGrid" parent="Center/MarginContainer/VBox" instance=ExtResource( 2 )]
-offset_left = 5.0
-offset_top = 120.0
-offset_right = 264.0
-offset_bottom = 249.0
+[node name="InventoryGrid" parent="Center/MarginContainer/VBox" instance=ExtResource("2")]
+layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 
 [node name="spacer" type="Label" parent="Center/MarginContainer/VBox"]
-offset_top = 249.0
-offset_right = 270.0
-offset_bottom = 263.0
+layout_mode = 2

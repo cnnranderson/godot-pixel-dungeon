@@ -1,85 +1,70 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://d4em0f7nxyhjg"]
 
-[ext_resource path="res://assets/images/inventory_slot_9x.png" type="Texture2D" id=1]
-[ext_resource path="res://scripts/ui/inventory/InventoryItem.gd" type="Script" id=2]
-[ext_resource path="res://ui/pd_theme.tres" type="Theme" id=4]
+[ext_resource type="Texture2D" uid="uid://by30kv1anrnfp" path="res://assets/images/inventory_slot_9x.png" id="1"]
+[ext_resource type="Script" path="res://scripts/ui/inventory/InventoryItem.gd" id="2"]
+[ext_resource type="Theme" uid="uid://bhvq38rpgtg7l" path="res://ui/pd_theme.tres" id="4"]
 
 [node name="InventoryItem" type="CenterContainer"]
+custom_minimum_size = Vector2(64, 64)
+anchors_preset = -1
 anchor_right = 0.0592593
 anchor_bottom = 0.0888889
 offset_right = -48.0
 offset_bottom = -48.0
-custom_minimum_size = Vector2( 64, 64 )
 size_flags_horizontal = 5
 size_flags_vertical = 5
-theme = ExtResource( 4 )
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+theme = ExtResource("4")
+script = ExtResource("2")
 
 [node name="Backdrop" type="NinePatchRect" parent="."]
-offset_right = 64.0
-offset_bottom = 64.0
-custom_minimum_size = Vector2( 64, 64 )
-texture = ExtResource( 1 )
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("1")
 patch_margin_left = 3
 patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
 
 [node name="ItemImage" type="TextureRect" parent="."]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 56.0
-offset_bottom = 56.0
-custom_minimum_size = Vector2( 48, 48 )
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
 stretch_mode = 1
 
 [node name="Extra" type="MarginContainer" parent="."]
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 60.0
-offset_bottom = 60.0
-custom_minimum_size = Vector2( 56, 56 )
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
 mouse_filter = 2
 
 [node name="Equipped" type="Label" parent="Extra"]
-offset_right = 56.0
-offset_bottom = 56.0
-custom_minimum_size = Vector2( 56, 56 )
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource( 4 )
-theme_override_colors/font_color = Color( 1, 0.960784, 0.392157, 1 )
-theme_override_colors/font_shadow_color = Color( 0, 0, 0, 1 )
+theme = ExtResource("4")
+theme_override_colors/font_color = Color(1, 0.960784, 0.392157, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/shadow_outline_size = 1
 text = "E"
 
 [node name="Stat" type="Label" parent="Extra"]
-offset_right = 56.0
-offset_bottom = 56.0
-custom_minimum_size = Vector2( 56, 56 )
-theme_override_colors/font_shadow_color = Color( 0, 0, 0, 1 )
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/shadow_outline_size = 1
 text = "0"
-align = 2
 
 [node name="Upgrade" type="Label" parent="Extra"]
-offset_right = 56.0
-offset_bottom = 56.0
-custom_minimum_size = Vector2( 56, 56 )
-theme_override_colors/font_color = Color( 0.0627451, 0.847059, 0, 1 )
-theme_override_colors/font_shadow_color = Color( 0, 0, 0, 1 )
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0627451, 0.847059, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/shadow_outline_size = 1
 text = "+0"
-align = 2
-valign = 2
 
 [connection signal="gui_input" from="ItemImage" to="." method="_on_ItemImage_gui_input"]

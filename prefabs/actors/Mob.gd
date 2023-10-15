@@ -13,5 +13,5 @@ enum Type {
 @export var strength: int = 1
 @export var ac: int = 1
 @export var level: int = 1
-@export var hd: int = 1
+@export var hp: int = 1
 @export var xp_value: int = 20

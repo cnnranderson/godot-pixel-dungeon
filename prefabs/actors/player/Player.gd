@@ -74,9 +74,9 @@ func _unhandled_input(event):
 
 func _can_act() -> bool:
 	return GameState.is_player_turn \
+			and action_queue.is_empty() \
 			and not GameState.inventory_open \
-			and not tween.is_running() \
-			and action_queue.is_empty()
+			and not tween.is_running()
 
 func act():
 	if action_queue.is_empty(): return
@@ -181,7 +181,16 @@ func attack(actor: Actor):
 	Events.emit_signal("camera_shake", 0.2, 0.6)
 	var origin_pos = position
 	var attack_pos = actor.position
+	var hit_position = position + (actor.tpos() - tpos()) * Constants.TILE_HALF
 	Sounds.play_hit()
+	
+	tween = create_tween()
+	tween.tween_property(self, "position", hit_position, MOVE_TIME / 2) \
+		.set_trans(Tween.TRANS_CUBIC) \
+		.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(self, "position", origin_pos, MOVE_TIME / 2) \
+		.set_trans(Tween.TRANS_SINE) \
+		.set_ease(Tween.EASE_IN).set_delay(MOVE_TIME / 2)
 
 func take_damage(damage: int, crit = false, heal = false):
 	var was_hit = super(damage, crit, heal)

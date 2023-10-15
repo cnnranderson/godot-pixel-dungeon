@@ -1,29 +1,25 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://cbp6kmcf481q5"]
 
-[ext_resource path="res://scripts/ui/EventLog.gd" type="Script" id=1]
-[ext_resource path="res://ui/log_theme.tres" type="Theme" id=2]
+[ext_resource type="Script" path="res://scripts/ui/EventLog.gd" id="1"]
+[ext_resource type="Theme" uid="uid://bq3ur21uw0y6r" path="res://ui/log_theme.tres" id="2"]
 
 [node name="EventLog" type="Control"]
+custom_minimum_size = Vector2(450, 180)
+layout_mode = 3
 anchor_right = 0.417
 anchor_bottom = 0.25
 offset_right = -0.360016
-custom_minimum_size = Vector2( 450, 180 )
 mouse_filter = 2
-theme = ExtResource( 2 )
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": true
-}
+theme = ExtResource("2")
+script = ExtResource("1")
 log_count = 4
 
 [node name="Feed" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(360, 180)
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_vertical = 0
-custom_minimum_size = Vector2( 360, 180 )
 mouse_filter = 2
 theme_override_constants/separation = -2
 alignment = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}

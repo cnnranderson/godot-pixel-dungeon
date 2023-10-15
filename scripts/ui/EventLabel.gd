@@ -4,17 +4,19 @@ extends Label
 @export var hold_time = 2
 @export var fade_out_time = 1.5
 
-@onready var tween = $Tween
-
 var display_text: String
+var tween: Tween
 var count = 1
 
 func show_event(event: String):
 	display_text = event
 	text = event
 	modulate.a = 0
-	#$Tween.interpolate_property(self, "modulate:a", 0.0, 1.0, fade_in_time, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	#$Tween.start()
+	
+	tween = create_tween()
+	tween.tween_property(self, "modulate:a", 1, fade_in_time) \
+		.set_trans(Tween.TRANS_LINEAR) \
+		.set_ease(Tween.EASE_IN)
 
 func add_event_count():
 	count += 1

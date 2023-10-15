@@ -7,16 +7,20 @@ extends Area2D
 @onready var wake_sprite = $Waking
 @onready var sleep_sprite = $Sleeping
 
+var tween: Tween
+
 func _ready():
 	collision_shape.shape.size = Vector2(t_width, t_height) * Constants.TILE_SIZE
 
 func _animate():
-	#$Tween.interpolate_property(wake_sprite, "scale",
-			#wake_sprite.scale, wake_sprite.scale * 1.5, 0.6, Tween.TRANS_BOUNCE, Tween.EASE_OUT)
-	#$Tween.interpolate_property(self, "modulate:a",
-			#modulate.a, 0, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT, 0.6)
-	#$Tween.start()
-	#await $Tween.tween_all_completed
+	tween = create_tween()
+	tween.tween_property(self, "scale", wake_sprite.scale * 1.5, 0.6) \
+		.set_trans(Tween.TRANS_BOUNCE) \
+		.set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "modulate:a", 0, 0.5) \
+		.set_trans(Tween.TRANS_LINEAR) \
+		.set_ease(Tween.EASE_OUT).set_delay(0.6)
+	await tween.finished
 	queue_free()
 
 func _on_WakeArea_area_entered(actor):

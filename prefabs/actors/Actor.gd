@@ -34,18 +34,19 @@ func _ready():
 	curr_tpos = GameState.level.local_to_map(position)
 	if mob:
 		asleep = false if GameState.enemies_start_awake else true
-		mob.max_hp = Helpers.dice_roll(mob.hd, 8)
+		max_hp = mob.max_hp
 		hp = mob.max_hp
+		
+		hp_bar.max_value = max_hp
+		hp_bar.value = hp
+		
 		if has_node("Sprite2D"):
 			$Sprite2D.texture = mob.texture
-	
-	if hp_bar:
-		_init_hp_bar()
 
 func _init_hp_bar():
 	if mob:
-		hp_bar.max_value = mob.max_hp
-		hp_bar.value = mob.max_hp
+		hp_bar.max_value = max_hp
+		hp_bar.value = hp
 	hp_bar.visible = false
 
 func tpos():
@@ -102,10 +103,11 @@ func move(tpos: Vector2):
 	GameState.level.free_tile(curr_tpos)
 	curr_tpos = tpos
 	GameState.level.occupy_tile(tpos)
-	#tween.interpolate_property(self, "position",
-		#position, new_pos,
-		#MOVE_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	#tween.start()
+	
+	tween = create_tween()
+	tween.tween_property(self, "position", new_pos, MOVE_TIME) \
+		.set_trans(Tween.TRANS_LINEAR) \
+		.set_ease(Tween.EASE_IN_OUT)
 
 func talk(message: String):
 	var message_text = TextPopup.instantiate()
@@ -118,7 +120,7 @@ func talk(message: String):
 	GameState.world.get_node("Effects").add_child(message_text)
 
 func attack(actor: Actor):
-	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(0.5).timeout
 	Sounds.play_enemy_hit()
 	actor.take_damage(mob.strength)
 
@@ -132,10 +134,6 @@ func take_damage(damage: int, crit = false, heal = false):
 		damage_text.is_crit = crit
 		damage_text.is_heal = heal
 		damage_text.global_position = position
-		if mob:
-			damage_text.global_position += Vector2(8, 0)
-		else:
-			damage_text.global_position += Vector2(0, -8)
 		GameState.world.get_node("Effects").add_child(damage_text)
 		
 		hp -= damage
@@ -159,10 +157,11 @@ func heal(amount: int):
 func teleport(tpos: Vector2):
 	var new_pos = GameState.level.map_to_local(tpos)
 	curr_tpos = tpos
-	#tween.interpolate_property(self, "position",
-		#position, new_pos,
-		#MOVE_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	#tween.start()
+	
+	tween = create_tween()
+	tween.tween_property(self, "position", new_pos, MOVE_TIME) \
+		.set_trans(Tween.TRANS_LINEAR) \
+		.set_ease(Tween.EASE_IN_OUT)
 
 func die():
 	GameState.level.free_tile(tpos())

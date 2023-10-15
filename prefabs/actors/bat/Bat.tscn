@@ -4,7 +4,7 @@
 [ext_resource type="Resource" uid="uid://td6687idkn74" path="res://prefabs/actors/bat/Bat.tres" id="2"]
 [ext_resource type="Texture2D" uid="uid://bj2uqgy45ejoi" path="res://assets/images/mobs/bat.png" id="3"]
 [ext_resource type="PackedScene" uid="uid://ngb6yyyg4c6u" path="res://prefabs/actors/WakeObserver.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://ui/hpbar/HpBar.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://lai0hvlxtqlr" path="res://ui/hpbar/HpBar.tscn" id="5"]
 
 [sub_resource type="AtlasTexture" id="2"]
 atlas = ExtResource("3")
@@ -30,7 +30,9 @@ position = Vector2(8, 8)
 shape = SubResource("1")
 
 [node name="HpBar" parent="." instance=ExtResource("5")]
-offset_left = 0.0
-offset_top = -2.0
-offset_right = 16.0
-offset_bottom = 0.0
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+offset_bottom = -7.0

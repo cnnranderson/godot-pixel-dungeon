@@ -9,7 +9,7 @@ var fog_of_war = false
 var enemies_start_awake = true
 var auto_pickup = true
 var free_auto_pickup = true
-var player_guaranteed_hit = false
+var player_guaranteed_hit = true
 var player_guaranteed_miss = false
 var player_any_dist_hit = true # Attack at any distance
 

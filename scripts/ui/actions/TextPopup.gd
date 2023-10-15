@@ -1,7 +1,8 @@
 extends Control
 
 @onready var label = $Label
-@onready var tween = $Tween
+
+var tween: Tween
 var text = "..."
 
 func _ready():
@@ -12,9 +13,15 @@ func _ready():
 
 func display():
 	var time = 0.6
-	#tween.interpolate_property(self, 'modulate:a', modulate.a, 0.0, time, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-	#tween.interpolate_property(self, 'position:y', position.y, position.y - 16, time, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-	#tween.start()
+	modulate.a = 1.0
 	
-	#await tween.tween_all_completed
+	tween = create_tween().set_parallel(true)
+	tween.tween_property(self, "position:y", position.y - 8, time) \
+		.set_trans(Tween.TRANS_LINEAR) \
+		.set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "modulate:a", 0.0, time) \
+		.set_trans(Tween.TRANS_LINEAR) \
+		.set_ease(Tween.EASE_OUT)
+		
+	await tween.finished
 	queue_free()

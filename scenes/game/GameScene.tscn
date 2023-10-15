@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://mwbm4xshkgqw" path="res://ui/LoadSplash.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://6r5e0y8q5dwy" path="res://prefabs/grid/GameWorld.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://j4yii6ljvlas" path="res://ui/PlayerUI.tscn" id="5"]
-[ext_resource type="PackedScene" path="res://ui/log/EventLog.tscn" id="6"]
-[ext_resource type="PackedScene" path="res://ui/inventory/Backpack.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://cbp6kmcf481q5" path="res://ui/log/EventLog.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://cseoqiihmae2o" path="res://ui/inventory/Backpack.tscn" id="7"]
 
 [node name="GameScene" type="Node2D"]
 script = ExtResource("1")
