@@ -40,7 +40,7 @@ var debug = false
 
 func _ready():
 	GameState.level = level
-	Events.connect("player_acted", Callable(self, "_process_actions"))
+	Events.connect("player_acted", _process_actions)
 
 func _process(delta):
 	var mouse_pos = get_local_mouse_position()
@@ -140,7 +140,7 @@ func get_actor_at_tpos(tpos: Vector2i) -> Actor:
 
 func _process_actions():
 	var actors = $Actors.get_children()
-	actors.sort_custom(Callable(self, "actor_priority_sort"))
+	actors.sort_custom(actor_priority_sort)
 	var lowest_time = actors[0].act_time
 	
 	var attacked = false

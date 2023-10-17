@@ -5,9 +5,8 @@ extends Node2D
 var tween: Tween
 
 func _ready():
-	Events.connect("map_ready", Callable($UI/PlayerUI, "_init_stats"))
-	Events.connect("map_ready", Callable(self, "_start_game"))
-	Events.connect("next_stage", Callable(self, "_reload_map"))
+	#Events.connect("map_ready", _start_game) # TODO: Doesn't happen yet
+	Events.connect("next_stage", _reload_map)
 	$UI/ActionLog.visible = true
 	$UI/PlayerUI.visible = true
 	GameState.world = world

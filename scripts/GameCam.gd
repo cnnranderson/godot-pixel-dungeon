@@ -7,10 +7,10 @@ var decay = 0.8  # How quickly the shaking stops [0, 1].
 var max_offset = Vector2(64, 48)  # Maximum hor/ver shake in pixels.
 
 func _ready():
-	Events.connect("camera_shake", Callable(self, "add_trauma"))
+	Events.connect("camera_shake", add_trauma)
 
 func _unhandled_input(event):
-	if event.is_action_pressed("ui_accept"):
+	if event.is_action_pressed("camera_zoom"):
 		var z = Vector2.ONE if zoom.x == 2 else Vector2.ONE * 2
 		var tween = create_tween()
 		tween.tween_property(self, "zoom", z, 0.25) \

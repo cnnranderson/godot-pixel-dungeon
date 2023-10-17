@@ -23,15 +23,15 @@ func _ready():
 	sprite.animation = ANIM.idle
 	sprite.play()
 	
-	Events.connect("player_wait", Callable(self, "_on_player_wait"))
-	Events.connect("player_search", Callable(self, "_on_player_search"))
-	Events.connect("player_continue", Callable(self, "_on_player_continue"))
-	Events.connect("player_equip", Callable(self, "_on_player_equip"))
-	Events.connect("player_use_item", Callable(self, "_on_player_use_item"))
-	Events.connect("player_unequip_weapon", Callable(self, "_on_player_unequip_weapon"))
-	Events.connect("player_unequip_armor", Callable(self, "_on_player_unequip_armor"))
-	Events.connect("enemy_died", Callable(self, "_on_enemy_died"))
-	Events.connect("next_stage", Callable(self, "_on_next_stage"))
+	Events.connect("player_wait", _on_player_wait)
+	Events.connect("player_search", _on_player_search)
+	Events.connect("player_continue", _on_player_continue)
+	Events.connect("player_equip", _on_player_equip)
+	Events.connect("player_use_item", _on_player_use_item)
+	Events.connect("player_unequip_weapon", _on_player_unequip_weapon)
+	Events.connect("player_unequip_armor", _on_player_unequip_armor)
+	Events.connect("enemy_died", _on_enemy_died)
+	#Events.connect("next_stage", _on_next_stage) # TODO: Not impl
 
 func _unhandled_input(event):
 	if not _can_act(): return

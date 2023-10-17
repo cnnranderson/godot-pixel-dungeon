@@ -13,8 +13,8 @@ func _ready():
 	for i in inventory.items.size():
 		var slot = InventoryItem.instantiate()
 		add_child(slot)
-	Events.connect("refresh_backpack", Callable(self, "refresh_inventory"))
-	inventory.connect("items_changed", Callable(self, "_on_items_changed"))
+	Events.connect("refresh_backpack", refresh_inventory)
+	inventory.connect("items_changed", _on_items_changed)
 	refresh_inventory()
 
 func refresh_inventory():

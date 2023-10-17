@@ -7,7 +7,7 @@ const EventLabel = preload("res://ui/log/EventLabel.tscn")
 @onready var feed = $Feed
 
 func _ready():
-	Events.connect("log_message", Callable(self, "add_event"))
+	Events.connect("log_message", add_event)
 
 func add_event(text: String):
 	var logs = feed.get_children()
