@@ -47,6 +47,8 @@ theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/shadow_outline_size = 1
 text = "E"
+horizontal_alignment = 2
+vertical_alignment = 2
 
 [node name="Stat" type="Label" parent="Extra"]
 custom_minimum_size = Vector2(56, 56)
@@ -66,5 +68,6 @@ theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/shadow_outline_size = 1
 text = "+0"
+horizontal_alignment = 2
 
 [connection signal="gui_input" from="ItemImage" to="." method="_on_ItemImage_gui_input"]

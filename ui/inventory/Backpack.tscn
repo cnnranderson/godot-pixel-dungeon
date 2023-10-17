@@ -30,6 +30,10 @@ size_flags_vertical = 4
 [node name="MarginContainer" type="MarginContainer" parent="Center"]
 layout_mode = 2
 size_flags_vertical = 8
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 5
 
 [node name="VBox" type="VBoxContainer" parent="Center/MarginContainer"]
 custom_minimum_size = Vector2(270, 90)
@@ -39,9 +43,10 @@ theme_override_constants/separation = 0
 [node name="Equipment" type="Label" parent="Center/MarginContainer/VBox"]
 custom_minimum_size = Vector2(270, 28)
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/shadow_outline_size = 0
 text = "Equipment"
+vertical_alignment = 1
 
 [node name="EquipmentGrid" parent="Center/MarginContainer/VBox" instance=ExtResource("5")]
 layout_mode = 2
@@ -53,6 +58,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Backpack"
+vertical_alignment = 1
 
 [node name="InventoryGrid" parent="Center/MarginContainer/VBox" instance=ExtResource("2")]
 layout_mode = 2

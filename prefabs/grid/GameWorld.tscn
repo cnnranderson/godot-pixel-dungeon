@@ -65,7 +65,6 @@ sources/0 = SubResource("TileSetAtlasSource_278la")
 script = ExtResource("2")
 
 [node name="Level" parent="." instance=ExtResource("1")]
-layer_0/tile_data = PackedInt32Array()
 
 [node name="Objects" type="Node2D" parent="."]
 
