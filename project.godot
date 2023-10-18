@@ -14,6 +14,7 @@ config/name="Pixel Dungeon"
 config/tags=PackedStringArray("personal")
 run/main_scene="res://scenes/main/MainScene.tscn"
 config/features=PackedStringArray("4.2")
+boot_splash/bg_color=Color(0.156863, 0.156863, 0.156863, 1)
 config/icon="res://icon.png"
 
 [autoload]
@@ -27,10 +28,10 @@ Helpers="*res://scripts/Helpers.gd"
 
 [display]
 
-window/size/viewport_width=1080
-window/size/viewport_height=720
+window/size/viewport_width=768
+window/size/viewport_height=432
 window/size/mode=2
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 
 [filesystem]
 
@@ -145,6 +146,8 @@ common/enable_pause_aware_picking=true
 textures/canvas_textures/default_texture_filter=3
 textures/canvas_textures/default_texture_repeat=1
 2d/snapping/use_gpu_pixel_snap=true
+environment/show_image=true
+environment/bg_color=Color(0.14, 0.14, 0.14, 1)
 
 [world]
 

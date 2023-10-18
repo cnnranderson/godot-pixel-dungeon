@@ -11,7 +11,7 @@ func _ready():
 
 func _unhandled_input(event):
 	if event.is_action_pressed("camera_zoom"):
-		var z = Vector2.ONE if zoom.x == 2 else Vector2.ONE * 2
+		var z = Vector2.ONE * 0.5 if zoom.x == 1 else Vector2.ONE
 		var tween = create_tween()
 		tween.tween_property(self, "zoom", z, 0.25) \
 			.set_trans(Tween.TRANS_SINE) \

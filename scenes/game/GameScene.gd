@@ -40,17 +40,17 @@ func _reload_map():
 	load_splash.modulate.a = 0
 	
 	# Fade out
-	tween.tween_property(load_splash, "modulate:a", 1.0, 0.5) \
+	tween.tween_property(load_splash, "modulate:a", 1.0, 2) \
 		.set_trans(Tween.TRANS_CUBIC) \
 		.set_ease(Tween.EASE_IN)
-	await get_tree().create_timer(1.0).timeout
+	await tween.step_finished
 	
 	GameState.world.init_world()
 	await Events.map_ready
 	
 	# Fade back in
 	tween = create_tween()
-	tween.tween_property(load_splash, "modulate:a", 0, 1) \
+	tween.tween_property(load_splash, "modulate:a", 0, 2) \
 		.set_trans(Tween.TRANS_EXPO) \
 		.set_ease(Tween.EASE_OUT)
 	await tween.finished

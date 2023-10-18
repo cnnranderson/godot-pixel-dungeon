@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cb51exxtxrsfv"]
+[gd_scene load_steps=4 format=3 uid="uid://cb51exxtxrsfv"]
 
 [ext_resource type="Script" path="res://scenes/start/StartScene.gd" id="1"]
+[ext_resource type="Theme" uid="uid://bhvq38rpgtg7l" path="res://ui/pd_theme.tres" id="1_w5vs0"]
 
 [sub_resource type="FontFile" id="1"]
 cache/0/16/0/ascent = 0.0
@@ -11,13 +12,14 @@ cache/0/16/0/scale = 1.0
 cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [node name="StartScene" type="Control"]
-custom_minimum_size = Vector2(1080, 720)
+custom_minimum_size = Vector2(768, 432)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_w5vs0")
 script = ExtResource("1")
 
 [node name="Container" type="MarginContainer" parent="."]
