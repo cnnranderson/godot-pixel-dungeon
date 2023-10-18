@@ -9,6 +9,8 @@ func _ready():
 	Events.connect("next_stage", _reload_map)
 	$UI/ActionLog.visible = true
 	$UI/PlayerUI.visible = true
+	$UI/Backpack.visible = false
+	$UI/LoadSplash.visible = false
 	GameState.world = world
 	_reload_map()
 
