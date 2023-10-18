@@ -46,8 +46,10 @@ func _unhandled_input(event):
 		if travel.size() == 0:
 			if GameState.world.get_actor_at_tpos(m_tpos):
 				var dist = (m_tpos - tpos()).length()
-				if dist < 2 or GameState.player_any_dist_hit:
+				if (dist < 2 and travel.size() == 2) or GameState.player_any_dist_hit:
 					queue_attack(m_tpos)
+				else:
+					interrupt()
 			else:
 				Events.emit_signal("log_message", "Something blocks your path...")
 		else:

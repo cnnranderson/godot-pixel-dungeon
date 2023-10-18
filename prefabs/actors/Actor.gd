@@ -102,7 +102,6 @@ func act():
 func move(tpos: Vector2i):
 	var new_pos = GameState.level.map_to_local(tpos)
 	GameState.level.free_tile(curr_tpos)
-	print(curr_tpos, tpos)
 	curr_tpos = tpos
 	GameState.level.occupy_tile(tpos)
 	
