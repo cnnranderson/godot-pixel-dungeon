@@ -7,14 +7,13 @@
 [ext_resource type="PackedScene" uid="uid://b5g0c8hk0dq1q" path="res://ui/inventory/EquipmentGrid.tscn" id="5"]
 
 [node name="Backpack" type="MarginContainer"]
-size_flags_horizontal = 4
-size_flags_vertical = 4
+offset_right = 160.0
+offset_bottom = 160.0
 theme = ExtResource("4")
 script = ExtResource("3")
 
 [node name="Backdrop" type="NinePatchRect" parent="."]
 layout_mode = 2
-size_flags_vertical = 3
 texture = ExtResource("1")
 patch_margin_left = 2
 patch_margin_top = 4
@@ -22,10 +21,7 @@ patch_margin_right = 2
 patch_margin_bottom = 6
 
 [node name="Center" type="CenterContainer" parent="."]
-custom_minimum_size = Vector2(0, 108)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
 
 [node name="MarginContainer" type="MarginContainer" parent="Center"]
 layout_mode = 2
@@ -36,28 +32,33 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 5
 
 [node name="VBox" type="VBoxContainer" parent="Center/MarginContainer"]
-custom_minimum_size = Vector2(270, 90)
+clip_contents = true
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_constants/separation = 0
 
 [node name="Equipment" type="Label" parent="Center/MarginContainer/VBox"]
-custom_minimum_size = Vector2(270, 28)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 1
 theme_override_constants/shadow_outline_size = 0
 text = "Equipment"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="EquipmentGrid" parent="Center/MarginContainer/VBox" instance=ExtResource("5")]
 layout_mode = 2
 size_flags_horizontal = 4
+columns = 7
 
 [node name="Backpack" type="Label" parent="Center/MarginContainer/VBox"]
-custom_minimum_size = Vector2(270, 28)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Backpack"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="InventoryGrid" parent="Center/MarginContainer/VBox" instance=ExtResource("2")]

@@ -5,19 +5,20 @@
 [ext_resource type="Theme" uid="uid://bhvq38rpgtg7l" path="res://ui/pd_theme.tres" id="4"]
 
 [node name="InventoryItem" type="CenterContainer"]
-custom_minimum_size = Vector2(64, 64)
+clip_contents = true
+custom_minimum_size = Vector2(32, 32)
 anchors_preset = -1
-anchor_right = 0.0592593
-anchor_bottom = 0.0888889
-offset_right = -48.0
-offset_bottom = -48.0
+anchor_right = 0.042
+anchor_bottom = 0.074
+offset_right = -0.256004
+offset_bottom = 0.0319996
 size_flags_horizontal = 5
 size_flags_vertical = 5
 theme = ExtResource("4")
 script = ExtResource("2")
 
 [node name="Backdrop" type="NinePatchRect" parent="."]
-custom_minimum_size = Vector2(64, 64)
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("1")
 patch_margin_left = 3
@@ -26,17 +27,20 @@ patch_margin_right = 3
 patch_margin_bottom = 3
 
 [node name="ItemImage" type="TextureRect" parent="."]
-custom_minimum_size = Vector2(48, 48)
+custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 stretch_mode = 1
 
 [node name="Extra" type="MarginContainer" parent="."]
-custom_minimum_size = Vector2(56, 56)
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 mouse_filter = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 2
 
 [node name="Equipped" type="Label" parent="Extra"]
-custom_minimum_size = Vector2(56, 56)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -45,28 +49,33 @@ theme_override_colors/font_color = Color(1, 0.960784, 0.392157, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
+theme_override_constants/outline_size = 0
 theme_override_constants/shadow_outline_size = 1
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 10
 text = "E"
 horizontal_alignment = 2
 vertical_alignment = 2
 
 [node name="Stat" type="Label" parent="Extra"]
-custom_minimum_size = Vector2(56, 56)
 layout_mode = 2
+size_flags_vertical = 1
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/shadow_outline_size = 1
+theme_override_font_sizes/font_size = 10
 text = "0"
 
 [node name="Upgrade" type="Label" parent="Extra"]
-custom_minimum_size = Vector2(56, 56)
 layout_mode = 2
+size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.0627451, 0.847059, 0, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_constants/shadow_outline_size = 1
+theme_override_font_sizes/font_size = 10
 text = "+0"
 horizontal_alignment = 2
 

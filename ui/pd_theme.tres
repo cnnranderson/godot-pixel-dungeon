@@ -1,12 +1,11 @@
 [gd_resource type="Theme" load_steps=3 format=3 uid="uid://bhvq38rpgtg7l"]
 
-[ext_resource type="FontFile" uid="uid://couy54hdt0oxx" path="res://assets/fonts/FiraCode-Regular.ttf" id="1_c1fvf"]
+[ext_resource type="FontFile" uid="uid://cfynviboeb111" path="res://assets/fonts/romulus.ttf" id="1_h58lf"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dhsgw"]
 
 [resource]
-default_font = ExtResource("1_c1fvf")
-default_font_size = 0
+default_font = ExtResource("1_h58lf")
 Label/colors/font_color = Color(1, 1, 1, 1)
 Label/colors/font_outline_color = Color(1, 1, 1, 1)
 Label/colors/font_shadow_color = Color(0, 0, 0, 0)

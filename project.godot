@@ -32,6 +32,7 @@ window/size/viewport_width=768
 window/size/viewport_height=432
 window/size/mode=2
 window/stretch/mode="canvas_items"
+window/stretch/scale_mode="integer"
 
 [filesystem]
 

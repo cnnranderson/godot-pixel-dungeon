@@ -19,10 +19,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -132.0
-offset_top = -85.0
-offset_right = 132.0
-offset_bottom = 85.0
+offset_left = -73.5
+offset_top = -80.0
+offset_right = 73.5
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="ActionLog" parent="UI" instance=ExtResource("6")]
 visible = false
@@ -40,7 +42,6 @@ grow_vertical = 0
 visible = false
 offset_right = 0.0
 offset_bottom = 0.0
-scale = Vector2(2, 2)
 
 [node name="LoadSplash" parent="UI" instance=ExtResource("2")]
 visible = false
