@@ -16,6 +16,6 @@ enum ActionType {
 	TELEPORT
 }
 var type = null
-var dest: Vector2
+var dest: Vector2i
 var target
 var cost: int = 1

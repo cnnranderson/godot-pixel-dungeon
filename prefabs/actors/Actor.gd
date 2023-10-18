@@ -10,6 +10,7 @@ const ATTACK_TIME = 0.2
 const PASS_TIME = 0.3
 
 @export var mob: Resource = null
+@export var npc: Resource = null
 @export var turn_speed: int = 20
 @export var max_hp: int = 20
 @export var hp: int = 20
@@ -17,7 +18,7 @@ const PASS_TIME = 0.3
 @onready var hp_bar = $HpBar
 
 var act_time = 0
-var action_queue = []
+var action_queue: Array[Action] = []
 var curr_tpos: Vector2i
 var unstable_teleport = 0
 var should_teleport = false
@@ -35,7 +36,7 @@ func _ready():
 	if mob:
 		asleep = false if GameState.enemies_start_awake else true
 		max_hp = mob.max_hp
-		hp = mob.max_hp
+		hp = mob.hp
 		
 		hp_bar.max_value = max_hp
 		hp_bar.value = hp
@@ -56,9 +57,9 @@ func act():
 	# Mob AI
 	if mob and action_queue.is_empty():
 		var path = GameState.level.get_travel_path(tpos(), GameState.hero.tpos())
-		if path.size() > 1:
-			action_queue.append(ActionBuilder.new().move(path[0]))
-		elif path.size() == 1:
+		if path.size() > 2:
+			action_queue.append(ActionBuilder.new().move(path[1]))
+		elif path.size() == 2:
 			action_queue.append(ActionBuilder.new().attack(GameState.hero.tpos(), GameState.hero))
 		else:
 			action_queue.append(ActionBuilder.new().wait())
@@ -83,7 +84,7 @@ func act():
 			var t_location = GameState.level.get_random_empty_tile()
 			action_queue.append(ActionBuilder.new().teleport(t_location))
 	
-	var action
+	var action: Action
 	if action_queue.size() > 0:
 		action = action_queue.pop_front()
 	
@@ -98,9 +99,10 @@ func act():
 				teleport(action.dest)
 	return action
 
-func move(tpos: Vector2):
+func move(tpos: Vector2i):
 	var new_pos = GameState.level.map_to_local(tpos)
 	GameState.level.free_tile(curr_tpos)
+	print(curr_tpos, tpos)
 	curr_tpos = tpos
 	GameState.level.occupy_tile(tpos)
 	
@@ -116,7 +118,6 @@ func talk(message: String):
 	GameState.world.get_node("Effects").add_child(message_text)
 
 func attack(actor: Actor):
-	await get_tree().create_timer(0.5).timeout
 	Sounds.play_enemy_hit()
 	actor.take_damage(mob.strength)
 
@@ -150,7 +151,7 @@ func take_damage(damage: int, crit = false, heal = false):
 func heal(amount: int):
 	take_damage(-amount, false, true)
 
-func teleport(tpos: Vector2):
+func teleport(tpos: Vector2i):
 	var new_pos = GameState.level.map_to_local(tpos)
 	curr_tpos = tpos
 	

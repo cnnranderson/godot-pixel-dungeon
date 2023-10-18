@@ -6,8 +6,8 @@ const ANIM = {
 	"walk": "walk"
 }
 
-@export var move_speed = 8
-@export var fast_travel_speed = 140
+#@export var move_speed = 8 # TODO: not used?
+#@export var fast_travel_speed = 140 # TODO: not used?
 @export var crit_chance = 30
 @export var base_damage = "1d3"
 
@@ -41,7 +41,7 @@ func _unhandled_input(event):
 		# Handle mouse input
 		var p_tpos = tpos()
 		var m_tpos = GameState.level.local_to_map(get_global_mouse_position())
-		var travel = GameState.level.get_travel_path(p_tpos, m_tpos)
+		var travel: Array[Vector2i] = GameState.level.get_travel_path(p_tpos, m_tpos)
 		interrupted_actions.clear()
 		if travel.size() == 0:
 			if GameState.world.get_actor_at_tpos(m_tpos):
@@ -51,6 +51,7 @@ func _unhandled_input(event):
 			else:
 				Events.emit_signal("log_message", "Something blocks your path...")
 		else:
+			travel.pop_front()
 			for point in travel:
 				var action = ActionBuilder.new().move(point)
 				action_queue.append(action)
@@ -85,7 +86,7 @@ func act():
 		GameState.is_player_turn = false
 	return action
 
-func queue_attack(tpos: Vector2):
+func queue_attack(tpos: Vector2i):
 	var actor = GameState.world.get_actor_at_tpos(tpos)
 	if not actor: return
 	var attack = ActionBuilder.new().attack(tpos, actor)
@@ -136,7 +137,7 @@ func move(tpos):
 	if action_queue.size() == 0:
 		sprite.animation = ANIM.idle
 
-func move_tween(tpos: Vector2, blocked = false):
+func move_tween(tpos: Vector2i, blocked = false):
 	tween = create_tween()
 	
 	if tpos.x > curr_tpos.x:
@@ -203,7 +204,7 @@ func take_damage(damage: int, crit = false, heal = false):
 		interrupt()
 		Events.emit_signal("player_hit")
 
-func teleport(tpos: Vector2):
+func teleport(tpos: Vector2i):
 	super(tpos)
 	Events.emit_signal("log_message", "You've been teleported!")
 

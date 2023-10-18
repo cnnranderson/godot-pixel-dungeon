@@ -1112,7 +1112,6 @@ size = Vector2(4, 4)
 
 [node name="Player" type="Area2D"]
 script = ExtResource("1")
-move_speed = 6
 
 [node name="AnimSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("157")
@@ -1123,6 +1122,7 @@ offset = Vector2(-6, -7)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
+position_smoothing_speed = 16.0
 script = ExtResource("3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
