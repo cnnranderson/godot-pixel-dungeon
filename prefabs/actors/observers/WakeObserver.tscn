@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://ngb6yyyg4c6u"]
 
-[ext_resource type="Script" path="res://prefabs/actors/WakeObserver.gd" id="1"]
+[ext_resource type="Script" path="res://prefabs/actors/observers/WakeObserver.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://ceoqmvtyu6dwy" path="res://assets/images/icons.png" id="2"]
 
 [sub_resource type="RectangleShape2D" id="3"]
