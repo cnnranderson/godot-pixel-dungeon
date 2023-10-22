@@ -25,7 +25,7 @@ const Armors = {
 	"plate": preload("res://prefabs/items/armor/Plate.tres")
 }
 const Enemies = {
-	"bat": preload("res://prefabs/actors/bat/Bat.tscn")
+	"bat": preload("res://prefabs/actors/creatures/bat/Bat.tscn")
 }
 
 @onready var level: Level = $Level

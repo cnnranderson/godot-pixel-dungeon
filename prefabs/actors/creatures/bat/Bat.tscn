@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://c175o48dc7ylq"]
 
 [ext_resource type="Script" path="res://prefabs/actors/Actor.gd" id="1"]
-[ext_resource type="Resource" uid="uid://td6687idkn74" path="res://prefabs/actors/bat/Bat.tres" id="2"]
+[ext_resource type="Resource" uid="uid://td6687idkn74" path="res://prefabs/actors/creatures/bat/Bat.tres" id="2"]
 [ext_resource type="Texture2D" uid="uid://bj2uqgy45ejoi" path="res://assets/images/mobs/bat.png" id="3"]
 [ext_resource type="PackedScene" uid="uid://ngb6yyyg4c6u" path="res://prefabs/actors/WakeObserver.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://lai0hvlxtqlr" path="res://ui/hpbar/HpBar.tscn" id="5"]
