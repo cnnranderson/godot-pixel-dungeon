@@ -6,6 +6,11 @@ enum TILE_TYPE {
 	NOBLOCK,
 	INTERACTIVE
 }
+enum PATH_COST {
+	EMPTY = 1,
+	DOOR = 2, # Might not need - could require a rework on how doors are placed?
+	ENTITY = 4
+}
 const TILE = {
 	"wall": Vector2i(0, 0),
 	"ground": Vector2i(0, 0),
@@ -79,10 +84,10 @@ func get_travel_path(start, end):
 
 func free_tile(tpos: Vector2i):
 	if astar.is_in_boundsv(tpos):
-		astar.set_point_solid(tpos, false)
+		astar.set_point_weight_scale(tpos, PATH_COST.EMPTY);
 
 func occupy_tile(tpos: Vector2i):
-	astar.set_point_solid(tpos, true)
+	astar.set_point_weight_scale(tpos, PATH_COST.ENTITY);
 
 func can_move_to(tpos: Vector2i) -> bool:
 	return astar.is_in_boundsv(tpos) and not astar.is_point_solid(tpos)

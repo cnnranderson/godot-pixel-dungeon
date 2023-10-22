@@ -6,8 +6,6 @@ const ANIM = {
 	"walk": "walk"
 }
 
-#@export var move_speed = 8 # TODO: not used?
-#@export var fast_travel_speed = 140 # TODO: not used?
 @export var crit_chance = 30
 @export var base_damage = "1d3"
 
@@ -38,31 +36,36 @@ func _unhandled_input(event):
 	
 	# Attempt an action or movement
 	if event.is_action_pressed("select"):
-		# Handle mouse input
-		var p_tpos = tpos()
+		# Get click location
 		var m_tpos = GameState.level.local_to_map(get_global_mouse_position())
-		var travel: Array[Vector2i] = GameState.level.get_travel_path(p_tpos, m_tpos)
-		interrupted_actions.clear()
-		if travel.size() == 0:
-			if GameState.world.get_actor_at_tpos(m_tpos):
-				var dist = (m_tpos - tpos()).length()
-				if (dist < 2 and travel.size() == 2) or GameState.player_any_dist_hit:
-					queue_attack(m_tpos)
-				else:
-					interrupt()
+		
+		if m_tpos == tpos():
+			# Check if we clicked ourselves - wait
+			action_queue.append(ActionBuilder.new().wait())
+		elif GameState.world.get_actor_at_tpos(m_tpos):
+			# Check if we clicked an enemy - attack
+			var dist = (m_tpos - tpos()).length()
+			if dist < 2 or GameState.player_any_dist_hit:
+				queue_attack(m_tpos)
+			else:
+				Events.emit_signal("log_message", "You can't reach that far!")
+		else:
+			# Check if we clicked an empty location - move towards it
+			var travel = GameState.level.get_travel_path(tpos(), m_tpos)
+			if travel.size() > 1 and not GameState.world.get_actor_at_tpos(travel[1]):
+				travel.pop_front()
+				for point in travel:
+					var action = ActionBuilder.new().move(point)
+					action_queue.append(action)
 			else:
 				Events.emit_signal("log_message", "Something blocks your path...")
-		else:
-			travel.pop_front()
-			for point in travel:
-				var action = ActionBuilder.new().move(point)
-				action_queue.append(action)
 	else:
 		# Handle controller inputs
 		for dir in Constants.INPUTS.keys():
 			if event.is_action(dir):
 				var target = tpos() + Constants.INPUTS[dir]
 				if GameState.world.get_actor_at_tpos(target):
+					print("attack")
 					queue_attack(target)
 				else:
 					if GameState.level.can_move_to(target):
@@ -103,7 +106,7 @@ func interrupt():
 # TODO: What the heck was I doing with this? This all needs a rework
 # There are serious complexity issues going on here that feel like
 # they're sidestepping the action queue.
-func move(tpos):
+func move(tpos: Vector2i):
 	var blocked = false
 	var interacted = false
 	
@@ -157,7 +160,7 @@ func move_tween(tpos: Vector2i, blocked = false):
 			.set_trans(Tween.TRANS_LINEAR)
 	else:
 		var origin_pos = position
-		var hit_position = position + (tpos - tpos()) * Constants.TILE_HALF
+		var hit_position = position + Vector2(tpos - tpos()) * Constants.TILE_HALF
 		
 		Events.emit_signal("camera_shake", 0.15, 0.6)
 		Sounds.play_collision()
@@ -169,7 +172,6 @@ func move_tween(tpos: Vector2i, blocked = false):
 			.set_trans(Tween.TRANS_SINE) \
 			.set_ease(Tween.EASE_IN).set_delay(MOVE_TIME / 2)
 	sprite.animation = ANIM.walk
-		
 
 func attack(actor: Actor):
 	# Determine hit damage
@@ -191,6 +193,11 @@ func attack(actor: Actor):
 	var attack_pos = actor.position
 	var hit_position = position + Vector2(actor.tpos() - tpos()) * Constants.TILE_HALF
 	Sounds.play_hit()
+	
+	if actor.mob.is_unique:
+		Events.emit_signal("log_message", "You attack %s for %d damage" % [actor.mob.name, damage])
+	else:
+		Events.emit_signal("log_message", "You attack the %s for %d damage" % [actor.mob.name, damage])
 	
 	tween = create_tween()
 	tween.tween_property(self, "position", hit_position, MOVE_TIME / 2) \

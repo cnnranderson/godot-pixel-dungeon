@@ -108,7 +108,7 @@ func _add_rooms():
 			elif Helpers.chance_luck(25):
 				# Coins
 				items.coin_spawns.append(Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2)))
-			elif Helpers.chance_luck(25):
+			elif Helpers.chance_luck(100):
 				# Enemies
 				enemies.append(Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2)))
 			elif Helpers.chance_luck(15):

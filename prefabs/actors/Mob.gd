@@ -8,6 +8,8 @@ enum Type {
 }
 
 @export var type: Type
+@export var name: String
+@export var is_unique: bool
 @export var texture: Texture2D
 @export var max_hp: int = 1
 @export var strength: int = 1

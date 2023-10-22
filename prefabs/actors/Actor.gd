@@ -7,9 +7,8 @@ const TextPopup = preload("res://ui/actions/TextPopup.tscn")
 
 const MOVE_TIME = 0.1
 const ATTACK_TIME = 0.2
-const PASS_TIME = 0.3
 
-@export var mob: Resource = null
+@export var mob: Mob = null
 @export var npc: Resource = null
 @export var turn_speed: int = 20
 @export var max_hp: int = 20
@@ -27,7 +26,7 @@ var asleep = false
 var tween: Tween
 
 func _ready():
-	# Stupid way to do this but oh well - need to bind to self, then immediately stop
+	# FIXME: Stupid way to do this but oh well - need to bind to self, then immediately stop
 	# otherwise it thinks it's running.. This breaks _can_act() function
 	tween = create_tween()
 	tween.stop()
@@ -50,17 +49,28 @@ func _init_hp_bar():
 		hp_bar.value = hp
 	hp_bar.visible = false
 
-func tpos():
+func tpos() -> Vector2i:
 	return curr_tpos
 
 func act():
 	# Mob AI
 	if mob and action_queue.is_empty():
 		var path = GameState.level.get_travel_path(tpos(), GameState.hero.tpos())
-		if path.size() > 2:
+		
+		if path.size() > 2 and not GameState.world.get_actor_at_tpos(path[1]):
 			action_queue.append(ActionBuilder.new().move(path[1]))
 		elif path.size() == 2:
-			action_queue.append(ActionBuilder.new().attack(GameState.hero.tpos(), GameState.hero))
+			var dist_to_player = (tpos() - GameState.hero.tpos()).length()
+			var nearby_actor_dir = get_close_actor()
+			var new_pos = tpos() - nearby_actor_dir
+			# This condition is for corner-piling - this adds difficulty to hallway management
+			if nearby_actor_dir != Vector2i.ZERO and dist_to_player > 1 and dist_to_player < 2 \
+					and GameState.level.can_move_to(new_pos) \
+					and (new_pos - GameState.hero.tpos()).length() < dist_to_player \
+					and not GameState.world.get_actor_at_tpos(new_pos):
+				action_queue.append(ActionBuilder.new().move(new_pos))
+			else:
+				action_queue.append(ActionBuilder.new().attack(GameState.hero.tpos(), GameState.hero))
 		else:
 			action_queue.append(ActionBuilder.new().wait())
 	
@@ -81,6 +91,7 @@ func act():
 			action_queue.clear()
 			
 			# Setup teleport location
+			# TODO: Fix teleport location - could land on spot with enemy
 			var t_location = GameState.level.get_random_empty_tile()
 			action_queue.append(ActionBuilder.new().teleport(t_location))
 	
@@ -120,6 +131,7 @@ func attack(actor: Actor):
 	Sounds.play_enemy_hit()
 	actor.take_damage(mob.strength)
 
+# TODO: might need to rename this to "attempt damage" or something
 func take_damage(damage: int, crit = false, heal = false):
 	# 5% + (5% * lvl) + (5% * monster AC) + (5% * DEX)
 	var chance_to_hit = 5 + (5 * GameState.player.stats.level) + (5 * GameState.player.stats.dex)
@@ -139,13 +151,24 @@ func take_damage(damage: int, crit = false, heal = false):
 			hp_bar.visible = true
 			hp_bar.value = hp
 		
+		if mob:
+			if mob.is_unique:
+				Events.emit_signal("log_message", "%s hits you for %d damage" % [mob.name, mob.strength])
+			else:
+				Events.emit_signal("log_message", "The %s hits you for %d damage" % [mob.name, mob.strength])
+		
 		if hp <= 0:
 			die()
 		return true
 	else:
 		talk("Dodged")
+		
+		if mob:
+			if mob.is_unique:
+				Events.emit_signal("log_message", "%s attacks but misses you!" % [mob.name, mob.strength])
+			else:
+				Events.emit_signal("log_message", "The %s attacks but misses you!" % [mob.name, mob.strength])
 		return false
-	
 
 func heal(amount: int):
 	take_damage(-amount, false, true)
@@ -165,3 +188,13 @@ func die():
 		Events.emit_signal("enemy_died", mob.xp_value)
 	queue_free()
 	
+func get_close_actor() -> Vector2i:
+	if GameState.world.get_actor_at_tpos(tpos() + Vector2i.DOWN):
+		return Vector2i.DOWN
+	if GameState.world.get_actor_at_tpos(tpos() + Vector2i.LEFT):
+		return Vector2i.LEFT
+	if GameState.world.get_actor_at_tpos(tpos() + Vector2i.RIGHT):
+		return Vector2i.RIGHT
+	if GameState.world.get_actor_at_tpos(tpos() + Vector2i.UP):
+		return Vector2i.UP
+	return Vector2i.ZERO

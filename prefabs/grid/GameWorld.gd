@@ -149,7 +149,7 @@ func _process_actions():
 		if actor.act_time == lowest_time:
 			var action = actor.act()
 			
-			# If the hero acted, make note; otherwise it's just become the heros turn
+			# If the hero acted, make note; otherwise it just became the hero's turn
 			if actor == GameState.hero:
 				if action and action.cost > 0:
 					hero_acted = true
@@ -164,10 +164,11 @@ func _process_actions():
 		elif actor == GameState.hero and GameState.hero.act_time != lowest_time:
 			hero_acted = true
 	
+	# FIXME: this is still dumb and cause turn sync issues
 	if attacked:
-		await get_tree().create_timer(Actor.ATTACK_TIME).timeout
+		await get_tree().create_timer(Actor.ATTACK_TIME + 0.05).timeout
 	else:
-		await get_tree().create_timer(Actor.MOVE_TIME).timeout
+		await get_tree().create_timer(Actor.MOVE_TIME + 0.05).timeout
 	if hero_acted or attacked:
 		_update_visuals()
 		_process_actions()
@@ -182,11 +183,11 @@ static func actor_priority_sort(a: Actor, b: Actor):
 
 ### TEST UTILITIES
 func _generate_test_entities():
-	_generate_test_keys()
-	_generate_test_coins()
-	_generate_test_scrolls()
-	_generate_test_weapons()
-	_generate_test_armor()
+	#_generate_test_keys()
+	#_generate_test_coins()
+	#_generate_test_scrolls()
+	#_generate_test_weapons()
+	#_generate_test_armor()
 	_generate_test_enemies()
 
 func _generate_test_keys():

@@ -4,6 +4,7 @@ extends Node
 var is_player_turn = false
 var inventory_open = false
 var world_generating = false
+var active_actors = 0
 
 # ======= GAME SETTINGS  ==========
 var fog_of_war = false
@@ -47,5 +48,4 @@ var discovered_potions = []
 
 func _ready():
 	player.backpack.set_backpack_size(GameState.player.inventory.max_size)
-	# TODO: Load stats and stuff here..?
-
+	# TODO: Load stats and stuff here...

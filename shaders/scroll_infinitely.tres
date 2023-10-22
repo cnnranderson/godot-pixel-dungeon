@@ -11,3 +11,4 @@ void fragment()
 	// TODO: Fix the final modualte value so that alpha lerps apply
 	COLOR = texture(TEXTURE, UV + (Direction * TIME * Speed));
 }"
+metadata/_edit_res_path = "res://shaders/scroll_infinitely.tres"

@@ -52,8 +52,8 @@ func _set_volume(audio, type):
 	# Match volume to settings level - fine tune using your own settings configurations.
 	match type:
 		SoundType.SFX:
-			audio.volume_db = linear_to_db(0.5)
+			audio.volume_db = linear_to_db(0.2)
 		SoundType.MUSIC:
-			audio.volume_db = linear_to_db(0.5)
+			audio.volume_db = linear_to_db(0.2)
 		_:
-			audio.volume_db = linear_to_db(0.5)
+			audio.volume_db = linear_to_db(0.2)
