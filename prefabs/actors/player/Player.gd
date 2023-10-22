@@ -29,7 +29,6 @@ func _ready():
 	Events.connect("player_unequip_weapon", _on_player_unequip_weapon)
 	Events.connect("player_unequip_armor", _on_player_unequip_armor)
 	Events.connect("enemy_died", _on_enemy_died)
-	#Events.connect("next_stage", _on_next_stage) # TODO: Not impl
 
 func _unhandled_input(event):
 	if not _can_act(): return

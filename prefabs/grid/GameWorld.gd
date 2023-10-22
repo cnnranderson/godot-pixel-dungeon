@@ -45,7 +45,6 @@ func _ready():
 func _process(delta):
 	var mouse_pos = get_local_mouse_position()
 	var m_tpos = level.local_to_map(mouse_pos)
-	var tile = level.get_cell_tile_data(0, m_tpos)
 	if not GameState.inventory_open:
 		$Cursor.visible = true
 		$Cursor.position = level.map_to_local(m_tpos)

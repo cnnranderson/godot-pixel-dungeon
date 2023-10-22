@@ -67,7 +67,7 @@ func refresh_map():
 ### A-STAR PATHFINDING
 func _generate_astar_path():
 	#astar.diagonal_mode = 0 AStarGrid2D.DIAGONAL_MODE_NEVER
-	astar.size = level_size
+	astar.region = Rect2i(Vector2i.ZERO, level_size)
 	astar.cell_size = Vector2i.ONE * Constants.TILE_SIZE
 	astar.offset = Vector2i.ONE * Constants.TILE_HALF
 	astar.update()
