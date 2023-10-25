@@ -50,6 +50,6 @@ func valid(obj):
 	if obj.is_queued_for_deletion(): return false
 	return true
 
-static func delete_children(node):
+static func free_children(node):
 	for n in node.get_children():
 		n.queue_free()

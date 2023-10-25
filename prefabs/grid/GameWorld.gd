@@ -1,8 +1,8 @@
 extends Node2D
 class_name GameWorld
 
-const Player = preload("res://prefabs/actors/player/Player.tscn")
-const WorldItem = preload("res://prefabs/items/WorldItem.tscn")
+const Hero = preload("res://prefabs/actors/player/Player.tscn")
+const WItem = preload("res://prefabs/items/WorldItem.tscn")
 const Items = {
 	"key": preload("res://prefabs/items/basic/Key.tres"),
 	"coins": preload("res://prefabs/items/basic/Coins.tres")
@@ -42,7 +42,7 @@ func _ready():
 	GameState.level = level
 	Events.connect("player_acted", _process_actions)
 
-func _process(delta):
+func _process(_delta):
 	var mouse_pos = get_local_mouse_position()
 	var m_tpos = level.local_to_map(mouse_pos)
 	if not GameState.inventory_open:
@@ -73,8 +73,7 @@ func init_world():
 	_process_actions()
 
 func _init_player():
-	var player = Player.instantiate()
-	GameState.hero = player
+	GameState.hero = Hero.instantiate()
 	GameState.hero.position = level.map_to_local(level.spawn)
 	$Actors.add_child(GameState.hero)
 	GameState.is_player_turn = true
@@ -126,10 +125,10 @@ func _reveal_entities(x, y, reveal: bool = true):
 				break
 
 func _clear_world():
-	Helpers.delete_children(items)
-	Helpers.delete_children(actors)
-	Helpers.delete_children(effects)
-	Helpers.delete_children(objects)
+	Helpers.free_children(items)
+	Helpers.free_children(actors)
+	Helpers.free_children(effects)
+	Helpers.free_children(objects)
 
 func get_actor_at_tpos(tpos: Vector2i) -> Actor:
 	for actor in $Actors.get_children():
@@ -138,13 +137,13 @@ func get_actor_at_tpos(tpos: Vector2i) -> Actor:
 	return null
 
 func _process_actions():
-	var actors = $Actors.get_children()
-	actors.sort_custom(actor_priority_sort)
-	var lowest_time = actors[0].act_time
+	var acting_actors = $Actors.get_children()
+	acting_actors.sort_custom(actor_priority_sort)
+	var lowest_time = acting_actors[0].act_time
 	
 	var attacked = false
 	var hero_acted = false
-	for actor in actors:
+	for actor in acting_actors:
 		if actor.act_time == lowest_time:
 			var action = actor.act()
 			
@@ -163,11 +162,10 @@ func _process_actions():
 		elif actor == GameState.hero and GameState.hero.act_time != lowest_time:
 			hero_acted = true
 	
-	# FIXME: this is still dumb and cause turn sync issues
+	# FIXME: this is still dumb and causes turn sync issues
 	if attacked:
 		await get_tree().create_timer(Actor.ATTACK_TIME + 0.05).timeout
-	else:
-		await get_tree().create_timer(Actor.MOVE_TIME + 0.05).timeout
+	
 	if hero_acted or attacked:
 		_update_visuals()
 		_process_actions()
@@ -175,6 +173,8 @@ func _process_actions():
 """
 Sorts actors by their act time. Actors who have the lowest act time
 should move first, and continue doing so until they catch up to other actors.
+
+Hero is given priority if act time is equal.
 """
 static func actor_priority_sort(a: Actor, b: Actor):
 	return a.act_time < b.act_time or (a == GameState.hero and a.act_time == b.act_time)
@@ -224,27 +224,28 @@ func _generate_test_enemies():
 
 # TODO: For these utility functions, see if they can be combined.
 # They're only separated in case special stuff needs to happen between types.
+# Also, probably shouldn't be in this clas, but new stuff is coming.
 func spawn_basic_item(item: Resource, count: int, tpos: Vector2):
-	var world_item = WorldItem.instantiate()
+	var world_item = WItem.instantiate()
 	world_item.item = item
 	world_item.count = count
 	world_item.position = level.map_to_local(tpos)
 	$Items.add_child(world_item)
 
 func spawn_scroll(scroll: Resource, tpos: Vector2):
-	var world_item = WorldItem.instantiate()
+	var world_item = WItem.instantiate()
 	world_item.item = scroll
 	world_item.position = level.map_to_local(tpos)
 	$Items.add_child(world_item)
 
 func spawn_weapon(weapon: Resource, tpos: Vector2):
-	var world_item = WorldItem.instantiate()
+	var world_item = WItem.instantiate()
 	world_item.item = weapon
 	world_item.position = level.map_to_local(tpos)
 	$Items.add_child(world_item)
 
 func spawn_armor(armor: Resource, tpos: Vector2):
-	var world_item = WorldItem.instantiate()
+	var world_item = WItem.instantiate()
 	world_item.item = armor
 	world_item.position = level.map_to_local(tpos)
 	$Items.add_child(world_item)
