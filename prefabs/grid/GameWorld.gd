@@ -165,6 +165,8 @@ func _process_actions():
 	# FIXME: this is still dumb and causes turn sync issues
 	if attacked:
 		await get_tree().create_timer(Actor.ATTACK_TIME + 0.05).timeout
+	elif hero_acted:
+		await get_tree().create_timer(Actor.MOVE_TIME).timeout
 	
 	if hero_acted or attacked:
 		_update_visuals()
