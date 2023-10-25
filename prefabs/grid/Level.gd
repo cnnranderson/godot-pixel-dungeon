@@ -8,7 +8,6 @@ enum TILE_TYPE {
 }
 enum PATH_COST {
 	EMPTY = 1,
-	DOOR = 2, # Might not need - could require a rework on how doors are placed?
 	ENTITY = 4
 }
 const TILE = {
@@ -66,7 +65,7 @@ func refresh_map():
 
 ### A-STAR PATHFINDING
 func _generate_astar_path():
-	#astar.diagonal_mode = 0 AStarGrid2D.DIAGONAL_MODE_NEVER
+	#astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	astar.region = Rect2i(Vector2i.ZERO, level_size)
 	astar.cell_size = Vector2i.ONE * Constants.TILE_SIZE
 	astar.offset = Vector2i.ONE * Constants.TILE_HALF

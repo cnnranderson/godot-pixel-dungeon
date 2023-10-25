@@ -74,17 +74,17 @@ func _on_ItemImage_gui_input(event):
 				inventory.set_item(get_index(), ref)
 			else:
 				inventory.remove_item(get_index())
-			Events.emit_signal("player_equip", item)
-			Events.emit_signal("open_inventory")
+			Events.player_equip.emit(item)
+			Events.open_inventory.emit()
 		elif item is Armor:
 			if GameState.player.equipped.armor:
 				inventory.set_item(get_index(), GameState.player.equipped.armor)
 			else:
 				inventory.remove_item(get_index())
-			Events.emit_signal("player_equip", item)
-			Events.emit_signal("open_inventory")
+			Events.player_equip.emit(item)
+			Events.open_inventory.emit()
 		elif item is Scroll:
-			Events.emit_signal("player_use_item")
-			Events.emit_signal("open_inventory")
+			Events.player_use_item.emit()
+			Events.open_inventory.emit()
 			inventory.remove_item(get_index())
 			item.use()

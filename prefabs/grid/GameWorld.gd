@@ -68,7 +68,7 @@ func init_world():
 	_generate_test_entities()
 	
 	await get_tree().create_timer(0.1).timeout
-	Events.emit_signal("map_ready")
+	Events.map_ready.emit()
 	_update_visuals()
 	_process_actions()
 

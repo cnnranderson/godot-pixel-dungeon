@@ -69,12 +69,12 @@ func _on_ItemImage_gui_input(event):
 			"Weapon":
 				if GameState.player.equipped.weapon:
 					inventory.add_item(GameState.player.equipped.weapon)
-					Events.emit_signal("player_unequip_weapon")
-					Events.emit_signal("open_inventory")
+					Events.player_unequip_weapon.emit()
+					Events.open_inventory.emit()
 			"Armor":
 				if GameState.player.equipped.armor:
 					inventory.add_item(GameState.player.equipped.armor)
-					Events.emit_signal("player_unequip_armor")
-					Events.emit_signal("open_inventory")
-		Events.emit_signal("refresh_backpack")
+					Events.player_unequip_armor.emit()
+					Events.open_inventory.emit()
+		Events.refresh_backpack.emit()
 	# TODO: Rings

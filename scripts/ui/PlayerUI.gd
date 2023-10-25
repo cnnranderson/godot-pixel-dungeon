@@ -63,18 +63,18 @@ func _on_player_hit():
 
 ### Action Events
 func _on_backpack_pressed():
-	Events.emit_signal("open_inventory")
+	Events.open_inventory.emit()
 
 func _on_search_pressed():
 	if not GameState.inventory_open:
-		Events.emit_signal("player_search")
+		Events.player_search.emit()
 
 func _on_wait_pressed():
 	if not GameState.inventory_open:
-		Events.emit_signal("player_wait")
+		Events.player_wait.emit()
 
 func _on_continue_pressed():
 	if not GameState.inventory_open:
 		continue_box.visible = false
-		Events.emit_signal("player_continue")
+		Events.player_continue.emit()
 		

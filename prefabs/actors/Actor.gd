@@ -64,6 +64,7 @@ func act():
 			var nearby_actor_dir = get_close_actor()
 			var new_pos = tpos() - nearby_actor_dir
 			# This condition is for corner-piling - this adds difficulty to hallway management
+			# TODO: Make this a chance decision
 			if nearby_actor_dir != Vector2i.ZERO and dist_to_player > 1 and dist_to_player < 2 \
 					and GameState.level.can_move_to(new_pos) \
 					and (new_pos - GameState.hero.tpos()).length() < dist_to_player \
@@ -153,9 +154,9 @@ func take_damage(damage: int, crit = false, heal = false):
 		
 		if mob:
 			if mob.is_unique:
-				Events.emit_signal("log_message", "%s hits you for %d damage" % [mob.name, mob.strength])
+				Events.log_message.emit("%s hits you for %d damage" % [mob.name, mob.strength])
 			else:
-				Events.emit_signal("log_message", "The %s hits you for %d damage" % [mob.name, mob.strength])
+				Events.log_message.emit("The %s hits you for %d damage" % [mob.name, mob.strength])
 		
 		if hp <= 0:
 			die()
@@ -165,9 +166,9 @@ func take_damage(damage: int, crit = false, heal = false):
 		
 		if mob:
 			if mob.is_unique:
-				Events.emit_signal("log_message", "%s attacks but misses you!" % [mob.name, mob.strength])
+				Events.log_message.emit("%s attacks but misses you!" % [mob.name, mob.strength])
 			else:
-				Events.emit_signal("log_message", "The %s attacks but misses you!" % [mob.name, mob.strength])
+				Events.log_message.emit("The %s attacks but misses you!" % [mob.name, mob.strength])
 		return false
 
 func heal(amount: int):
@@ -185,7 +186,7 @@ func teleport(tpos: Vector2i):
 func die():
 	GameState.level.free_tile(tpos())
 	if mob and mob.type == Mob.Type.ENEMY:
-		Events.emit_signal("enemy_died", mob.xp_value)
+		Events.enemy_died.emit(mob.xp_value)
 	queue_free()
 	
 func get_close_actor() -> Vector2i:
