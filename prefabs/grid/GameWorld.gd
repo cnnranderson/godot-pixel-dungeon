@@ -37,6 +37,7 @@ const Enemies = {
 @onready var objects = $Objects
 
 var debug = false
+var attacking_actors: Array[Actor] = []
 
 func _ready():
 	GameState.level = level
@@ -69,7 +70,6 @@ func init_world():
 	
 	await get_tree().create_timer(0.1).timeout
 	Events.map_ready.emit()
-	_update_visuals()
 	_process_actions()
 
 func _init_player():
@@ -78,7 +78,7 @@ func _init_player():
 	$Actors.add_child(GameState.hero)
 	GameState.is_player_turn = true
 
-func _update_visuals():
+func _update_vision():
 	if debug: print("Updating FoV")
 	if not GameState.fog_of_war: return
 	
@@ -144,23 +144,24 @@ func _process_actions():
 	var attacked = false
 	var hero_acted = false
 	for actor in acting_actors:
-		if actor.act_time == lowest_time:
-			var action = actor.act()
-			
-			# If the hero acted, make note; otherwise it just became the hero's turn
-			if actor == GameState.hero:
-				if action and action.cost > 0:
-					hero_acted = true
-				else:
-					GameState.is_player_turn = true
+		if actor is Actor:
+			if actor.act_time == lowest_time:
+				var action = actor.act()
+				
+				# If the hero acted, make note; otherwise it just became the hero's turn
+				if actor == GameState.hero:
+					if action and action.cost > 0:
+						hero_acted = true
+					else:
+						GameState.is_player_turn = true
+						break
+				
+				# If an actor attacks, let animation finish before other actors move
+				if action and action.type == Action.ActionType.ATTACK:
+					attacked = true
 					break
-			
-			# If an actor attacks, let animation finish before other actors move
-			if action and action.type == Action.ActionType.ATTACK:
-				attacked = true
-				break
-		elif actor == GameState.hero and GameState.hero.act_time != lowest_time:
-			hero_acted = true
+			elif actor == GameState.hero and GameState.hero.act_time != lowest_time:
+				hero_acted = true
 	
 	# FIXME: this is still dumb and causes turn sync issues
 	if attacked:
@@ -169,7 +170,6 @@ func _process_actions():
 		await get_tree().create_timer(Actor.MOVE_TIME).timeout
 	
 	if hero_acted or attacked:
-		_update_visuals()
 		_process_actions()
 
 """
