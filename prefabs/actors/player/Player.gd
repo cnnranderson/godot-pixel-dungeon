@@ -44,7 +44,7 @@ func _unhandled_input(event):
 		elif GameState.world.get_actor_at_tpos(m_tpos):
 			# Check if we clicked an enemy - attack
 			var dist = (m_tpos - tpos()).length()
-			if dist < 2 or GameState.player_any_dist_hit:
+			if dist < 2 or GameState.dev_player_any_dist_hit:
 				queue_attack(m_tpos)
 			else:
 				Events.log_message.emit("You can't reach that far!")
