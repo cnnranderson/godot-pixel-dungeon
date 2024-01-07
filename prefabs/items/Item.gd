@@ -19,8 +19,8 @@ enum Category {
 	SCROLL
 }
 
-export var texture: Texture
-export(Category) var category
+@export var texture: Texture2D
+@export var category: Category
 
-func get_name():
+func get_item_name():
 	return category

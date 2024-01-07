@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/snd_enemy_hit.wav-e191faa326d38577a338d138a9cd43ec.sample"
+type="AudioStreamWAV"
+uid="uid://kkgu2wa0ahvq"
+path="res://.godot/imported/snd_enemy_hit.wav-e191faa326d38577a338d138a9cd43ec.sample"
 
 [deps]
 
 source_file="res://assets/pd_import/sounds/snd_enemy_hit.wav"
-dest_files=[ "res://.import/snd_enemy_hit.wav-e191faa326d38577a338d138a9cd43ec.sample" ]
+dest_files=["res://.godot/imported/snd_enemy_hit.wav-e191faa326d38577a338d138a9cd43ec.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

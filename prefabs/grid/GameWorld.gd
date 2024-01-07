@@ -1,8 +1,8 @@
 extends Node2D
 class_name GameWorld
 
-const Player = preload("res://prefabs/actors/player/Player.tscn")
-const WorldItem = preload("res://prefabs/items/WorldItem.tscn")
+const Hero = preload("res://prefabs/actors/player/Player.tscn")
+const WItem = preload("res://prefabs/items/WorldItem.tscn")
 const Items = {
 	"key": preload("res://prefabs/items/basic/Key.tres"),
 	"coins": preload("res://prefabs/items/basic/Coins.tres")
@@ -25,30 +25,30 @@ const Armors = {
 	"plate": preload("res://prefabs/items/armor/Plate.tres")
 }
 const Enemies = {
-	"bat": preload("res://prefabs/actors/bat/Bat.tscn")
+	"bat": preload("res://prefabs/actors/creatures/bat/Bat.tscn")
 }
 
-onready var level = $Level
-onready var visibility_map = $Visibility
-onready var fog_map = $Fog
-onready var items = $Items
-onready var actors = $Actors
-onready var effects = $Effects
-onready var objects = $Objects
+@onready var level: Level = $Level
+@onready var visibility_map = $Visibility
+@onready var fog_map = $Fog
+@onready var items = $Items
+@onready var actors = $Actors
+@onready var effects = $Effects
+@onready var objects = $Objects
 
 var debug = false
+var attacking_actors: Array[Actor] = []
 
 func _ready():
 	GameState.level = level
-	Events.connect("player_acted", self, "_process_actions")
+	Events.connect("player_acted", _process_actions)
 
-func _process(delta):
+func _process(_delta):
 	var mouse_pos = get_local_mouse_position()
-	var m_tpos = level.world_to_map(mouse_pos)
-	var tile = level.get_cellv(m_tpos)
-	if tile != TileMap.INVALID_CELL and not GameState.inventory_open:
+	var m_tpos = level.local_to_map(mouse_pos)
+	if not GameState.inventory_open:
 		$Cursor.visible = true
-		$Cursor.position = level.map_to_world(level.world_to_map(mouse_pos))
+		$Cursor.position = level.map_to_local(m_tpos)
 	else:
 		$Cursor.visible = false
 
@@ -59,8 +59,8 @@ func init_world():
 	if GameState.fog_of_war:
 		for x in level.level_size.x:
 			for y in level.level_size.y:
-				visibility_map.set_cell(x, y, 0)
-				fog_map.set_cell(x, y, 0)
+				visibility_map.set_cell(1, Vector2i(x, y), 0)
+				fog_map.set_cell(1, Vector2i(x, y), 0)
 	else:
 		visibility_map.visible = false
 		fog_map.visible = false
@@ -68,51 +68,51 @@ func init_world():
 	_init_player()
 	_generate_test_entities()
 	
-	yield(get_tree().create_timer(0.1), "timeout")
-	Events.emit_signal("map_ready")
-	_update_visuals()
+	await get_tree().create_timer(0.1).timeout
+	Events.map_ready.emit()
 	_process_actions()
 
 func _init_player():
-	var player = Player.instance()
-	GameState.hero = player
-	GameState.hero.position = level.map_to_world(level.spawn) + Vector2(8, 8)
+	GameState.hero = Hero.instantiate()
+	GameState.hero.position = level.map_to_local(level.spawn)
 	$Actors.add_child(GameState.hero)
 	GameState.is_player_turn = true
 
-func _update_visuals():
+func _update_vision():
 	if debug: print("Updating FoV")
 	if not GameState.fog_of_war: return
 	
 	var space_state = get_world_2d().direct_space_state
-	var min_bound = GameState.hero.tpos() - Vector2.ONE * (GameState.player.fov + 2)
-	var max_bound = GameState.hero.tpos() + Vector2.ONE * (GameState.player.fov + 2)
+	var min_bound = GameState.hero.tpos() - Vector2i.ONE * (GameState.player.fov + 2)
+	var max_bound = GameState.hero.tpos() + Vector2i.ONE * (GameState.player.fov + 2)
 	for x in range(max(min_bound.x, 0), min(max_bound.x, level.level_size.x)):
 		for y in range(max(min_bound.y, 0), min(max_bound.y, level.level_size.y)):
 			var x_dir = 1 if x < GameState.hero.tpos().x else -1
 			var y_dir = 1 if y < GameState.hero.tpos().y else -1
-			var test_point = Helpers.tile_to_world(Vector2(x, y)) + Vector2(x_dir, y_dir) * Constants.TILE_V / 2
+			var test_point = Helpers.tile_to_world(Vector2i(x, y)) + Vector2(x_dir, y_dir) * Constants.TILE_V / 2
 			
-			var occlusion = space_state.intersect_ray(GameState.hero.position, test_point)
+			var params = PhysicsRayQueryParameters2D.create(GameState.hero.position, test_point)
+			
+			var occlusion = space_state.intersect_ray(params)
 			if not occlusion or (occlusion.position - test_point).length() < 1:
 				if (GameState.hero.position - test_point).length() / Constants.TILE_SIZE < GameState.player.fov:
 					# Reveal if it's within FoV
-					visibility_map.set_cell(x, y, -1)
+					visibility_map.set_cell(0, Vector2i(x, y), -1)
 					
 					# Also punch a hole in overall fog map
-					fog_map.set_cell(x, y, -1)
+					fog_map.set_cell(0, Vector2i(x, y), -1)
 					_reveal_entities(x, y)
 				else:
 					# Hide again if not within FoV
-					visibility_map.set_cell(x, y, 0)
+					visibility_map.set_cell(0, Vector2i(x, y), 0)
 					_reveal_entities(x, y, false)
 			else:
 				# Hide if no collision in general
-				visibility_map.set_cell(x, y, 0)
+				visibility_map.set_cell(0, Vector2i(x, y), 0)
 				_reveal_entities(x, y, false)
 
 func _reveal_entities(x, y, reveal: bool = true):
-	var tpos = Vector2(x, y)
+	var tpos = Vector2i(x, y)
 	for item in items.get_children():
 		if Helpers.world_to_tile(item.position) == tpos:
 			item.visible = reveal
@@ -125,55 +125,58 @@ func _reveal_entities(x, y, reveal: bool = true):
 				break
 
 func _clear_world():
-	Helpers.delete_children(items)
-	Helpers.delete_children(actors)
-	Helpers.delete_children(effects)
-	Helpers.delete_children(objects)
+	Helpers.free_children(items)
+	Helpers.free_children(actors)
+	Helpers.free_children(effects)
+	Helpers.free_children(objects)
 
-func get_actor_at_tpos(tpos: Vector2) -> Actor:
+func get_actor_at_tpos(tpos: Vector2i) -> Actor:
 	for actor in $Actors.get_children():
 		if actor.tpos() == tpos:
 			return actor
 	return null
 
 func _process_actions():
-	var actors = $Actors.get_children()
-	actors.sort_custom(self, "actor_priority_sort")
-	var lowest_time = actors[0].act_time
+	var acting_actors = $Actors.get_children()
+	acting_actors.sort_custom(actor_priority_sort)
+	var lowest_time = acting_actors[0].act_time
 	
 	var attacked = false
 	var hero_acted = false
-	for actor in actors:
-		if actor.act_time == lowest_time:
-			var action = actor.act()
-			
-			# If the hero acted, make note; otherwise it's just become the heros turn
-			if actor == GameState.hero:
-				if action and action.cost > 0:
-					hero_acted = true
-				else:
-					GameState.is_player_turn = true
+	for actor in acting_actors:
+		if actor is Actor:
+			if actor.act_time == lowest_time:
+				var action = actor.act()
+				
+				# If the hero acted, make note; otherwise it just became the hero's turn
+				if actor == GameState.hero:
+					if action and action.cost > 0:
+						hero_acted = true
+					else:
+						GameState.is_player_turn = true
+						break
+				
+				# If an actor attacks, let animation finish before other actors move
+				if action and action.type == Action.ActionType.ATTACK:
+					attacked = true
 					break
-			
-			# If an actor attacks, let animation finish before other actors move
-			if action and action.type == Action.ActionType.ATTACK:
-				attacked = true
-				break
-		elif actor == GameState.hero and GameState.hero.act_time != lowest_time:
-			hero_acted = true
+			elif actor == GameState.hero and GameState.hero.act_time != lowest_time:
+				hero_acted = true
 	
+	# FIXME: this is still dumb and causes turn sync issues
 	if attacked:
-		yield(get_tree().create_timer(Actor.ATTACK_TIME), "timeout")
-	else:
-		yield(get_tree().create_timer(Actor.MOVE_TIME), "timeout")
-	 
+		await get_tree().create_timer(Actor.ATTACK_TIME + 0.05).timeout
+	elif hero_acted:
+		await get_tree().create_timer(Actor.MOVE_TIME).timeout
+	
 	if hero_acted or attacked:
-		_update_visuals()
 		_process_actions()
 
 """
 Sorts actors by their act time. Actors who have the lowest act time
 should move first, and continue doing so until they catch up to other actors.
+
+Hero is given priority if act time is equal.
 """
 static func actor_priority_sort(a: Actor, b: Actor):
 	return a.act_time < b.act_time or (a == GameState.hero and a.act_time == b.act_time)
@@ -181,13 +184,12 @@ static func actor_priority_sort(a: Actor, b: Actor):
 
 ### TEST UTILITIES
 func _generate_test_entities():
-	_generate_test_keys()
-	_generate_test_coins()
-	_generate_test_scrolls()
-	_generate_test_weapons()
-	_generate_test_armor()
+	#_generate_test_keys()
+	#_generate_test_coins()
+	#_generate_test_scrolls()
+	#_generate_test_weapons()
+	#_generate_test_armor()
 	_generate_test_enemies()
-	pass
 
 func _generate_test_keys():
 	var key_pos = level.items.key_spawns
@@ -217,35 +219,36 @@ func _generate_test_armor():
 func _generate_test_enemies():
 	var enemy_pos = level.enemies
 	for tpos in enemy_pos:
-		var bat = Enemies.bat.instance()
-		bat.position = level.map_to_world(tpos)
+		var bat = Enemies.bat.instantiate()
+		bat.position = level.map_to_local(tpos)
 		$Actors.add_child(bat)
 		level.occupy_tile(tpos)
 
 # TODO: For these utility functions, see if they can be combined.
 # They're only separated in case special stuff needs to happen between types.
+# Also, probably shouldn't be in this clas, but new stuff is coming.
 func spawn_basic_item(item: Resource, count: int, tpos: Vector2):
-	var world_item = WorldItem.instance()
+	var world_item = WItem.instantiate()
 	world_item.item = item
 	world_item.count = count
-	world_item.position = level.map_to_world(tpos)
+	world_item.position = level.map_to_local(tpos)
 	$Items.add_child(world_item)
 
 func spawn_scroll(scroll: Resource, tpos: Vector2):
-	var world_item = WorldItem.instance()
+	var world_item = WItem.instantiate()
 	world_item.item = scroll
-	world_item.position = level.map_to_world(tpos)
+	world_item.position = level.map_to_local(tpos)
 	$Items.add_child(world_item)
 
 func spawn_weapon(weapon: Resource, tpos: Vector2):
-	var world_item = WorldItem.instance()
+	var world_item = WItem.instantiate()
 	world_item.item = weapon
-	world_item.position = level.map_to_world(tpos)
+	world_item.position = level.map_to_local(tpos)
 	$Items.add_child(world_item)
 
 func spawn_armor(armor: Resource, tpos: Vector2):
-	var world_item = WorldItem.instance()
+	var world_item = WItem.instantiate()
 	world_item.item = armor
-	world_item.position = level.map_to_world(tpos)
+	world_item.position = level.map_to_local(tpos)
 	$Items.add_child(world_item)
 

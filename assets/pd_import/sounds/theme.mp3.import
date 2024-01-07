@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/theme.mp3-e5a0ff4cd8c4f67e0610d30fb814f0b3.mp3str"
+uid="uid://pywv3n43ngu2"
+path="res://.godot/imported/theme.mp3-e5a0ff4cd8c4f67e0610d30fb814f0b3.mp3str"
 
 [deps]
 
 source_file="res://assets/pd_import/sounds/theme.mp3"
-dest_files=[ "res://.import/theme.mp3-e5a0ff4cd8c4f67e0610d30fb814f0b3.mp3str" ]
+dest_files=["res://.godot/imported/theme.mp3-e5a0ff4cd8c4f67e0610d30fb814f0b3.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

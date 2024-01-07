@@ -1,28 +1,25 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://xobt2b67ehiu"]
 
-[ext_resource path="res://ui/pd_theme.tres" type="Theme" id=1]
-[ext_resource path="res://scripts/ui/actions/DamagePopup.gd" type="Script" id=2]
+[ext_resource type="Theme" uid="uid://bhvq38rpgtg7l" path="res://ui/pd_theme.tres" id="1"]
+[ext_resource type="Script" path="res://scripts/ui/actions/DamagePopup.gd" id="2"]
 
 [node name="DamagePopup" type="Control"]
-theme = ExtResource( 1 )
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+layout_mode = 3
+anchors_preset = 0
+theme = ExtResource("1")
+script = ExtResource("2")
 
 [node name="Label" type="Label" parent="."]
-margin_left = -14.0
-margin_top = -7.0
-margin_right = 14.0
-margin_bottom = 7.0
+layout_mode = 0
+offset_left = -14.0
+offset_top = -7.0
+offset_right = 14.0
+offset_bottom = 7.0
 grow_horizontal = 2
 grow_vertical = 2
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 1
-custom_constants/shadow_offset_y = 1
-custom_constants/shadow_as_outline = 1
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 1
 text = "0000"
-align = 1
-valign = 1
-
-[node name="Tween" type="Tween" parent="."]
+horizontal_alignment = 1

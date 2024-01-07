@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/snd_step.mp3-07f23fa361dad278ef1d2cfc6b2f5090.mp3str"
+uid="uid://o1a4t2kh7u4n"
+path="res://.godot/imported/snd_step.mp3-07f23fa361dad278ef1d2cfc6b2f5090.mp3str"
 
 [deps]
 
 source_file="res://assets/pd_import/sounds/snd_step.mp3"
-dest_files=[ "res://.import/snd_step.mp3-07f23fa361dad278ef1d2cfc6b2f5090.mp3str" ]
+dest_files=["res://.godot/imported/snd_step.mp3-07f23fa361dad278ef1d2cfc6b2f5090.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

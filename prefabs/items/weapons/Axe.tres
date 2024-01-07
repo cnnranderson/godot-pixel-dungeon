@@ -1,16 +1,14 @@
-[gd_resource type="Resource" load_steps=4 format=2]
+[gd_resource type="Resource" script_class="Weapon" load_steps=4 format=3 uid="uid://c0rhxmgy1rj4l"]
 
-[ext_resource path="res://prefabs/items/Weapon.gd" type="Script" id=1]
-[ext_resource path="res://assets/images/items.png" type="Texture" id=2]
+[ext_resource type="Script" path="res://prefabs/items/Weapon.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://u3yu1uapac8i" path="res://assets/images/items.png" id="2"]
 
-[sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 2 )
-region = Rect2( 96, 32, 16, 16 )
+[sub_resource type="AtlasTexture" id="1"]
+atlas = ExtResource("2")
+region = Rect2(96, 32, 16, 16)
 
 [resource]
-script = ExtResource( 1 )
-texture = SubResource( 1 )
-category = 4
+script = ExtResource("1")
 type = 0
 name = "Axe"
 equippable = true
@@ -19,3 +17,5 @@ weight = 10
 upgrade = 0
 enchanted = false
 unique = false
+texture = SubResource("1")
+category = 4

@@ -7,13 +7,15 @@ var decay = 0.8  # How quickly the shaking stops [0, 1].
 var max_offset = Vector2(64, 48)  # Maximum hor/ver shake in pixels.
 
 func _ready():
-	Events.connect("camera_shake", self, "add_trauma")
+	Events.connect("camera_shake", add_trauma)
 
 func _unhandled_input(event):
-	if event.is_action_pressed("ui_accept"):
+	if event.is_action_pressed("camera_zoom"):
 		var z = Vector2.ONE * 0.5 if zoom.x == 1 else Vector2.ONE
-		$Tween.interpolate_property(self, "zoom", zoom, z, 0.25, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-		$Tween.start()
+		var tween = create_tween()
+		tween.tween_property(self, "zoom", z, 0.25) \
+			.set_trans(Tween.TRANS_SINE) \
+			.set_ease(Tween.EASE_IN_OUT)
 
 func _physics_process(delta):
 	if trauma:
@@ -27,5 +29,5 @@ func add_trauma(amount, decay_percent):
 
 func shake():
 	var amount = pow(trauma, trauma_power)
-	offset.x = max_offset.x * amount * rand_range(-1, 1)
-	offset.y = max_offset.y * amount * rand_range(-1, 1)
+	offset.x = max_offset.x * amount * randf_range(-1, 1)
+	offset.y = max_offset.y * amount * randf_range(-1, 1)

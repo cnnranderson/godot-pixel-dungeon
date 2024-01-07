@@ -1,11 +1,18 @@
-[gd_resource type="Theme" load_steps=3 format=2]
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://bhvq38rpgtg7l"]
 
-[sub_resource type="DynamicFontData" id=1]
-antialiased = false
-font_path = "res://assets/fonts/romulus.ttf"
+[ext_resource type="FontFile" uid="uid://cfynviboeb111" path="res://assets/fonts/romulus.ttf" id="1_h58lf"]
 
-[sub_resource type="DynamicFont" id=2]
-font_data = SubResource( 1 )
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dhsgw"]
 
 [resource]
-default_font = SubResource( 2 )
+default_font = ExtResource("1_h58lf")
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_outline_color = Color(1, 1, 1, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0)
+Label/constants/line_spacing = 3
+Label/constants/outline_size = 0
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/constants/shadow_outline_size = 1
+Label/font_sizes/font_size = 16
+Label/styles/normal = SubResource("StyleBoxEmpty_dhsgw")

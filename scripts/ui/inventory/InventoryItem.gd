@@ -1,16 +1,16 @@
-tool
+@tool
 extends CenterContainer
 
-export(Texture) var default_img
+@export var default_img: Texture2D
 
-onready var item_image = $ItemImage
-onready var item_eq = $Extra/Equipped
-onready var item_stat = $Extra/Stat
-onready var item_upgrade = $Extra/Upgrade
+@onready var item_image = $ItemImage
+@onready var item_eq = $Extra/Equipped
+@onready var item_stat = $Extra/Stat
+@onready var item_upgrade = $Extra/Upgrade
 var inventory
 
 func _ready():
-	if not Engine.editor_hint:
+	if not Engine.is_editor_hint():
 		inventory = GameState.player.backpack
 		_hide_stats()
 	if default_img:
@@ -43,7 +43,7 @@ func display_item(item):
 		item_image.texture = null
 		_hide_stats()
 
-func get_drag_data(_position):
+func _get_drag_data(_position):
 	var item_index = get_index()
 	var item = inventory.get_item(item_index)
 	if item is Item:
@@ -52,14 +52,14 @@ func get_drag_data(_position):
 		data.item_index = item_index
 		var drag_preview = TextureRect.new()
 		drag_preview.texture = item.texture
-		drag_preview.rect_scale = Vector2(2, 2)
+		drag_preview.scale = Vector2(2, 2)
 		set_drag_preview(drag_preview)
 		return data
 
-func can_drop_data(_position, data):
+func _can_drop_data(_position, data):
 	return data is Dictionary and data.has("item")
 
-func drop_data(_position, data):
+func _drop_data(_position, data):
 	var item_index = get_index()
 	# var item = inventory.items[item_index]
 	inventory.swap_items(item_index, data.item_index)
@@ -74,17 +74,17 @@ func _on_ItemImage_gui_input(event):
 				inventory.set_item(get_index(), ref)
 			else:
 				inventory.remove_item(get_index())
-			Events.emit_signal("player_equip", item)
-			Events.emit_signal("open_inventory")
+			Events.player_equip.emit(item)
+			Events.open_inventory.emit()
 		elif item is Armor:
 			if GameState.player.equipped.armor:
 				inventory.set_item(get_index(), GameState.player.equipped.armor)
 			else:
 				inventory.remove_item(get_index())
-			Events.emit_signal("player_equip", item)
-			Events.emit_signal("open_inventory")
+			Events.player_equip.emit(item)
+			Events.open_inventory.emit()
 		elif item is Scroll:
-			Events.emit_signal("player_use_item")
-			Events.emit_signal("open_inventory")
+			Events.player_use_item.emit()
+			Events.open_inventory.emit()
 			inventory.remove_item(get_index())
 			item.use()

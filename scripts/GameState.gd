@@ -3,20 +3,22 @@ extends Node
 # ======= GAME MECHANICS ==========
 var is_player_turn = false
 var inventory_open = false
+var world_generating = false
+var active_actors = 0
 
 # ======= GAME SETTINGS  ==========
 var fog_of_war = false
 var enemies_start_awake = true
 var auto_pickup = true
 var free_auto_pickup = true
-var player_guaranteed_hit = false
-var player_guaranteed_miss = false
-var player_any_dist_hit = true # Attack at any distance
+var dev_player_guaranteed_hit = true
+var dev_player_guaranteed_miss = false
+var dev_player_any_dist_hit = true # Attack at any distance
 
 # =======   STATE VARS   ==========
-var hero: Actor = null
-var world: GameWorld = null
-var level: Level = null
+var hero: Actor
+var world: GameWorld
+var level: Level
 var player = {
 	"fov": 7,
 	"inventory": {
@@ -46,5 +48,4 @@ var discovered_potions = []
 
 func _ready():
 	player.backpack.set_backpack_size(GameState.player.inventory.max_size)
-	# TODO: Load stats and stuff here..?
-
+	# TODO: Load stats and stuff here...

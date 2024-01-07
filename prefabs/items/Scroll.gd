@@ -10,15 +10,15 @@ enum ScrollType {
 }
 
 
-export(ScrollType) var type = ScrollType.HEALING
-export(Array) var textures = []
-export var name = "UNKNOWN"
-export var discovered = false
+@export var type: ScrollType = ScrollType.HEALING
+@export var textures: Array = []
+@export var name = "UNKNOWN"
+@export var discovered = false
 
 func is_discovered() -> bool:
 	return GameState.discovered_scrolls.has(type)
 
-func get_name():
+func get_item_name():
 	if is_discovered():
 		return "a scroll of %s" % name
 	else:
@@ -28,12 +28,12 @@ func use():
 	if not is_discovered():
 		GameState.discovered_scrolls.append(type)
 	
-	Events.emit_signal("log_message", "You used a scroll of %s" % name)
-	match(type):
+	Events.log_message.emit("You used a scroll of %s" % name)
+	match type:
 		ScrollType.HEALING:
 			GameState.hero.heal(999)
 		ScrollType.TELEPORT:
-			Events.emit_signal("log_message", "You feel unstable...")
+			Events.log_message.emit("You feel unstable...")
 			GameState.hero.unstable_teleport = randi() % 4 + 2
 			GameState.hero.should_teleport = true
 			print("Unstable Count %d" % GameState.hero.unstable_teleport)

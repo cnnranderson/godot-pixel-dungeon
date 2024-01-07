@@ -1,58 +1,45 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=3 uid="uid://c62t0egeldk2f"]
 
-[ext_resource path="res://scenes/game/GameScene.gd" type="Script" id=1]
-[ext_resource path="res://ui/LoadSplash.tscn" type="PackedScene" id=2]
-[ext_resource path="res://prefabs/grid/GameWorld.tscn" type="PackedScene" id=3]
-[ext_resource path="res://ui/PlayerUI.tscn" type="PackedScene" id=5]
-[ext_resource path="res://ui/log/EventLog.tscn" type="PackedScene" id=6]
-[ext_resource path="res://ui/inventory/Backpack.tscn" type="PackedScene" id=7]
+[ext_resource type="Script" path="res://scenes/game/GameScene.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://mwbm4xshkgqw" path="res://ui/LoadSplash.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://6r5e0y8q5dwy" path="res://prefabs/grid/GameWorld.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://j4yii6ljvlas" path="res://ui/PlayerUI.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://cbp6kmcf481q5" path="res://ui/log/EventLog.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://dy354vujr2ux5" path="res://ui/PlayerPanel.tscn" id="6_ikxgg"]
+[ext_resource type="PackedScene" uid="uid://cseoqiihmae2o" path="res://ui/inventory/Backpack.tscn" id="7"]
 
 [node name="GameScene" type="Node2D"]
-script = ExtResource( 1 )
-
-[node name="Backdrop" type="CanvasLayer" parent="."]
-layer = -1
-
-[node name="Background" type="ColorRect" parent="Backdrop"]
-margin_right = 1080.0
-margin_bottom = 720.0
-rect_min_size = Vector2( 1080, 720 )
-mouse_filter = 2
-color = Color( 0.156863, 0.156863, 0.156863, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("1")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Backpack" parent="UI" instance=ExtResource( 7 )]
-visible = false
-anchor_left = 0.5
+[node name="Backpack" parent="UI" instance=ExtResource("7")]
+anchors_preset = 4
 anchor_top = 0.5
-anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -132.0
-margin_top = -85.0
-margin_right = 132.0
-margin_bottom = 85.0
+offset_top = -101.0
+offset_right = 147.0
+offset_bottom = 59.0
+grow_vertical = 2
 
-[node name="ActionLog" parent="UI" instance=ExtResource( 6 )]
-visible = false
+[node name="ActionLog" parent="UI" instance=ExtResource("6")]
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 0.0
 anchor_bottom = 1.0
-margin_left = 20.0
-margin_top = -200.0
-margin_right = 380.0
-margin_bottom = -20.0
+offset_left = 20.0
+offset_top = -200.0
+offset_right = 380.0
+offset_bottom = -20.0
+grow_vertical = 0
 
-[node name="PlayerUI" parent="UI" instance=ExtResource( 5 )]
+[node name="PlayerUI" parent="UI" instance=ExtResource("5")]
 visible = false
-rect_scale = Vector2( 2, 2 )
+offset_right = 0.0
+offset_bottom = 0.0
 
-[node name="LoadSplash" parent="UI" instance=ExtResource( 2 )]
+[node name="LoadSplash" parent="UI" instance=ExtResource("2")]
 visible = false
 
-[node name="World" parent="." instance=ExtResource( 3 )]
+[node name="PlayerPanel" parent="UI" instance=ExtResource("6_ikxgg")]
 
-[node name="Tween" type="Tween" parent="."]
+[node name="World" parent="." instance=ExtResource("3")]

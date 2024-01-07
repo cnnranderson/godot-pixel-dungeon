@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/snd_shatter.mp3-7a8191c7880e102ae69cd446b0bb4d64.mp3str"
+uid="uid://377gm6kuppek"
+path="res://.godot/imported/snd_shatter.mp3-7a8191c7880e102ae69cd446b0bb4d64.mp3str"
 
 [deps]
 
 source_file="res://assets/pd_import/sounds/snd_shatter.mp3"
-dest_files=[ "res://.import/snd_shatter.mp3-7a8191c7880e102ae69cd446b0bb4d64.mp3str" ]
+dest_files=["res://.godot/imported/snd_shatter.mp3-7a8191c7880e102ae69cd446b0bb4d64.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

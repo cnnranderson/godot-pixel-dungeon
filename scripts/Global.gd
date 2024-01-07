@@ -1,7 +1,7 @@
 extends Node
 
 # Give all game scenes a key mapping to easily request scenes to be loaded
-enum Scenes { START_MENU, GAME }
+enum Scenes { NONE, START_MENU, GAME }
 
 # Put all game scenes here
 const SceneMap = {
@@ -14,7 +14,7 @@ var debug = true
 
 func _ready():
 	randomize()
-	pause_mode = Node.PAUSE_MODE_PROCESS
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _process(_delta):
 	if debug:

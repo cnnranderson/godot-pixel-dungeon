@@ -2,14 +2,18 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-path="res://.import/snd_blast.mp3-fbb51ba07b14e99198d7c11d79e0026e.mp3str"
+uid="uid://7oh0dk6w52m2"
+path="res://.godot/imported/snd_blast.mp3-fbb51ba07b14e99198d7c11d79e0026e.mp3str"
 
 [deps]
 
 source_file="res://assets/pd_import/sounds/snd_blast.mp3"
-dest_files=[ "res://.import/snd_blast.mp3-fbb51ba07b14e99198d7c11d79e0026e.mp3str" ]
+dest_files=["res://.godot/imported/snd_blast.mp3-fbb51ba07b14e99198d7c11d79e0026e.mp3str"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

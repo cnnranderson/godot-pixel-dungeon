@@ -8,7 +8,7 @@ var max_rooms = 80
 var rooms = []
 var regions = []
 var region = 0
-var spawn_point = Vector2(15, 15)
+var spawn_point = Vector2i(15, 15)
 
 var items = {
 	"key_spawns": [],
@@ -62,8 +62,8 @@ func _clear_map():
 func _add_rooms():
 	for i in range(200):
 		# Create a room of certain size
-		var size = floor(rand_range(1, 3)) * 2 + 1
-		var stretch = floor(rand_range(0, 1 + floor(size / 2))) * 2
+		var size = floor(randf_range(1, 3)) * 2 + 1
+		var stretch = floor(randf_range(0, 1 + floor(size / 2))) * 2
 		var rwidth = size
 		var rheight = size
 		if Helpers.chance_luck(50):
@@ -72,8 +72,8 @@ func _add_rooms():
 			rheight += stretch
 		
 		# Blueprint a room to be made
-		var x = floor(rand_range(0, floor((width - rwidth) / 2))) * 2 + 1
-		var y = floor(rand_range(0, floor((height - rheight) / 2))) * 2 + 1
+		var x = floor(randf_range(0, floor((width - rwidth) / 2))) * 2 + 1
+		var y = floor(randf_range(0, floor((height - rheight) / 2))) * 2 + 1
 		var room = Rect2(x, y, rwidth, rheight)
 		
 		# Check if any rooms overlap
@@ -90,38 +90,38 @@ func _add_rooms():
 		rooms.append(room)
 		for j in range(x, x + rwidth):
 			for k in range(y, y + rheight):
-				_carve(Vector2(j, k))
+				_carve(Vector2i(j, k))
 		
 		# Set the spawn point
 		if rooms.size() == 1:
-			spawn_point = Vector2(x + floor(rwidth / 2), y + floor(rheight / 2))
+			spawn_point = Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2))
 		else:
 			# Spawn Stairs or maybe an item
 			if not stair_spawn and Helpers.chance_luck(10 + (i / max_rooms) * 10):
-				stair_spawn = Vector2(x + floor(rwidth / 2), y + floor(rheight / 2))
+				stair_spawn = Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2))
 			elif Helpers.chance_luck(25):
 				# Scrolls
-				items.scroll_spawns.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
+				items.scroll_spawns.append(Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2)))
 			elif Helpers.chance_luck(25):
 				# Keys
-				items.key_spawns.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
+				items.key_spawns.append(Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2)))
 			elif Helpers.chance_luck(25):
 				# Coins
-				items.coin_spawns.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
-			elif Helpers.chance_luck(25):
+				items.coin_spawns.append(Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2)))
+			elif Helpers.chance_luck(100):
 				# Enemies
-				enemies.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
+				enemies.append(Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2)))
 			elif Helpers.chance_luck(15):
 				# Weapons
-				items.weapon_spawns.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
+				items.weapon_spawns.append(Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2)))
 			elif Helpers.chance_luck(25):
 				# Armor
-				items.armor_spawns.append(Vector2(x + floor(rwidth / 2), y + floor(rheight / 2)))
+				items.armor_spawns.append(Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2)))
 				
 		# Stop if we have reached the room limit
 		if rooms.size() >= max_rooms:
 			if not stair_spawn:
-				stair_spawn = Vector2(x + floor(rwidth / 2), y + floor(rheight / 2))
+				stair_spawn = Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2))
 			break
 	
 	map[stair_spawn.x][stair_spawn.y] = -3
@@ -132,7 +132,7 @@ func _add_hallways():
 	var hallway = false
 	for y in range(1, height, 2):
 		for x in range(1, width, 2):
-			var tpos = Vector2(x, y)
+			var tpos = Vector2i(x, y)
 			if map[tpos.x][tpos.y] != -1: continue
 			if debug: print("adding hallway")
 			_grow_hallway(tpos)
@@ -140,20 +140,20 @@ func _add_hallways():
 			break
 		if hallway: break
 
-func _grow_hallway(start: Vector2):
+func _grow_hallway(start: Vector2i):
 	region += 1
 	var cells = []
 	
 	_carve(start)
 	cells.append(start)
 	var last_dir
-	while not cells.empty():
+	while not cells.is_empty():
 		var cell = cells.back()
 		var unmade_cells = []
 		for dir in Constants.CARDINAL:
 			if can_tile(cell, dir):
 				unmade_cells.append(dir)
-		if not unmade_cells.empty():
+		if not unmade_cells.is_empty():
 			var dir
 			if unmade_cells.has(last_dir) and Helpers.chance_luck(50):
 				dir = last_dir
@@ -184,7 +184,7 @@ func _connect_regions():
 					regions.append(tile)
 			
 			if regions.size() < 2: continue
-			connecting_regions[Vector2(x, y)] = regions
+			connecting_regions[Vector2i(x, y)] = regions
 	
 	# Begin setup for connecting regions
 	var connectors = connecting_regions.keys()
@@ -221,7 +221,7 @@ func _connect_regions():
 		for item in cleanup:
 			connectors.erase(item)
 
-func can_tile(tpos: Vector2, dir: Vector2):
+func can_tile(tpos: Vector2i, dir: Vector2i):
 	for i in range(2, 4):
 		var x
 		var y
@@ -254,10 +254,10 @@ func _remove_deadends():
 				if exits != 1: continue
 				
 				done = false
-				_carve(Vector2(x, y))
+				_carve(Vector2i(x, y))
 	if debug: print("done")
 
-func _carve(tpos: Vector2, connector: bool = false):
+func _carve(tpos: Vector2i, connector: bool = false):
 	if connector:
 		map[tpos.x][tpos.y] = -2
 	else:
