@@ -8,7 +8,7 @@ func _ready():
 	#Events.connect("map_ready", _start_game) # TODO: Doesn't happen yet
 	Events.next_stage.connect(_reload_map)
 	$UI/ActionLog.visible = true
-	$UI/PlayerUI.visible = true
+	$UI/PlayerUI.visible = false
 	$UI/Backpack.visible = false
 	$UI/LoadSplash.visible = false
 	GameState.world = world

@@ -1,114 +1,76 @@
-[gd_scene load_steps=2 format=3 uid="uid://dy354vujr2ux5"]
+[gd_scene load_steps=4 format=3 uid="uid://dy354vujr2ux5"]
 
 [ext_resource type="Theme" uid="uid://bhvq38rpgtg7l" path="res://ui/pd_theme.tres" id="1_ssddy"]
+[ext_resource type="Texture2D" uid="uid://b0rgv11ydgdoj" path="res://assets/images/menu_slot_9x.png" id="2_8bto4"]
+[ext_resource type="PackedScene" uid="uid://cbp6kmcf481q5" path="res://ui/log/EventLog.tscn" id="2_xo7tp"]
 
 [node name="PlayerPanel" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -568.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_ssddy")
+
+[node name="Backdrop" type="NinePatchRect" parent="."]
+layout_mode = 2
+offset_right = 200.0
+offset_bottom = 432.0
+texture = ExtResource("2_8bto4")
+patch_margin_left = 2
+patch_margin_top = 4
+patch_margin_right = 2
+patch_margin_bottom = 6
 
 [node name="MainContainer" type="GridContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.286
 anchor_bottom = 1.0
-offset_right = 0.35199
+offset_right = 142.8
 theme_override_constants/h_separation = 2
 theme_override_constants/v_separation = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MainContainer"]
+[node name="NameContainer" type="MarginContainer" parent="MainContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/margin_left = 10
+theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 10
+theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="Character" type="HSplitContainer" parent="MainContainer/MarginContainer"]
+[node name="Character" type="HSplitContainer" parent="MainContainer/NameContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 dragger_visibility = 1
 
-[node name="CharacterName" type="Label" parent="MainContainer/MarginContainer/Character"]
+[node name="CharacterName" type="Label" parent="MainContainer/NameContainer/Character"]
 layout_mode = 2
 text = "Name"
 
-[node name="LevelContainer" type="HSplitContainer" parent="MainContainer/MarginContainer/Character"]
+[node name="LevelContainer" type="HSplitContainer" parent="MainContainer/NameContainer/Character"]
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Level" type="Label" parent="MainContainer/MarginContainer/Character/LevelContainer"]
+[node name="Level" type="Label" parent="MainContainer/NameContainer/Character/LevelContainer"]
 layout_mode = 2
 text = "Level:"
 horizontal_alignment = 2
 
-[node name="LevelValue" type="Label" parent="MainContainer/MarginContainer/Character/LevelContainer"]
+[node name="LevelValue" type="Label" parent="MainContainer/NameContainer/Character/LevelContainer"]
 layout_mode = 2
 text = "1"
 
-[node name="MarginContainer2" type="MarginContainer" parent="MainContainer"]
+[node name="LogContainer" type="MarginContainer" parent="MainContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/margin_left = 10
+theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 10
+theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="CharacterBasic" type="HSplitContainer" parent="MainContainer/MarginContainer2"]
+[node name="EventLog" parent="MainContainer/LogContainer" instance=ExtResource("2_xo7tp")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-dragger_visibility = 1
-
-[node name="CharacterName" type="Label" parent="MainContainer/MarginContainer2/CharacterBasic"]
-layout_mode = 2
-text = "Name"
-
-[node name="LevelContainer" type="HSplitContainer" parent="MainContainer/MarginContainer2/CharacterBasic"]
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="Level" type="Label" parent="MainContainer/MarginContainer2/CharacterBasic/LevelContainer"]
-layout_mode = 2
-text = "Level:"
-horizontal_alignment = 2
-
-[node name="LevelValue" type="Label" parent="MainContainer/MarginContainer2/CharacterBasic/LevelContainer"]
-layout_mode = 2
-text = "1"
-
-[node name="MarginContainer3" type="MarginContainer" parent="MainContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 5
-
-[node name="CharacterBasic" type="HSplitContainer" parent="MainContainer/MarginContainer3"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-dragger_visibility = 1
-
-[node name="CharacterName" type="Label" parent="MainContainer/MarginContainer3/CharacterBasic"]
-layout_mode = 2
-text = "Name"
-
-[node name="LevelContainer" type="HSplitContainer" parent="MainContainer/MarginContainer3/CharacterBasic"]
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="Level" type="Label" parent="MainContainer/MarginContainer3/CharacterBasic/LevelContainer"]
-layout_mode = 2
-text = "Level:"
-horizontal_alignment = 2
-
-[node name="LevelValue" type="Label" parent="MainContainer/MarginContainer3/CharacterBasic/LevelContainer"]
-layout_mode = 2
-text = "1"

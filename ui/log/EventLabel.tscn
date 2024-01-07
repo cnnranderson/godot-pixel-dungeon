@@ -4,7 +4,6 @@
 [ext_resource type="Theme" uid="uid://bq3ur21uw0y6r" path="res://ui/log_theme.tres" id="2"]
 
 [node name="EventLabel" type="Label"]
-custom_minimum_size = Vector2(500, 8)
 offset_right = 500.0
 offset_bottom = 14.0
 theme = ExtResource("2")
