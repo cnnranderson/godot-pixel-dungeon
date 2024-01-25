@@ -21,15 +21,15 @@ extends Control
 var waiting = false
 
 func _ready():
-	Events.connect("map_ready", _init_stats)
-	Events.connect("player_interact", _on_player_interact)
-	Events.connect("player_gain_xp", _on_player_gain_xp)
-	Events.connect("player_hit", _on_player_hit)
-	Events.connect("player_interrupted", _on_player_interrupted)
-	backpack.connect("pressed", _on_backpack_pressed)
-	search.connect("pressed", _on_search_pressed)
-	wait.connect("pressed", _on_wait_pressed)
-	continue_queue.connect("pressed", _on_continue_pressed)
+	Events.map_ready.connect(_init_stats)
+	Events.player_interact.connect(_on_player_interact)
+	Events.player_gain_xp.connect(_on_player_gain_xp)
+	Events.player_hit.connect(_on_player_hit)
+	Events.player_interrupted.connect(_on_player_interrupted)
+	backpack.pressed.connect(_on_backpack_pressed)
+	search.pressed.connect(_on_search_pressed)
+	wait.pressed.connect(_on_wait_pressed)
+	continue_queue.pressed.connect(_on_continue_pressed)
 
 func _init_stats():
 	lvl.text = "Lv: %d" % GameState.player.stats.level

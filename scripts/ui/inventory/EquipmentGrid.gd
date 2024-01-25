@@ -6,7 +6,7 @@ extends GridContainer
 @onready var ring2_slot = $Ring2
 
 func _ready():
-	Events.connect("refresh_backpack", refresh_inventory)
+	Events.refresh_backpack.connect(refresh_inventory)
 
 func refresh_inventory():
 	weapon_slot.display_item(GameState.player.equipped.weapon)

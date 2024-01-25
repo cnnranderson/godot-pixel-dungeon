@@ -41,7 +41,7 @@ var attacking_actors: Array[Actor] = []
 
 func _ready():
 	GameState.level = level
-	Events.connect("player_acted", _process_actions)
+	Events.player_acted.connect(_process_actions)
 
 func _process(_delta):
 	var mouse_pos = get_local_mouse_position()
