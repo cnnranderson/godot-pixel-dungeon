@@ -21,6 +21,6 @@ func add_event(text: String):
 		label.show_event(text)
 		
 	# Remove old events
-	if logs.size() > log_count:
-		var log_event = logs.pop_front()
+	while logs.size() > log_count:
+		var log_event: Label = logs.pop_front()
 		log_event.queue_free()

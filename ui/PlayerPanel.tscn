@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cbp6kmcf481q5" path="res://ui/log/EventLog.tscn" id="2_xo7tp"]
 
 [node name="PlayerPanel" type="Control"]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
