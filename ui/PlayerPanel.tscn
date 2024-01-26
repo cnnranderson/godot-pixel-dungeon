@@ -5,7 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://cbp6kmcf481q5" path="res://ui/log/EventLog.tscn" id="2_xo7tp"]
 
 [node name="PlayerPanel" type="Control"]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,14 +24,19 @@ patch_margin_top = 4
 patch_margin_right = 2
 patch_margin_bottom = 6
 
-[node name="MainContainer" type="GridContainer" parent="."]
+[node name="MainContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.286
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 142.8
-theme_override_constants/h_separation = 2
-theme_override_constants/v_separation = 2
+offset_left = 2.0
+offset_top = 4.0
+offset_right = -2.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="NameContainer" type="MarginContainer" parent="MainContainer"]
 layout_mode = 2
@@ -42,32 +46,29 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="Character" type="HSplitContainer" parent="MainContainer/NameContainer"]
+[node name="Character" type="HBoxContainer" parent="MainContainer/NameContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
-dragger_visibility = 1
 
 [node name="CharacterName" type="Label" parent="MainContainer/NameContainer/Character"]
 layout_mode = 2
-text = "Name"
+size_flags_horizontal = 3
+text = "Samich"
 
-[node name="LevelContainer" type="HSplitContainer" parent="MainContainer/NameContainer/Character"]
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="Level" type="Label" parent="MainContainer/NameContainer/Character/LevelContainer"]
+[node name="Level" type="Label" parent="MainContainer/NameContainer/Character"]
 layout_mode = 2
 text = "Level:"
 horizontal_alignment = 2
 
-[node name="LevelValue" type="Label" parent="MainContainer/NameContainer/Character/LevelContainer"]
+[node name="LevelValue" type="Label" parent="MainContainer/NameContainer/Character"]
 layout_mode = 2
 text = "1"
 
 [node name="LogContainer" type="MarginContainer" parent="MainContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 10
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5

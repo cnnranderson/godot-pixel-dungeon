@@ -1121,6 +1121,7 @@ centered = false
 offset = Vector2(-6, -7)
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-96, 0)
 position_smoothing_enabled = true
 position_smoothing_speed = 16.0
 script = ExtResource("3")
