@@ -50,7 +50,7 @@ func _unhandled_input(event):
 				Events.log_message.emit("You can't reach that far!")
 		else:
 			# Check if we clicked an empty location - move towards it
-			var travel = GameState.level.get_travel_path(tpos(), m_tpos)
+			var travel = GameState.level.get_travel_path(tpos(), m_tpos, true)
 			if travel.size() > 1 and not GameState.world.get_actor_at_tpos(travel[1]):
 				travel.pop_front()
 				for point in travel:
@@ -68,9 +68,11 @@ func _unhandled_input(event):
 					queue_attack(target)
 				else:
 					if GameState.level.can_move_to(target):
+						# Perform the movement
 						var action = ActionBuilder.new().move(target)
 						action_queue.append(action)
 					else:
+						# Bump into wall
 						var action = ActionBuilder.new().move(target, 0)
 						action_queue.append(action)
 	

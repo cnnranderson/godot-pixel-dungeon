@@ -136,32 +136,35 @@ func get_actor_at_tpos(tpos: Vector2i) -> Actor:
 			return actor
 	return null
 
+"""
+This controls the entire flow of combat and how actions are given priority to 
+effectively take their turn and animate.
+"""
 func _process_actions():
-	var acting_actors = $Actors.get_children()
+	var acting_actors = $Actors.get_children() as Array[Actor]
 	acting_actors.sort_custom(actor_priority_sort)
 	var lowest_time = acting_actors[0].act_time
 	
 	var attacked = false
 	var hero_acted = false
 	for actor in acting_actors:
-		if actor is Actor:
-			if actor.act_time == lowest_time:
-				var action = actor.act()
-				
-				# If the hero acted, make note; otherwise it just became the hero's turn
-				if actor == GameState.hero:
-					if action and action.cost > 0:
-						hero_acted = true
-					else:
-						GameState.is_player_turn = true
-						break
-				
-				# If an actor attacks, let animation finish before other actors move
-				if action and action.type == Action.ActionType.ATTACK:
-					attacked = true
+		if actor.act_time == lowest_time:
+			var action = actor.act()
+			
+			# If the hero acted, make note; otherwise it just became the hero's turn
+			if actor == GameState.hero:
+				if action and action.cost > 0:
+					hero_acted = true
+				else:
+					GameState.is_player_turn = true
 					break
-			elif actor == GameState.hero and GameState.hero.act_time != lowest_time:
-				hero_acted = true
+			
+			# If an actor attacks, let animation finish before other actors move
+			if action and action.type == Action.ActionType.ATTACK:
+				attacked = true
+				break
+		elif actor == GameState.hero and GameState.hero.act_time != lowest_time:
+			hero_acted = true
 	
 	# FIXME: this is still dumb and causes turn sync issues
 	if attacked:

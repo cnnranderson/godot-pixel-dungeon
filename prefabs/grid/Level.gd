@@ -8,6 +8,7 @@ enum TILE_TYPE {
 }
 enum PATH_COST {
 	EMPTY = 1,
+	CLOSED_DOOR = 2,
 	ENTITY = 4
 }
 const TILE = {
@@ -77,16 +78,19 @@ func _add_points():
 	for cell in blocked:
 		astar.set_point_solid(cell, true)
 	
-func get_travel_path(start, end):
+func get_travel_path(start, end, ignore_doors = false):
 	var path = astar.get_id_path(start, end)
+	for path_tile in path:
+		if is_closed_door(path_tile) and not ignore_doors:
+			return []
 	return path
 
 func free_tile(tpos: Vector2i):
 	if astar.is_in_boundsv(tpos):
 		astar.set_point_weight_scale(tpos, PATH_COST.EMPTY);
 
-func occupy_tile(tpos: Vector2i):
-	astar.set_point_weight_scale(tpos, PATH_COST.ENTITY);
+func occupy_tile(tpos: Vector2i, weight: PATH_COST = PATH_COST.ENTITY):
+	astar.set_point_weight_scale(tpos, weight);
 
 func can_move_to(tpos: Vector2i) -> bool:
 	return astar.is_in_boundsv(tpos) and not astar.is_point_solid(tpos)
@@ -126,7 +130,7 @@ func close_door(tpos: Vector2i):
 	if is_open_door(tpos):
 		Sounds.play_sound(Sounds.SoundType.SFX, SOUND.door)
 		set_tile(tpos, TILE_TYPE.INTERACTIVE, TILE.door_closed)
-		occupy_tile(tpos)
+		occupy_tile(tpos, PATH_COST.CLOSED_DOOR)
 
 func get_tile(tpos: Vector2i):
 	return get_cell_atlas_coords(0, tpos)

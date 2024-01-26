@@ -25,9 +25,6 @@ shader = SubResource("4")
 shader_parameter/Direction = Vector2(-1, 1)
 shader_parameter/Speed = 0.1
 
-[sub_resource type="Animation" id="Animation_xxkse"]
-resource_name = "hover"
-
 [sub_resource type="Animation" id="Animation_mplyb"]
 length = 1.5
 loop_mode = 2
@@ -43,6 +40,9 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, -10), Vector2(0, 10)]
 }
+
+[sub_resource type="Animation" id="Animation_xxkse"]
+resource_name = "hover"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_amfhi"]
 _data = {
