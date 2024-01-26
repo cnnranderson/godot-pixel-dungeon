@@ -24,7 +24,7 @@ Global="*res://scripts/Global.gd"
 Events="*res://scripts/Events.gd"
 Sounds="*res://scripts/Sounds.gd"
 GameState="*res://scripts/GameState.gd"
-Helpers="*res://scripts/Helpers.gd"
+Utils="*res://scripts/Utils.gd"
 
 [display]
 

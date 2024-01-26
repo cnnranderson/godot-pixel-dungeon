@@ -179,11 +179,11 @@ func attack(actor: Actor):
 	if GameState.player.equipped.weapon:
 		damage = GameState.player.equipped.weapon.calc_damage()
 	else:
-		damage = Helpers.dice_roll_composed(base_damage) # Helpers.dice_roll(max(stats.str, 3), 4)
+		damage = Utils.dice_roll_composed(base_damage) # Utils.dice_roll(max(stats.str, 3), 4)
 	
 	# Calc critical hit chance
 	var crit = false
-	if Helpers.chance_luck(crit_chance):
+	if Utils.chance_luck(crit_chance):
 		crit = true
 		damage = ceil(damage * 1.25)
 	

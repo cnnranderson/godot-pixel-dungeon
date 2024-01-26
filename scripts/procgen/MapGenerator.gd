@@ -66,7 +66,7 @@ func _add_rooms():
 		var stretch = floor(randf_range(0, 1 + floor(size / 2))) * 2
 		var rwidth = size
 		var rheight = size
-		if Helpers.chance_luck(50):
+		if Utils.chance_luck(50):
 			rwidth += stretch
 		else:
 			rheight += stretch
@@ -97,24 +97,24 @@ func _add_rooms():
 			spawn_point = Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2))
 		else:
 			# Spawn Stairs or maybe an item
-			if not stair_spawn and Helpers.chance_luck(10 + (i / max_rooms) * 10):
+			if not stair_spawn and Utils.chance_luck(10 + (i / max_rooms) * 10):
 				stair_spawn = Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2))
-			elif Helpers.chance_luck(25):
+			elif Utils.chance_luck(25):
 				# Scrolls
 				items.scroll_spawns.append(Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2)))
-			elif Helpers.chance_luck(25):
+			elif Utils.chance_luck(25):
 				# Keys
 				items.key_spawns.append(Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2)))
-			elif Helpers.chance_luck(25):
+			elif Utils.chance_luck(25):
 				# Coins
 				items.coin_spawns.append(Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2)))
-			elif Helpers.chance_luck(100):
+			elif Utils.chance_luck(100):
 				# Enemies
 				enemies.append(Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2)))
-			elif Helpers.chance_luck(15):
+			elif Utils.chance_luck(15):
 				# Weapons
 				items.weapon_spawns.append(Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2)))
-			elif Helpers.chance_luck(25):
+			elif Utils.chance_luck(25):
 				# Armor
 				items.armor_spawns.append(Vector2i(x + floor(rwidth / 2), y + floor(rheight / 2)))
 				
@@ -155,7 +155,7 @@ func _grow_hallway(start: Vector2i):
 				unmade_cells.append(dir)
 		if not unmade_cells.is_empty():
 			var dir
-			if unmade_cells.has(last_dir) and Helpers.chance_luck(50):
+			if unmade_cells.has(last_dir) and Utils.chance_luck(50):
 				dir = last_dir
 			else:
 				unmade_cells.shuffle()

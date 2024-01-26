@@ -89,7 +89,7 @@ func _update_vision():
 		for y in range(max(min_bound.y, 0), min(max_bound.y, level.level_size.y)):
 			var x_dir = 1 if x < GameState.hero.tpos().x else -1
 			var y_dir = 1 if y < GameState.hero.tpos().y else -1
-			var test_point = Helpers.tile_to_world(Vector2i(x, y)) + Vector2(x_dir, y_dir) * Constants.TILE_V / 2
+			var test_point = Utils.tile_to_world(Vector2i(x, y)) + Vector2(x_dir, y_dir) * Constants.TILE_V / 2
 			
 			var params = PhysicsRayQueryParameters2D.create(GameState.hero.position, test_point)
 			
@@ -114,7 +114,7 @@ func _update_vision():
 func _reveal_entities(x, y, reveal: bool = true):
 	var tpos = Vector2i(x, y)
 	for item in items.get_children():
-		if Helpers.world_to_tile(item.position) == tpos:
+		if Utils.world_to_tile(item.position) == tpos:
 			item.visible = reveal
 			break
 	
@@ -125,10 +125,10 @@ func _reveal_entities(x, y, reveal: bool = true):
 				break
 
 func _clear_world():
-	Helpers.free_children(items)
-	Helpers.free_children(actors)
-	Helpers.free_children(effects)
-	Helpers.free_children(objects)
+	Utils.free_children(items)
+	Utils.free_children(actors)
+	Utils.free_children(effects)
+	Utils.free_children(objects)
 
 func get_actor_at_tpos(tpos: Vector2i) -> Actor:
 	for actor in $Actors.get_children():

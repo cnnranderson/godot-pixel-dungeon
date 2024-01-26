@@ -137,7 +137,7 @@ func take_damage(damage: int, crit = false, heal = false):
 	# 5% + (5% * lvl) + (5% * monster AC) + (5% * DEX)
 	var chance_to_hit = 5 + (5 * GameState.player.stats.level) + (5 * GameState.player.stats.dex)
 	
-	if (GameState.dev_player_guaranteed_hit and mob) or Helpers.chance_luck(chance_to_hit):
+	if (GameState.dev_player_guaranteed_hit and mob) or Utils.chance_luck(chance_to_hit):
 		var damage_text = DamagePopup.instantiate()
 		damage_text.amount = damage
 		damage_text.is_crit = crit

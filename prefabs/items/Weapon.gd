@@ -30,4 +30,4 @@ func get_item_name():
 	return value
 
 func calc_damage():
-	return Helpers.dice_roll_composed(roll_damage)
+	return Utils.dice_roll_composed(roll_damage)
