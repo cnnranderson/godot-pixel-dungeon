@@ -189,7 +189,7 @@ func attack(actor: Actor):
 		crit = true
 		damage = ceil(damage * 1.25)
 	
-	actor.take_damage(damage, crit)
+	actor.take_damage(self, damage, crit)
 	Events.camera_shake.emit(0.2, 0.6)
 	var origin_pos = position
 	var attack_pos = actor.position
@@ -209,8 +209,8 @@ func attack(actor: Actor):
 		.set_trans(Tween.TRANS_SINE) \
 		.set_ease(Tween.EASE_IN).set_delay(MOVE_TIME / 2)
 
-func take_damage(damage: int, crit = false, heal = false):
-	var was_hit = super(damage, crit, heal)
+func take_damage(source: Actor, damage: int, crit = false, heal = false):
+	var was_hit = super(source, damage, crit, heal)
 	if was_hit or true:
 		interrupt()
 		Events.player_hit.emit()

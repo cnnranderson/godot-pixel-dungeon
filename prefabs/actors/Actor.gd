@@ -130,10 +130,10 @@ func talk(message: String):
 
 func attack(actor: Actor):
 	Sounds.play_enemy_hit()
-	actor.take_damage(mob.strength)
+	actor.take_damage(self, mob.strength)
 
 # TODO: might need to rename this to "attempt damage" or something
-func take_damage(damage: int, crit = false, heal = false):
+func take_damage(source: Actor, damage: int, crit = false, heal = false):
 	# 5% + (5% * lvl) + (5% * monster AC) + (5% * DEX)
 	var chance_to_hit = 5 + (5 * GameState.player.stats.level) + (5 * GameState.player.stats.dex)
 	
@@ -152,11 +152,11 @@ func take_damage(damage: int, crit = false, heal = false):
 			hp_bar.visible = true
 			hp_bar.value = hp
 		
-		if mob:
-			if mob.is_unique:
-				Events.log_message.emit("%s hits you for %d damage" % [mob.name, mob.strength])
+		if source.mob:
+			if source.mob.is_unique:
+				Events.log_message.emit("%s hits you for %d damage" % [source.mob.name, source.mob.strength])
 			else:
-				Events.log_message.emit("The %s hits you for %d damage" % [mob.name, mob.strength])
+				Events.log_message.emit("The %s hits you for %d damage" % [source.mob.name, source.mob.strength])
 		
 		if hp <= 0:
 			die()
@@ -164,15 +164,15 @@ func take_damage(damage: int, crit = false, heal = false):
 	else:
 		talk("Dodged")
 		
-		if mob:
-			if mob.is_unique:
-				Events.log_message.emit("%s attacks but misses you!" % [mob.name, mob.strength])
+		if source.mob:
+			if source.mob.is_unique:
+				Events.log_message.emit("%s attacks but misses you!" % source.mob.name)
 			else:
-				Events.log_message.emit("The %s attacks but misses you!" % [mob.name, mob.strength])
+				Events.log_message.emit("The %s attacks but misses you!" % source.mob.name)
 		return false
 
 func heal(amount: int):
-	take_damage(-amount, false, true)
+	take_damage(null, -amount, false, true)
 
 func teleport(tpos: Vector2i):
 	var new_pos = GameState.level.map_to_local(tpos)
