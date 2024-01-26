@@ -20,20 +20,20 @@ region = Rect2(0, 0, 24, 32)
 atlas = ExtResource("10")
 region = Rect2(46, 12, 8, 8)
 
-[sub_resource type="Gradient" id="1"]
+[sub_resource type="Gradient" id="Gradient_m6fim"]
 offsets = PackedFloat32Array(0)
 colors = PackedColorArray(0.219608, 0.0941176, 0.0941176, 1)
 
 [sub_resource type="GradientTexture2D" id="2"]
-gradient = SubResource("1")
+gradient = SubResource("Gradient_m6fim")
 width = 1
 
-[sub_resource type="Gradient" id="4"]
+[sub_resource type="Gradient" id="Gradient_tdpex"]
 offsets = PackedFloat32Array(0)
 colors = PackedColorArray(0.243137, 0.196078, 0.196078, 1)
 
 [sub_resource type="GradientTexture2D" id="5"]
-gradient = SubResource("4")
+gradient = SubResource("Gradient_tdpex")
 width = 1
 
 [sub_resource type="AtlasTexture" id="8"]

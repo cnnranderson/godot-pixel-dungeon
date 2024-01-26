@@ -19,6 +19,7 @@ var dev_player_any_dist_hit = true # Attack at any distance
 var hero: Actor
 var world: GameWorld
 var level: Level
+var depth: int = 1
 var player = {
 	"fov": 7,
 	"inventory": {

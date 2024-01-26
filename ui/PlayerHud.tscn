@@ -1,0 +1,228 @@
+[gd_scene load_steps=16 format=3 uid="uid://dy354vujr2ux5"]
+
+[ext_resource type="Theme" uid="uid://bhvq38rpgtg7l" path="res://ui/pd_theme.tres" id="1_ssddy"]
+[ext_resource type="Texture2D" uid="uid://b0rgv11ydgdoj" path="res://assets/images/menu_slot_9x.png" id="2_8bto4"]
+[ext_resource type="Script" path="res://ui/PlayerHud.gd" id="2_mfnuj"]
+[ext_resource type="PackedScene" uid="uid://cbp6kmcf481q5" path="res://ui/log/EventLog.tscn" id="2_xo7tp"]
+[ext_resource type="Texture2D" uid="uid://ldw8p76533lh" path="res://assets/images/hp_9x.png" id="3_ioc42"]
+[ext_resource type="Texture2D" uid="uid://cw2rijsbitrgv" path="res://assets/images/exp_9x.png" id="4_vr54t"]
+[ext_resource type="Texture2D" uid="uid://ceoqmvtyu6dwy" path="res://assets/images/icons.png" id="5_1uhpv"]
+[ext_resource type="Texture2D" uid="uid://ba10286bp7vun" path="res://assets/pd_import/images/items.png" id="6_n14me"]
+
+[sub_resource type="Gradient" id="1"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.219608, 0.0941176, 0.0941176, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ivnab"]
+gradient = SubResource("1")
+width = 1
+
+[sub_resource type="Gradient" id="4"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.243137, 0.196078, 0.196078, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rwueg"]
+gradient = SubResource("4")
+width = 1
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1vd3g"]
+atlas = ExtResource("5_1uhpv")
+region = Rect2(46, 12, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jllul"]
+atlas = ExtResource("6_n14me")
+region = Rect2(96, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v34wc"]
+atlas = ExtResource("6_n14me")
+region = Rect2(32, 16, 16, 16)
+
+[node name="PlayerHud" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -568.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ssddy")
+script = ExtResource("2_mfnuj")
+
+[node name="Backdrop" type="NinePatchRect" parent="."]
+layout_mode = 2
+offset_right = 200.0
+offset_bottom = 432.0
+texture = ExtResource("2_8bto4")
+patch_margin_left = 2
+patch_margin_top = 4
+patch_margin_right = 2
+patch_margin_bottom = 6
+
+[node name="MainContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 4.0
+offset_right = -2.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="NameContainer" type="MarginContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Character" type="HBoxContainer" parent="MainContainer/NameContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="CharacterName" type="Label" parent="MainContainer/NameContainer/Character"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Samich"
+
+[node name="LevelValue" type="Label" parent="MainContainer/NameContainer/Character"]
+layout_mode = 2
+text = "1"
+
+[node name="HpContainer" type="MarginContainer" parent="MainContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = -2
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = -2
+
+[node name="Hp" type="HBoxContainer" parent="MainContainer/HpContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="MainContainer/HpContainer/Hp"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.701961, 0.701961, 1)
+text = "HP:"
+
+[node name="Bar" type="TextureProgressBar" parent="MainContainer/HpContainer/Hp"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 50.0
+nine_patch_stretch = true
+stretch_margin_left = 1
+stretch_margin_top = 1
+stretch_margin_right = 1
+stretch_margin_bottom = 1
+texture_under = SubResource("GradientTexture2D_ivnab")
+texture_progress = ExtResource("3_ioc42")
+
+[node name="XpContainer" type="MarginContainer" parent="MainContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = -1
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = -2
+
+[node name="Xp" type="HBoxContainer" parent="MainContainer/XpContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="MainContainer/XpContainer/Xp"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.964706, 0.854902, 1)
+text = "XP:"
+
+[node name="Bar" type="TextureProgressBar" parent="MainContainer/XpContainer/Xp"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 50.0
+nine_patch_stretch = true
+stretch_margin_left = 1
+stretch_margin_top = 1
+stretch_margin_right = 1
+stretch_margin_bottom = 1
+texture_under = SubResource("GradientTexture2D_rwueg")
+texture_progress = ExtResource("4_vr54t")
+
+[node name="MiscContainer" type="MarginContainer" parent="MainContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_right = 3
+
+[node name="Items" type="HBoxContainer" parent="MainContainer/MiscContainer"]
+layout_mode = 2
+
+[node name="Floor" type="HBoxContainer" parent="MainContainer/MiscContainer/Items"]
+layout_mode = 2
+alignment = 1
+
+[node name="Image" type="TextureRect" parent="MainContainer/MiscContainer/Items/Floor"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_1vd3g")
+
+[node name="Label" type="Label" parent="MainContainer/MiscContainer/Items/Floor"]
+layout_mode = 2
+text = ": 1"
+
+[node name="Coins" type="HBoxContainer" parent="MainContainer/MiscContainer/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Image" type="TextureRect" parent="MainContainer/MiscContainer/Items/Coins"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_jllul")
+
+[node name="space" type="Label" parent="MainContainer/MiscContainer/Items/Coins"]
+layout_mode = 2
+text = ":"
+
+[node name="Count" type="Label" parent="MainContainer/MiscContainer/Items/Coins"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+
+[node name="Keys" type="HBoxContainer" parent="MainContainer/MiscContainer/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Image" type="TextureRect" parent="MainContainer/MiscContainer/Items/Keys"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_v34wc")
+
+[node name="space" type="Label" parent="MainContainer/MiscContainer/Items/Keys"]
+layout_mode = 2
+text = ":"
+
+[node name="Count" type="Label" parent="MainContainer/MiscContainer/Items/Keys"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+
+[node name="LogContainer" type="MarginContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="EventLog" parent="MainContainer/LogContainer" instance=ExtResource("2_xo7tp")]
+layout_mode = 2

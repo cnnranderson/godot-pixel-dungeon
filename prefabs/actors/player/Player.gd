@@ -125,6 +125,7 @@ func move(tpos: Vector2i):
 	# TODO: Make an interact button (similar to picking up items)
 	if GameState.level.is_stair_down(tpos) and not GameState.world_generating:
 		GameState.world_generating = true
+		GameState.depth += 1
 		Events.next_stage.emit()
 	
 	if not GameState.level.can_move_to(tpos):
