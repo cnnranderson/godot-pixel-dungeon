@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dy354vujr2ux5"]
+[gd_scene load_steps=21 format=3 uid="uid://dy354vujr2ux5"]
 
 [ext_resource type="Theme" uid="uid://bhvq38rpgtg7l" path="res://ui/pd_theme.tres" id="1_ssddy"]
 [ext_resource type="Texture2D" uid="uid://b0rgv11ydgdoj" path="res://assets/images/menu_slot_9x.png" id="2_8bto4"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://cw2rijsbitrgv" path="res://assets/images/exp_9x.png" id="4_vr54t"]
 [ext_resource type="Texture2D" uid="uid://ceoqmvtyu6dwy" path="res://assets/images/icons.png" id="5_1uhpv"]
 [ext_resource type="Texture2D" uid="uid://ba10286bp7vun" path="res://assets/pd_import/images/items.png" id="6_n14me"]
+[ext_resource type="Texture2D" uid="uid://bx74fhbmnrssc" path="res://assets/pd_import/images/locked_badge.png" id="8_6y2ho"]
+[ext_resource type="Texture2D" uid="uid://20m7j4aumjn6" path="res://assets/images/toolbar_icons.png" id="9_2wbvr"]
 
 [sub_resource type="Gradient" id="1"]
 offsets = PackedFloat32Array(0)
@@ -36,6 +38,18 @@ region = Rect2(96, 16, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_v34wc"]
 atlas = ExtResource("6_n14me")
 region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x66uq"]
+atlas = ExtResource("9_2wbvr")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nxmkq"]
+atlas = ExtResource("9_2wbvr")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lfw3d"]
+atlas = ExtResource("9_2wbvr")
+region = Rect2(0, 0, 16, 16)
 
 [node name="PlayerHud" type="Control"]
 layout_mode = 3
@@ -214,6 +228,107 @@ text = ":"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "0"
+
+[node name="Hbox" type="HBoxContainer" parent="MainContainer"]
+clip_contents = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainContainer/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Backpack" type="TextureRect" parent="MainContainer/Hbox/MarginContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("8_6y2ho")
+stretch_mode = 5
+
+[node name="Button" type="TextureButton" parent="MainContainer/Hbox/MarginContainer/Backpack"]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+size_flags_horizontal = 5
+size_flags_vertical = 5
+texture_normal = SubResource("AtlasTexture_x66uq")
+
+[node name="SearchMargin" type="MarginContainer" parent="MainContainer/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Search" type="TextureRect" parent="MainContainer/Hbox/SearchMargin"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("8_6y2ho")
+stretch_mode = 5
+
+[node name="Button" type="TextureButton" parent="MainContainer/Hbox/SearchMargin/Search"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+texture_normal = SubResource("AtlasTexture_nxmkq")
+
+[node name="WaitMargin" type="MarginContainer" parent="MainContainer/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Wait" type="TextureRect" parent="MainContainer/Hbox/WaitMargin"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("8_6y2ho")
+stretch_mode = 5
+
+[node name="Button" type="TextureButton" parent="MainContainer/Hbox/WaitMargin/Wait"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+texture_normal = SubResource("AtlasTexture_lfw3d")
+
+[node name="ContinueMargin" type="MarginContainer" parent="MainContainer/Hbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Continue" type="TextureRect" parent="MainContainer/Hbox/ContinueMargin"]
+visible = false
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("8_6y2ho")
+stretch_mode = 5
+
+[node name="Button" type="TextureButton" parent="MainContainer/Hbox/ContinueMargin/Continue"]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+size_flags_horizontal = 5
+size_flags_vertical = 5
+texture_normal = SubResource("AtlasTexture_x66uq")
 
 [node name="LogContainer" type="MarginContainer" parent="MainContainer"]
 layout_mode = 2
