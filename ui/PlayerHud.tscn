@@ -1,10 +1,11 @@
-[gd_scene load_steps=21 format=3 uid="uid://dy354vujr2ux5"]
+[gd_scene load_steps=22 format=3 uid="uid://dy354vujr2ux5"]
 
 [ext_resource type="Theme" uid="uid://bhvq38rpgtg7l" path="res://ui/pd_theme.tres" id="1_ssddy"]
 [ext_resource type="Texture2D" uid="uid://b0rgv11ydgdoj" path="res://assets/images/menu_slot_9x.png" id="2_8bto4"]
 [ext_resource type="Script" path="res://ui/PlayerHud.gd" id="2_mfnuj"]
 [ext_resource type="PackedScene" uid="uid://cbp6kmcf481q5" path="res://ui/log/EventLog.tscn" id="2_xo7tp"]
 [ext_resource type="Texture2D" uid="uid://ldw8p76533lh" path="res://assets/images/hp_9x.png" id="3_ioc42"]
+[ext_resource type="Texture2D" uid="uid://b46dyquca0p2p" path="res://assets/images/menu_9x.png" id="3_uk2el"]
 [ext_resource type="Texture2D" uid="uid://cw2rijsbitrgv" path="res://assets/images/exp_9x.png" id="4_vr54t"]
 [ext_resource type="Texture2D" uid="uid://ceoqmvtyu6dwy" path="res://assets/images/icons.png" id="5_1uhpv"]
 [ext_resource type="Texture2D" uid="uid://ba10286bp7vun" path="res://assets/pd_import/images/items.png" id="6_n14me"]
@@ -66,10 +67,23 @@ script = ExtResource("2_mfnuj")
 layout_mode = 2
 offset_right = 200.0
 offset_bottom = 432.0
-texture = ExtResource("2_8bto4")
+texture = ExtResource("3_uk2el")
 patch_margin_left = 2
 patch_margin_top = 4
 patch_margin_right = 2
+patch_margin_bottom = 6
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 2
+offset_left = 2.0
+offset_top = 4.0
+offset_right = 198.0
+offset_bottom = 106.15
+texture = ExtResource("2_8bto4")
+region_rect = Rect2(1, 1, 5, 20)
+patch_margin_left = 3
+patch_margin_top = 5
+patch_margin_right = 4
 patch_margin_bottom = 6
 
 [node name="MainContainer" type="VBoxContainer" parent="."]
@@ -229,23 +243,23 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "0"
 
-[node name="Hbox" type="HBoxContainer" parent="MainContainer"]
+[node name="Actions" type="HBoxContainer" parent="MainContainer"]
 clip_contents = true
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MainContainer/Hbox"]
+[node name="MarginContainer" type="MarginContainer" parent="MainContainer/Actions"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Backpack" type="TextureRect" parent="MainContainer/Hbox/MarginContainer"]
+[node name="Backpack" type="TextureRect" parent="MainContainer/Actions/MarginContainer"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("8_6y2ho")
 stretch_mode = 5
 
-[node name="Button" type="TextureButton" parent="MainContainer/Hbox/MarginContainer/Backpack"]
+[node name="Button" type="TextureButton" parent="MainContainer/Actions/MarginContainer/Backpack"]
 layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
@@ -259,17 +273,17 @@ size_flags_horizontal = 5
 size_flags_vertical = 5
 texture_normal = SubResource("AtlasTexture_x66uq")
 
-[node name="SearchMargin" type="MarginContainer" parent="MainContainer/Hbox"]
+[node name="SearchMargin" type="MarginContainer" parent="MainContainer/Actions"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Search" type="TextureRect" parent="MainContainer/Hbox/SearchMargin"]
+[node name="Search" type="TextureRect" parent="MainContainer/Actions/SearchMargin"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("8_6y2ho")
 stretch_mode = 5
 
-[node name="Button" type="TextureButton" parent="MainContainer/Hbox/SearchMargin/Search"]
+[node name="Button" type="TextureButton" parent="MainContainer/Actions/SearchMargin/Search"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 0
 anchor_left = 0.5
@@ -282,17 +296,17 @@ offset_right = 8.0
 offset_bottom = 8.0
 texture_normal = SubResource("AtlasTexture_nxmkq")
 
-[node name="WaitMargin" type="MarginContainer" parent="MainContainer/Hbox"]
+[node name="WaitMargin" type="MarginContainer" parent="MainContainer/Actions"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Wait" type="TextureRect" parent="MainContainer/Hbox/WaitMargin"]
+[node name="Wait" type="TextureRect" parent="MainContainer/Actions/WaitMargin"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("8_6y2ho")
 stretch_mode = 5
 
-[node name="Button" type="TextureButton" parent="MainContainer/Hbox/WaitMargin/Wait"]
+[node name="Button" type="TextureButton" parent="MainContainer/Actions/WaitMargin/Wait"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 0
 anchor_left = 0.5
@@ -305,18 +319,18 @@ offset_right = 8.0
 offset_bottom = 8.0
 texture_normal = SubResource("AtlasTexture_lfw3d")
 
-[node name="ContinueMargin" type="MarginContainer" parent="MainContainer/Hbox"]
+[node name="ContinueMargin" type="MarginContainer" parent="MainContainer/Actions"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Continue" type="TextureRect" parent="MainContainer/Hbox/ContinueMargin"]
+[node name="Continue" type="TextureRect" parent="MainContainer/Actions/ContinueMargin"]
 visible = false
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("8_6y2ho")
 stretch_mode = 5
 
-[node name="Button" type="TextureButton" parent="MainContainer/Hbox/ContinueMargin/Continue"]
+[node name="Button" type="TextureButton" parent="MainContainer/Actions/ContinueMargin/Continue"]
 layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
@@ -338,6 +352,15 @@ theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MainContainer/LogContainer"]
+layout_mode = 2
+texture = ExtResource("2_8bto4")
+region_rect = Rect2(1, 1, 5, 20)
+patch_margin_left = 3
+patch_margin_top = 5
+patch_margin_right = 4
+patch_margin_bottom = 6
 
 [node name="EventLog" parent="MainContainer/LogContainer" instance=ExtResource("2_xo7tp")]
 layout_mode = 2
