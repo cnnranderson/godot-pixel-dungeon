@@ -4,11 +4,13 @@
 [ext_resource type="Theme" uid="uid://bq3ur21uw0y6r" path="res://ui/log_theme.tres" id="2"]
 
 [node name="EventLabel" type="Label"]
-offset_right = 500.0
+offset_right = 150.0
 offset_bottom = 14.0
 theme = ExtResource("2")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 8
 text = "Welcome to the dungeon!"
+autowrap_mode = 2
 script = ExtResource("1")

@@ -364,3 +364,4 @@ patch_margin_bottom = 6
 
 [node name="EventLog" parent="MainContainer/LogContainer" instance=ExtResource("2_xo7tp")]
 layout_mode = 2
+log_count = 18
