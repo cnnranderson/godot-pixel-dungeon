@@ -164,4 +164,3 @@ func is_stair_down(tpos: Vector2i) -> bool:
 	var tile = get_tile(tpos)
 	var type = get_cell_source_id(0, tpos)
 	return tile == TILE.stair_down and type == TILE_TYPE.INTERACTIVE
-

@@ -254,4 +254,3 @@ func spawn_armor(armor: Resource, tpos: Vector2):
 	world_item.item = armor
 	world_item.position = level.map_to_local(tpos)
 	$Items.add_child(world_item)
-
