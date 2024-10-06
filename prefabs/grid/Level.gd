@@ -1,4 +1,4 @@
-extends TileMap
+extends Node2D
 class_name Level
 
 enum TILE_TYPE {
@@ -29,6 +29,8 @@ const MapGen = preload("res://scripts/procgen/MapGenerator.gd")
 
 @export var level_size := Vector2i(45, 31)
 @export var rooms_max := 100
+
+@onready var tilemap: TileMapLayer = $Map
 
 var map: Array = []
 var astar: AStarGrid2D = AStarGrid2D.new()
@@ -74,7 +76,7 @@ func _generate_astar_path():
 	_add_points()
 
 func _add_points():
-	var blocked = get_used_cells_by_id(0, TILE_TYPE.BLOCK)
+	var blocked = tilemap.get_used_cells_by_id(TILE_TYPE.BLOCK)
 	for cell in blocked:
 		astar.set_point_solid(cell, true)
 	
@@ -108,7 +110,7 @@ func get_random_empty_tile() -> Vector2i:
 	return Vector2i.ZERO
 
 func reset_doors():
-	var tiles = get_used_cells_by_id(0, TILE_TYPE.NOBLOCK, TILE.door_open)
+	var tiles = tilemap.get_used_cells_by_id(TILE_TYPE.NOBLOCK, TILE.door_open)
 	for tile in tiles:
 		close_door(tile)
 
@@ -133,13 +135,13 @@ func close_door(tpos: Vector2i):
 		occupy_tile(tpos, PATH_COST.CLOSED_DOOR)
 
 func get_tile(tpos: Vector2i):
-	return get_cell_atlas_coords(0, tpos)
+	return tilemap.get_cell_atlas_coords(tpos)
 
 func set_tile(tpos: Vector2i, type: TILE_TYPE, tile: Vector2i):
-	set_cell(0, tpos, type, tile)
+	tilemap.set_cell(tpos, type, tile)
 
 func is_blocking(tpos: Vector2i) -> bool:
-	var type = get_cell_source_id(0, tpos)
+	var type = tilemap.get_cell_source_id(tpos)
 	return type == TILE_TYPE.BLOCK
 
 func is_door(tpos: Vector2i) -> bool:
@@ -147,20 +149,20 @@ func is_door(tpos: Vector2i) -> bool:
 
 func is_locked_door(tpos: Vector2i) -> bool:
 	var tile = get_tile(tpos)
-	var type = get_cell_source_id(0, tpos)
+	var type =tilemap. get_cell_source_id(tpos)
 	return tile == TILE.door_locked and type == TILE_TYPE.INTERACTIVE
 
 func is_open_door(tpos: Vector2i) -> bool:
 	var tile = get_tile(tpos)
-	var type = get_cell_source_id(0, tpos)
+	var type = tilemap.get_cell_source_id(tpos)
 	return tile == TILE.door_open and type == TILE_TYPE.NOBLOCK
 
 func is_closed_door(tpos: Vector2i) -> bool:
 	var tile = get_tile(tpos)
-	var type = get_cell_source_id(0, tpos)
+	var type = tilemap.get_cell_source_id(tpos)
 	return tile == TILE.door_closed and type == TILE_TYPE.INTERACTIVE
 
 func is_stair_down(tpos: Vector2i) -> bool:
 	var tile = get_tile(tpos)
-	var type = get_cell_source_id(0, tpos)
+	var type = tilemap.get_cell_source_id(tpos)
 	return tile == TILE.stair_down and type == TILE_TYPE.INTERACTIVE

@@ -1112,6 +1112,7 @@ size = Vector2(4, 4)
 
 [node name="Player" type="Area2D"]
 script = ExtResource("1")
+crit_chance = 29
 
 [node name="AnimSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("157")

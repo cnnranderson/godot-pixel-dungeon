@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ulktcnmuhcld"]
+
+[ext_resource type="Script" path="res://scenes/v2/Rework.gd" id="1_lvery"]
+
+[node name="Rework" type="Node2D"]
+script = ExtResource("1_lvery")

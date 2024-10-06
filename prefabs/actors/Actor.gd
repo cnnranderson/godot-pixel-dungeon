@@ -31,7 +31,7 @@ func _ready():
 	tween = create_tween()
 	tween.stop()
 	
-	curr_tpos = GameState.level.local_to_map(position)
+	curr_tpos = GameState.level.tilemap.local_to_map(position)
 	if mob:
 		asleep = false if GameState.enemies_start_awake else true
 		max_hp = mob.max_hp
@@ -112,7 +112,7 @@ func act():
 	return action
 
 func move(tpos: Vector2i):
-	var new_pos = GameState.level.map_to_local(tpos)
+	var new_pos = GameState.level.tilemap.map_to_local(tpos)
 	GameState.level.free_tile(curr_tpos)
 	curr_tpos = tpos
 	GameState.level.occupy_tile(tpos)

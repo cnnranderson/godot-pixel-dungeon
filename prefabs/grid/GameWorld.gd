@@ -29,8 +29,6 @@ const Enemies = {
 }
 
 @onready var level: Level = $Level
-@onready var visibility_map = $Visibility
-@onready var fog_map = $Fog
 @onready var items = $Items
 @onready var actors = $Actors
 @onready var effects = $Effects
@@ -45,25 +43,16 @@ func _ready():
 
 func _process(_delta):
 	var mouse_pos = get_local_mouse_position()
-	var m_tpos = level.local_to_map(mouse_pos)
+	var m_tpos = level.tilemap.local_to_map(mouse_pos)
 	if not GameState.inventory_open:
 		$Cursor.visible = true
-		$Cursor.position = level.map_to_local(m_tpos)
+		$Cursor.position = level.tilemap.map_to_local(m_tpos)
 	else:
 		$Cursor.visible = false
 
 func init_world():
 	_clear_world()
 	level.init_level()
-	
-	if GameState.fog_of_war:
-		for x in level.level_size.x:
-			for y in level.level_size.y:
-				visibility_map.set_cell(1, Vector2i(x, y), 0)
-				fog_map.set_cell(1, Vector2i(x, y), 0)
-	else:
-		visibility_map.visible = false
-		fog_map.visible = false
 	
 	_init_player()
 	_generate_test_entities()
@@ -74,7 +63,7 @@ func init_world():
 
 func _init_player():
 	GameState.hero = Hero.instantiate()
-	GameState.hero.position = level.map_to_local(level.spawn)
+	GameState.hero.position = level.tilemap.map_to_local(level.spawn)
 	$Actors.add_child(GameState.hero)
 	GameState.is_player_turn = true
 
@@ -85,31 +74,31 @@ func _update_vision():
 	var space_state = get_world_2d().direct_space_state
 	var min_bound = GameState.hero.tpos() - Vector2i.ONE * (GameState.player.fov + 2)
 	var max_bound = GameState.hero.tpos() + Vector2i.ONE * (GameState.player.fov + 2)
-	for x in range(max(min_bound.x, 0), min(max_bound.x, level.level_size.x)):
-		for y in range(max(min_bound.y, 0), min(max_bound.y, level.level_size.y)):
-			var x_dir = 1 if x < GameState.hero.tpos().x else -1
-			var y_dir = 1 if y < GameState.hero.tpos().y else -1
-			var test_point = Utils.tile_to_world(Vector2i(x, y)) + Vector2(x_dir, y_dir) * Constants.TILE_V / 2
-			
-			var params = PhysicsRayQueryParameters2D.create(GameState.hero.position, test_point)
-			
-			var occlusion = space_state.intersect_ray(params)
-			if not occlusion or (occlusion.position - test_point).length() < 1:
-				if (GameState.hero.position - test_point).length() / Constants.TILE_SIZE < GameState.player.fov:
-					# Reveal if it's within FoV
-					visibility_map.set_cell(0, Vector2i(x, y), -1)
-					
-					# Also punch a hole in overall fog map
-					fog_map.set_cell(0, Vector2i(x, y), -1)
-					_reveal_entities(x, y)
-				else:
-					# Hide again if not within FoV
-					visibility_map.set_cell(0, Vector2i(x, y), 0)
-					_reveal_entities(x, y, false)
-			else:
-				# Hide if no collision in general
-				visibility_map.set_cell(0, Vector2i(x, y), 0)
-				_reveal_entities(x, y, false)
+	#for x in range(max(min_bound.x, 0), min(max_bound.x, level.level_size.x)):
+		#for y in range(max(min_bound.y, 0), min(max_bound.y, level.level_size.y)):
+			#var x_dir = 1 if x < GameState.hero.tpos().x else -1
+			#var y_dir = 1 if y < GameState.hero.tpos().y else -1
+			#var test_point = Utils.tile_to_world(Vector2i(x, y)) + Vector2(x_dir, y_dir) * Constants.TILE_V / 2
+			#
+			#var params = PhysicsRayQueryParameters2D.create(GameState.hero.position, test_point)
+			#
+			#var occlusion = space_state.intersect_ray(params)
+			#if not occlusion or (occlusion.position - test_point).length() < 1:
+				#if (GameState.hero.position - test_point).length() / Constants.TILE_SIZE < GameState.player.fov:
+					## Reveal if it's within FoV
+					#visibility_map.set_cell(0, Vector2i(x, y), -1)
+					#
+					## Also punch a hole in overall fog map
+					#fog_map.set_cell(0, Vector2i(x, y), -1)
+					#_reveal_entities(x, y)
+				#else:
+					## Hide again if not within FoV
+					#visibility_map.set_cell(0, Vector2i(x, y), 0)
+					#_reveal_entities(x, y, false)
+			#else:
+				## Hide if no collision in general
+				#visibility_map.set_cell(0, Vector2i(x, y), 0)
+				#_reveal_entities(x, y, false)
 
 func _reveal_entities(x, y, reveal: bool = true):
 	var tpos = Vector2i(x, y)
@@ -223,7 +212,7 @@ func _generate_test_enemies():
 	var enemy_pos = level.enemies
 	for tpos in enemy_pos:
 		var bat = Enemies.bat.instantiate()
-		bat.position = level.map_to_local(tpos)
+		bat.position = level.tilemap.map_to_local(tpos)
 		$Actors.add_child(bat)
 		level.occupy_tile(tpos)
 
@@ -234,23 +223,23 @@ func spawn_basic_item(item: Resource, count: int, tpos: Vector2):
 	var world_item = WItem.instantiate()
 	world_item.item = item
 	world_item.count = count
-	world_item.position = level.map_to_local(tpos)
+	world_item.position = level.tilemap.map_to_local(tpos)
 	$Items.add_child(world_item)
 
 func spawn_scroll(scroll: Resource, tpos: Vector2):
 	var world_item = WItem.instantiate()
 	world_item.item = scroll
-	world_item.position = level.map_to_local(tpos)
+	world_item.position = level.tilemap.map_to_local(tpos)
 	$Items.add_child(world_item)
 
 func spawn_weapon(weapon: Resource, tpos: Vector2):
 	var world_item = WItem.instantiate()
 	world_item.item = weapon
-	world_item.position = level.map_to_local(tpos)
+	world_item.position = level.tilemap.map_to_local(tpos)
 	$Items.add_child(world_item)
 
 func spawn_armor(armor: Resource, tpos: Vector2):
 	var world_item = WItem.instantiate()
 	world_item.item = armor
-	world_item.position = level.map_to_local(tpos)
+	world_item.position = level.tilemap.map_to_local(tpos)
 	$Items.add_child(world_item)

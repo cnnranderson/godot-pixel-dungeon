@@ -36,7 +36,7 @@ func _unhandled_input(event):
 	# Attempt an action or movement
 	if event.is_action_pressed("select"):
 		# Get click location
-		var m_tpos = GameState.level.local_to_map(get_global_mouse_position())
+		var m_tpos = GameState.level.tilemap.local_to_map(get_global_mouse_position())
 		
 		if m_tpos == tpos():
 			# Check if we clicked ourselves - wait
@@ -153,7 +153,7 @@ func move_tween(tpos: Vector2i, blocked = false):
 		sprite.flip_h = true
 	
 	if not blocked:
-		var new_pos = GameState.level.map_to_local(tpos)
+		var new_pos = GameState.level.tilemap.map_to_local(tpos)
 		
 		curr_tpos = tpos
 		Sounds.play_step()
