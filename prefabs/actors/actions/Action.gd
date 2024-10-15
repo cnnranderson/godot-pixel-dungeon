@@ -15,6 +15,7 @@ enum ActionType {
 	SEARCH,
 	TELEPORT
 }
+
 var type = null
 var dest: Vector2i
 var target
